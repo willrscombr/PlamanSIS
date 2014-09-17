@@ -10,7 +10,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
-import com.locar.pipe.dominio.Colaborador;
+import com.locar.pipe.modelos.Colaborador;
 
 @ManagedBean
 @SessionScoped

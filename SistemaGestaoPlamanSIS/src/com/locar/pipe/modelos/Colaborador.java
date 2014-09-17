@@ -1,4 +1,4 @@
-package com.locar.pipe.dominio;
+package com.locar.pipe.modelos;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
-package com.locar.pipe.dominio;
+package com.locar.pipe.modelos;
 
 import com.locar.pipe.generalizacoes.OrdemServicoGeneralizacao;
 
-public class Osn extends OrdemServicoGeneralizacao{
+public class OrdemServicoCorretiva extends OrdemServicoGeneralizacao{
 	
 	private static final long serialVersionUID = 1L;
 	private String tipoCorretiva;

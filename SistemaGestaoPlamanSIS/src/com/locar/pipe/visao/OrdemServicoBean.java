@@ -12,31 +12,31 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
-import com.locar.pipe.dominio.Osn;
-import com.locar.pipe.dominio.Osp;
 import com.locar.pipe.enuns.StatusOrdem;
+import com.locar.pipe.modelos.OrdemServicoCorretiva;
+import com.locar.pipe.modelos.OrdemServicoPreventiva;
 
 @ManagedBean
 @SessionScoped
 public class OrdemServicoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Osn ordemCorretiva;
-	private Osp ordemPrevetiva;
-	private List<Osn> osn;
-	private List<Osp> osp;
-	private List<Osn> osnFiltrada;
-	private List<Osp> ospFiltrada;
+	private OrdemServicoCorretiva ordemCorretiva;
+	private OrdemServicoPreventiva ordemPrevetiva;
+	private List<OrdemServicoCorretiva> osn;
+	private List<OrdemServicoPreventiva> osp;
+	private List<OrdemServicoCorretiva> osnFiltrada;
+	private List<OrdemServicoPreventiva> ospFiltrada;
 
 	private boolean tipoOs;
 	private String status;
-	private Osn ordemCorretivaSelecionada;
-	private Osp ordemPreventivaSelecionada;
+	private OrdemServicoCorretiva ordemCorretivaSelecionada;
+	private OrdemServicoPreventiva ordemPreventivaSelecionada;
 	private boolean tipoOrdemSelecionada;
 	private String textquery;
 	private boolean mostrarOsDoRetrabalho;
 	private Long idOsRetrabalho;
-	private Osn selectOsRetrabalho;
+	private OrdemServicoCorretiva selectOsRetrabalho;
 	private boolean checkRetrabalho;
 	private String pesquisaCorretiva;
 	private String pesquisaPreventiva;
@@ -50,12 +50,12 @@ public class OrdemServicoBean implements Serializable {
 	}
 
 	public OrdemServicoBean() {
-		this.ordemCorretiva = new Osn();
-		this.ordemPrevetiva = new Osp();
-		this.osn = new ArrayList<Osn>();
-		this.osp = new ArrayList<Osp>();
-		this.ospFiltrada = new ArrayList<Osp>();
-		this.osnFiltrada = new ArrayList<Osn>();
+		this.ordemCorretiva = new OrdemServicoCorretiva();
+		this.ordemPrevetiva = new OrdemServicoPreventiva();
+		this.osn = new ArrayList<OrdemServicoCorretiva>();
+		this.osp = new ArrayList<OrdemServicoPreventiva>();
+		this.ospFiltrada = new ArrayList<OrdemServicoPreventiva>();
+		this.osnFiltrada = new ArrayList<OrdemServicoCorretiva>();
 		this.selectOsRetrabalho = null;
 	}
 
@@ -67,13 +67,13 @@ public class OrdemServicoBean implements Serializable {
 		this.ospFiltrada.clear();
 		pesquisaCorretiva = "ABERTA";
 		pesquisaPreventiva = "ABERTA";
-		for(Osn os : this.osn){
+		for(OrdemServicoCorretiva os : this.osn){
 			if(os.getStatusOrdem().equals(StatusOrdem.ABERTA.toString())){
 				this.osnFiltrada.add(os);
 			}
 		}
 		
-		for(Osp os : this.osp){
+		for(OrdemServicoPreventiva os : this.osp){
 			if(os.getStatusOrdem().equals(StatusOrdem.ABERTA.toString())){
 				this.ospFiltrada.add(os);
 			}
@@ -83,7 +83,7 @@ public class OrdemServicoBean implements Serializable {
 	
 	public void selecionarTipoOs(ValueChangeEvent event) {
 		System.out.println("Instanciou Nova ordem de serviço");
-		this.ordemCorretiva = new Osn();
+		this.ordemCorretiva = new OrdemServicoCorretiva();
 	}
 
 	public String inicializarListas() {
@@ -113,8 +113,8 @@ public class OrdemServicoBean implements Serializable {
 
 		this.selectOsRetrabalho = null;
 		this.mostrarOsDoRetrabalho = false;
-		this.ordemCorretiva = new Osn();
-		this.ordemPrevetiva = new Osp();
+		this.ordemCorretiva = new OrdemServicoCorretiva();
+		this.ordemPrevetiva = new OrdemServicoPreventiva();
 
 		return "ordemServicoIndex?faces-redirect=true";
 	}
@@ -125,7 +125,7 @@ public class OrdemServicoBean implements Serializable {
 			mostrarOsDoRetrabalho = true;
 			checkRetrabalho = ordemCorretivaSelecionada.isRetrabalho();
 
-			for (Osn os : this.osn) {
+			for (OrdemServicoCorretiva os : this.osn) {
 				if (os.getId() == ordemCorretivaSelecionada
 						.getIdOrdemRetrabalho()) {
 					selectOsRetrabalho = os;
@@ -151,7 +151,7 @@ public class OrdemServicoBean implements Serializable {
 					.setIdOrdemRetrabalho(selectOsRetrabalho.getId());
 		}
 
-		for (Osn osn : this.osn) {
+		for (OrdemServicoCorretiva osn : this.osn) {
 			if (osn.getId() == this.ordemCorretivaSelecionada.getId()) {
 				osn = this.ordemCorretivaSelecionada;
 			}
@@ -161,7 +161,7 @@ public class OrdemServicoBean implements Serializable {
 
 	public String editarOrdemPreventiva() {
 
-		for (Osp os : this.osp) {
+		for (OrdemServicoPreventiva os : this.osp) {
 			if (os.getId() == this.ordemPreventivaSelecionada.getId()) {
 				os = this.ordemPreventivaSelecionada;
 			}
@@ -241,7 +241,7 @@ public class OrdemServicoBean implements Serializable {
 					.replaceAll("osn", "");
 			idOsRetrabalho = Long.valueOf(textquery);
 
-			for (Osn os : osn) {
+			for (OrdemServicoCorretiva os : osn) {
 				if (idOsRetrabalho == os.getId()) {
 					selectOsRetrabalho = os;
 				}
@@ -269,7 +269,7 @@ public class OrdemServicoBean implements Serializable {
 	public void filtrarInicioCorretivo(ValueChangeEvent event) {
 		osnFiltrada.clear();
 		pesquisaCorretiva = event.getNewValue().toString();
-		for(Osn os : this.osn){
+		for(OrdemServicoCorretiva os : this.osn){
 			if(pesquisaCorretiva.equals(os.getStatusOrdem())){
 				osnFiltrada.add(os);
 				System.out.println("Entrou VALOR: "+pesquisaCorretiva);
@@ -280,7 +280,7 @@ public class OrdemServicoBean implements Serializable {
 	public void filtrarInicioPreventivo(ValueChangeEvent event) {
 		ospFiltrada.clear();
 		pesquisaPreventiva = event.getNewValue().toString();
-		for(Osp os : this.osp){
+		for(OrdemServicoPreventiva os : this.osp){
 			if(pesquisaPreventiva.equals(os.getStatusOrdem())){
 				ospFiltrada.add(os);
 				System.out.println("Entrou VALOR: "+pesquisaPreventiva);
@@ -291,19 +291,19 @@ public class OrdemServicoBean implements Serializable {
 	// ------------------------------GETTERS and
 	// SETTERS------------------------------------------------
 
-	public Osn getOrdemServico() {
+	public OrdemServicoCorretiva getOrdemServico() {
 		return ordemCorretiva;
 	}
 
-	public void setOrdemServico(Osn ordemServico) {
+	public void setOrdemServico(OrdemServicoCorretiva ordemServico) {
 		this.ordemCorretiva = ordemServico;
 	}
 
-	public List<Osn> getOrdens() {
+	public List<OrdemServicoCorretiva> getOrdens() {
 		return osn;
 	}
 
-	public void setOrdens(List<Osn> ordens) {
+	public void setOrdens(List<OrdemServicoCorretiva> ordens) {
 		this.osn = ordens;
 	}
 
@@ -315,51 +315,51 @@ public class OrdemServicoBean implements Serializable {
 		this.tipoOs = tipoOs;
 	}
 
-	public List<Osn> getOsn() {
+	public List<OrdemServicoCorretiva> getOsn() {
 		return osn;
 	}
 
-	public void setOsn(List<Osn> osn) {
+	public void setOsn(List<OrdemServicoCorretiva> osn) {
 		this.osn = osn;
 	}
 
-	public List<Osp> getOsp() {
+	public List<OrdemServicoPreventiva> getOsp() {
 		return osp;
 	}
 
-	public void setOsp(List<Osp> osp) {
+	public void setOsp(List<OrdemServicoPreventiva> osp) {
 		this.osp = osp;
 	}
 
-	public Osn getOrdemCorretiva() {
+	public OrdemServicoCorretiva getOrdemCorretiva() {
 		return ordemCorretiva;
 	}
 
-	public void setOrdemCorretiva(Osn ordemCorretiva) {
+	public void setOrdemCorretiva(OrdemServicoCorretiva ordemCorretiva) {
 		this.ordemCorretiva = ordemCorretiva;
 	}
 
-	public Osp getOrdemPrevetiva() {
+	public OrdemServicoPreventiva getOrdemPrevetiva() {
 		return ordemPrevetiva;
 	}
 
-	public void setOrdemPrevetiva(Osp ordemPrevetiva) {
+	public void setOrdemPrevetiva(OrdemServicoPreventiva ordemPrevetiva) {
 		this.ordemPrevetiva = ordemPrevetiva;
 	}
 
-	public Osn getOrdemCorretivaSelecionada() {
+	public OrdemServicoCorretiva getOrdemCorretivaSelecionada() {
 		return ordemCorretivaSelecionada;
 	}
 
-	public void setOrdemCorretivaSelecionada(Osn ordemCorretivaSelecionada) {
+	public void setOrdemCorretivaSelecionada(OrdemServicoCorretiva ordemCorretivaSelecionada) {
 		this.ordemCorretivaSelecionada = ordemCorretivaSelecionada;
 	}
 
-	public Osp getOrdemPreventivaSelecionada() {
+	public OrdemServicoPreventiva getOrdemPreventivaSelecionada() {
 		return ordemPreventivaSelecionada;
 	}
 
-	public void setOrdemPreventivaSelecionada(Osp ordemPreventivaSelecionada) {
+	public void setOrdemPreventivaSelecionada(OrdemServicoPreventiva ordemPreventivaSelecionada) {
 		this.ordemPreventivaSelecionada = ordemPreventivaSelecionada;
 	}
 
@@ -387,11 +387,11 @@ public class OrdemServicoBean implements Serializable {
 		this.mostrarOsDoRetrabalho = mostrarOsDoRetrabalho;
 	}
 
-	public Osn getSelectOsRetrabalho() {
+	public OrdemServicoCorretiva getSelectOsRetrabalho() {
 		return selectOsRetrabalho;
 	}
 
-	public void setSelectOsRetrabalho(Osn selectOsRetrabalho) {
+	public void setSelectOsRetrabalho(OrdemServicoCorretiva selectOsRetrabalho) {
 		this.selectOsRetrabalho = selectOsRetrabalho;
 	}
 
@@ -403,19 +403,19 @@ public class OrdemServicoBean implements Serializable {
 		this.checkRetrabalho = checkRetrabalho;
 	}
 	
-	public List<Osn> getOsnFiltrada() {
+	public List<OrdemServicoCorretiva> getOsnFiltrada() {
 		return osnFiltrada;
 	}
 
-	public void setOsnFiltrada(List<Osn> osnFiltrada) {
+	public void setOsnFiltrada(List<OrdemServicoCorretiva> osnFiltrada) {
 		this.osnFiltrada = osnFiltrada;
 	}
 
-	public List<Osp> getOspFiltrada() {
+	public List<OrdemServicoPreventiva> getOspFiltrada() {
 		return ospFiltrada;
 	}
 
-	public void setOspFiltrada(List<Osp> ospFiltrada) {
+	public void setOspFiltrada(List<OrdemServicoPreventiva> ospFiltrada) {
 		this.ospFiltrada = ospFiltrada;
 	}
 
