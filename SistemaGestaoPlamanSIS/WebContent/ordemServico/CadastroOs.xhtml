@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Ordem Serviço - Cadastro</title>
+	<h:outputStylesheet library="css" name="cadastroOsStyle.css" />
+</h:head>
+
+<h:body>
+	<h:link outcome="ordemServicoIndex" value="Retornar a Pagina Anterior" />
+	<br />
+	<br />
+	<fieldset class="zerarFieldSet2">
+		<h:form id="formOS">
+
+			<fieldset class="zerarFieldSet, header">
+				<p class="textoCorpo">ESCOLHA O TIPO DE OS</p>
+				<h:selectOneRadio value="#{ordemServicoBean.tipoOs}"
+					onchange="submit()"
+					valueChangeListener="#{ordemServicoBean.selecionarTipoOs}">
+					<f:selectItem itemLabel="Ordem Serviço Preventiva"
+						itemValue="false" />
+					<f:selectItem itemLabel="Ordem Serviço Corretiva" itemValue="true" />
+				</h:selectOneRadio>
+			</fieldset>
+
+			<!-- ORDEM DE SERVIÇO CORRETIVA -->
+			<div style="float: left; width: 45%; margin: 10px;">
+				<h:panelGrid rendered="#{ordemServicoBean.tipoOs}">
+					<h:outputLabel value="Tipo" for="tipoOSNCorretiva" />
+					<h:selectOneMenu
+						value="#{ordemServicoBean.ordemServico.tipoCorretiva}"
+						id="tipoOSNCorretiva">
+						<f:selectItem itemValue="PROGRAMADA" />
+						<f:selectItem itemValue="EMERGENCIAL" />
+						<f:selectItem itemValue="EXTERNO" />
+					</h:selectOneMenu>
+					<h:outputLabel value="Local" for="localCorretiva" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemServico.localManutencao}"
+						id="localCorretiva" />
+					<h:message for="localCorretiva" showSummary="true"
+						showDetail="false" />
+
+					<h:outputLabel value="Equipamento" for="equipamentoCorretiva" />
+					<h:inputText value="#{ordemServicoBean.ordemServico.equipamento}"
+						id="equipamentoCorretiva" />
+					<h:message for="equipamentoCorretiva" showSummary="true"
+						showDetail="false" />
+
+					<h:panelGrid rendered="#{ordemServicoBean.tipoOs}">
+						<h:outputLabel value="Ação a Realizar:" />
+						<h:inputTextarea value="#{ordemServicoBean.ordemServico.acao}"
+							cols="60" rows="5" id="acaoCorretiva" />
+						<h:message for="acaoCorretiva" showSummary="true"
+							showDetail="false" />
+
+						<h:outputLabel value="Setor Responsavel" for="setorCorretiva" />
+						<h:inputText
+							value="#{ordemServicoBean.ordemServico.setorResponsavel}"
+							id="setorCorretiva" />
+						<h:message for="setorCorretiva" showSummary="true"
+							showDetail="false" />
+
+						<h:outputLabel value="Matricula Executor" for="matriculaCorretiva" />
+						<h:inputText
+							value="#{ordemServicoBean.ordemServico.matriculaExecutor}"
+							id="matriculaCorretiva" />
+						<h:message for="matriculaCorretiva" showSummary="true"
+							showDetail="false" />
+					</h:panelGrid>
+					
+					<h:outputLabel value="Data Expedição" for="dataExpedicaoCorretiva" />
+					<h:inputText value="#{ordemServicoBean.ordemServico.dataExpedicao}"
+						id="dataExpedicaoCorretiva">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:inputText>
+					<h:message for="dataExpedicaoCorretiva" showSummary="true"
+						showDetail="false" />
+
+					<h:outputLabel value="Hora Inicial" for="horaInicialCorretiva" />
+					<h:inputText value="#{ordemServicoBean.ordemServico.horaExpedicao}"
+						id="horaInicialCorretiva">
+						<f:convertDateTime pattern="hh:mm" type="time" locale="pt_BR" />
+					</h:inputText>
+					<h:message for="horaInicialCorretiva" showSummary="true"
+						showDetail="false" />
+				</h:panelGrid>
+			</div>
+			<div style="width: 45%; float: left; margin: 10px;">
+				<h:panelGrid rendered="#{ordemServicoBean.tipoOs}">
+					<h:panelGroup styleClass="alinharcheckbox">
+						<h:selectBooleanCheckbox styleClass="checkboxAlign"
+							value="#{ordemServicoBean.checkRetrabalho}"
+							onchange="submit()" valueChangeListener="#{ordemServicoBean.checarRetrabalhoSelecionado}" />
+						<h:outputText value="Ordem Gerada por retrabalho?"
+							styleClass="textoAlign" />
+						<br />
+					</h:panelGroup>
+					<h:outputText value="Digite o numero da OS que gerou retrabalho"
+						rendered="#{ordemServicoBean.checkRetrabalho}" />
+					<h:inputText value="#{ordemServicoBean.textquery}" size="5"
+						rendered="#{ordemServicoBean.checkRetrabalho}"
+						valueChangeListener="#{ordemServicoBean.pegaOsRetrabalho}"
+						onblur="submit()" />
+						
+					<h:panelGroup rendered="#{ordemServicoBean.mostrarOsDoRetrabalho and ordemServicoBean.checkRetrabalho}">
+						<h:panelGrid columns="4" columnClasses="coluna1, coluna2, coluna3, coluna4" rowClasses="linha1, linha2">
+						
+						<h:outputLabel value="Numero: " />
+						<h:outputLabel value="Local: " />
+						<h:outputLabel value="Equipamento: " />
+						<h:outputLabel value="Responsavel: " />
+						
+						<h:outputText value="OSN#{ordemServicoBean.selectOsRetrabalho.id}" />
+						<h:outputText value="#{ordemServicoBean.selectOsRetrabalho.localManutencao}" />
+						<h:outputText value="#{ordemServicoBean.selectOsRetrabalho.equipamento}" />
+						<h:outputText value="#{ordemServicoBean.selectOsRetrabalho.matriculaExecutor}" />
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					<h:outputLabel value="Status" />
+					<h:selectOneMenu value="#{ordemServicoBean.ordemCorretiva.statusOrdem}">
+						<f:selectItem itemValue="ABERTA" />
+						<f:selectItem itemValue="ANDAMENTO" />
+						<f:selectItem itemValue="CANCELADA" />
+						<f:selectItem itemValue="ATRASO" />
+						<f:selectItem itemValue="ENCERRADA" />
+						<f:selectItem itemValue="PENDENTE" />
+					</h:selectOneMenu>
+					<h:messages rendered="#{ordemServicoBean.checkRetrabalho}"/>
+				</h:panelGrid>
+			</div>
+
+
+			<!-- ORDEM DE SERVIÇO PREVENTIVA -->
+			<div style="float: left; width: 45%; margin: 10px;">
+				<h:panelGrid rendered="#{!ordemServicoBean.tipoOs}">
+					<h:outputLabel value="Ciclo da OS" for="ciclo" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.cicloEmHoras}" id="ciclo"
+						size="4" />
+					<h:message for="ciclo" showSummary="true" showDetail="false" />
+
+					<h:outputLabel value="Local" for="local" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.localManutencao}"
+						id="local" />
+					<h:message for="local" showSummary="true" showDetail="false" />
+
+					<h:outputLabel value="Equipamento" for="equipamento" />
+					<h:inputText value="#{ordemServicoBean.ordemPrevetiva.equipamento}"
+						id="equipamento" />
+					<h:message for="equipamento" showSummary="true" showDetail="false" />
+
+				</h:panelGrid>
+				<h:panelGrid rendered="#{!ordemServicoBean.tipoOs}">
+					<h:outputLabel value="Ação a Realizar:" />
+					<h:inputTextarea value="#{ordemServicoBean.ordemPrevetiva.acao}"
+						cols="60" rows="5" id="acao" />
+					<h:message for="acao" showSummary="true" showDetail="false" />
+
+					<h:outputLabel value="Setor Responsavel" for="setor" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.setorResponsavel}"
+						id="setor" />
+					<h:message for="setor" showSummary="true" showDetail="false" />
+
+					<h:outputLabel value="Matricula Executor" for="matricula" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.matriculaExecutor}"
+						id="matricula" />
+					<h:message for="matricula" showSummary="true" showDetail="false" />
+
+				</h:panelGrid>
+			</div>
+			<div style="width: 45%; float: left; margin: 10px;">
+				<h:panelGrid rendered="#{!ordemServicoBean.tipoOs}">
+					<h:outputLabel value="Data Expedição" for="dataExpedicao" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.dataExpedicao}"
+						id="dataExpedicao">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:inputText>
+					<h:message for="dataExpedicao" showSummary="true"
+						showDetail="false" />
+
+					<h:outputLabel value="Hora Inicial" for="horaInicial" />
+					<h:inputText
+						value="#{ordemServicoBean.ordemPrevetiva.horaExpedicao}"
+						id="horaInicial">
+						<f:convertDateTime pattern="hh:mm" type="time" locale="pt_BR" />
+					</h:inputText>
+					<h:message for="horaInicial" showSummary="true" showDetail="false" />
+					
+					<h:selectOneMenu value="#{ordemServicoBean.ordemPrevetiva.statusOrdem}">
+						<f:selectItem itemValue="ABERTA" />
+						<f:selectItem itemValue="PROGRAMADA" />
+						<f:selectItem itemValue="ANDAMENTO" />
+						<f:selectItem itemValue="CANCELADA" />
+						<f:selectItem itemValue="ATRASO" />
+						<f:selectItem itemValue="ENCERRADA" />
+						<f:selectItem itemValue="PENDENTE" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+			</div>
+
+			<div style="clear: both; margin: 10px;">
+				<h:commandButton action="#{ordemServicoBean.salvarOrdem}"
+					value="Lançar"
+					style="width:100px; height:30px; font-weight:bold; float:right;margin:10px;" />
+			</div>
+		</h:form>
+	</fieldset>
+	<br />
+	<br />
+	<h:link outcome="/index" value="Voltar ao inicio" />
+</h:body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Colaborador - Listagem Geral</title>
+	<h:outputStylesheet library="css" name="listaColaboradorStyle.css"/>
+</h:head>
+
+<h:body>
+	<fieldset class="header">
+		<h1>Listagem geral de Colaboradores</h1>
+	</fieldset>
+	<br />
+
+	<h:form>
+		<h:inputText value="#{colaboradorBean.textoPesquisa}"
+			valueChangeListener="#{colaboradorBean.preencherTextoPesquisa}" />
+		<h:commandButton action="#{colaboradorBean.pesquisa}"
+			value="Pesquisar" />
+	</h:form>
+	<br />
+	<fieldset>
+		<legend>
+			<span
+				style="font-size: 18px; font-weight: bold; text-transform: uppercase;">Colaboradores</span>
+		</legend>
+
+		<h:form>
+			<h:dataTable value="#{colaboradorBean.colaboradoresFiltrados}"
+				var="colab" width="500px" cellpadding="2" cellspacing="0" border="1"
+				style="text-align:center"
+				rendered="#{not empty colaboradorBean.colaboradoresFiltrados}"
+				styleClass="tabela" headerClass="cabecalho" rowClasses="par, impar" columnClasses="matricula, nome, setor, funcao">
+
+				<h:column>
+					<f:facet name="header">Matricula</f:facet>
+					<h:outputText value="#{colab.matricula}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{colab.nome} #{colab.sobrenome}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">CARGO</f:facet>
+					<h:outputText value="#{colab.cargo}" />
+				</h:column>
+
+
+				<h:column>
+					<f:facet name="header">Setor</f:facet>
+					<h:outputText value="#{colab.setor}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Função</f:facet>
+					<h:commandButton action="#{colaboradorBean.excluirColaborador}"
+						value="excluir" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+	</fieldset>
+	<br />
+	<br />
+	<h:link outcome="/index" value="Retornar ao Inicio" />
+</h:body>
+
+</html>

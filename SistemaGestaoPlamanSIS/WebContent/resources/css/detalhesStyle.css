@@ -1,0 +1,104 @@
+@CHARSET "ISO-8859-1";
+
+.linksTopo{
+	margin: 10px 5px 20px 15px;
+}
+
+.retrabalho{
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+.cabecalho {
+	background-color: black;
+	color: white;
+}
+
+.fieldPrincipal {
+	background-color: #F5F5F5;
+}
+
+.EMERGENCIAL {
+	background-color: #FF0000;
+}
+
+.PROGRAMADA {
+	background-color: #54FF9F;
+}
+
+.EXTERNO {
+	background-color: #008B8B;
+	color: white;
+}
+
+.ABERTA {
+	background-color: #00CD00;
+	color: white;
+}
+
+.ANDAMENTO {
+	background-color: #EEEE00;
+}
+
+.CANCELADA {
+	background-color: #EE9A00;
+}
+
+.ATRASO {
+	background-color: #009ACD;
+}
+
+.ENCERRADA {
+	background-color: #BEBEBE;
+}
+
+.PENDENTE {
+	background-color: #FF0000;
+}
+
+.panelButtons{
+	margin-left: 150px;
+}
+
+.panelButtons input{
+	margin-left: 70px;
+	width: 200px;
+	height: 50px;
+	box-shadow: 5px 5px 5px;
+}
+
+.panelButtons input:HOVER{
+	box-shadow: 5px 5px 5px #66CD00;
+}
+
+
+td.colunaPainel1 {
+	font-weight: bold;
+	width: 80px;
+	background-color: #CDCDC1;
+}
+
+td.colunasPainel2 {
+	font-size: 18px;
+	background-color: white;
+	text-transform: capitalize;
+	width: 500px;
+}
+
+td.colunaPainel3 {
+	width: 20px;
+}
+
+td.colunasPainel4 {
+	font-weight: bold;
+	background-color: #CDCDC1;
+	#
+	CDCDC1
+}
+
+td.colunaPainel5 {
+	font-size: 18px;
+	background-color: white;
+	text-transform: capitalize;
+	width: 500px;
+}

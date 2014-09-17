@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Centro de Trabalho</title>
+	<h:outputStylesheet library="css" name="centroTrabalhoStyle.css"/>
+</h:head>
+
+<h:body>
+	<fieldset class="cabecalho">
+		<h1>Cadastro de Centro de Trabalho</h1>
+	</fieldset>
+
+	<fieldset>
+		<h:form>
+			<h:messages layout="table"/>
+			<h:panelGrid columns="2" styleClass="formularioCentroTrabalho">
+				<h:outputLabel value="Nome do Centro de trabalho: " />
+				<h:inputText value="#{centroTrabalhoBean.centro.nome}" size="10" />
+
+				<h:outputLabel value="Sigla: " />
+				<h:inputText value="#{centroTrabalhoBean.centro.sigla}" size="3" />
+			</h:panelGrid>
+
+			<h:outputText value="" />
+			<h:commandButton action="#{centroTrabalhoBean.salvarCentroDeTrabalho}" value="Salvar" />
+		</h:form>
+	</fieldset>
+	
+	<h:dataTable value="#{centroTrabalhoBean.centrosCadastrado}" var="centro" id="tabelaCentro" styleClass="tabelaCentro" columnClasses="colunaNome, colunaSigla">
+		<h:column>
+			<f:facet name="header">NOME</f:facet>
+			<h:outputText value="#{centro.nome}" />
+		</h:column>
+		
+		<h:column>
+			<f:facet name="header">SIGLA</f:facet>
+			<h:outputText value="#{centro.sigla}" />
+		</h:column>
+	</h:dataTable>
+</h:body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Plaman - Sistema de gestao</title>
+
+	<style>
+.textoCorpo {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.header {
+	color: white;
+	background-color: #000000;
+	margin: 0;
+}
+</style>
+</h:head>
+
+<h:body>
+	<fieldset class="header">
+		<h1>PLAMAN - SISTEMA DE GESTAO DE OS</h1>
+	</fieldset>
+
+	<div>
+		<p>Bem Vindo ao Sistema de Gestao de OS, para começar a usar os
+			serviços siga para area correspondende com sua necessidade</p>
+	</div>
+
+	<fieldset style="width: 45%; float: left;">
+		<div>
+			<h:form>
+				<h:commandButton
+					action="colaborador/colaboradorIndex?faces-redirect=true"
+					value="Cadastrar Colaboradores" />
+
+				<h:commandButton
+					action="centroTrabalho/centroTrabalhoIndex?faces-redirect=true"
+					value="Cadastro de Centro de Trabalho" />
+
+				<h:commandButton action="#{ordemServicoBean.carregarFiltros}"
+					value="Gestão de Ordem Serviço" />
+			</h:form>
+		</div>
+	</fieldset>
+
+
+</h:body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Setor - Colaboradores</title>
+
+	<style>
+.textoCorpo {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.header {
+	color: white;
+	background-color: #000000;
+	margin: 0;
+}
+</style>
+</h:head>
+
+<h:body>
+	<fieldset class="header">
+		<h1>Bem Vindo ao Setor de Cadastro e Manutenção de Colaboradores</h1>
+	</fieldset>
+	<br />
+	<h:link outcome="listaColaborador" value="Ver Lista de colaboradores" />
+	<br />
+	<br />
+	<fieldset>
+		<p>Preencha o formulario abaixo para cadastrar um Colaborador:</p>
+		<span style="color: blue;"><h:messages /></span>
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Matricula: " for="matricula" />
+				<h:inputText value="#{colaboradorBean.colaborador.matricula}"
+					id="matricula" />
+
+				<h:outputLabel value="Nome: " for="nome" />
+				<h:inputText value="#{colaboradorBean.colaborador.nome}" id="nome" />
+
+				<h:outputLabel value="Sobrenome: " for="sobrenome" />
+				<h:inputText value="#{colaboradorBean.colaborador.sobrenome}"
+					id="sobrenome" />
+
+				<h:outputLabel value="Cargo: " for="cargo" />
+				<h:inputText value="#{colaboradorBean.colaborador.cargo}" id="cargo" />
+
+				<h:outputLabel value="Setor: " for="setor" />
+				<h:inputText value="#{colaboradorBean.colaborador.setor}" id="setor" />
+			</h:panelGrid>
+			<br />
+			<h:commandButton action="#{colaboradorBean.salvarColaborador}"
+				value="Salvar" />
+		</h:form>
+	</fieldset>
+	<br />
+
+	<h:form>
+		<h:link outcome="/index" value="Retornar para Inicio" />
+	</h:form>
+</h:body>
+
+</html>
