@@ -8,9 +8,16 @@ public class CentroTrabalho implements Serializable{
 	private long id;
 	private String nome;
 	private String sigla;
+	private String responsavel;
 	
 	
 	
+	public String getResponsavel() {
+		return responsavel;
+	}
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
 	public long getId() {
 		return id;
 	}

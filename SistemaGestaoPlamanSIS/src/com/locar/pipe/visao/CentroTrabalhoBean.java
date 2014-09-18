@@ -33,6 +33,16 @@ public class CentroTrabalhoBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage("Sucesso", msg);
 
 	}
+	
+	public CentroTrabalho pegarCentro(String centroName){
+		CentroTrabalho c = new CentroTrabalho();
+		for(CentroTrabalho center : centrosCadastrado){
+			if(center.getNome().equalsIgnoreCase(centroName)){
+				c = center;
+			}
+		}
+		return c;
+	}
 
 	// --------------GETTERS AND SETTERS--------------
 	public CentroTrabalho getCentro() {

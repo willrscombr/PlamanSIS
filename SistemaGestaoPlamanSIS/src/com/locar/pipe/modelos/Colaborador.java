@@ -11,7 +11,7 @@ public class Colaborador implements Serializable{
 	private String nome;
 	private String sobrenome;
 	private String cargo;
-	private String setor;
+	private CentroTrabalho setor;
 	
 	
 	public Long getId() {
@@ -44,12 +44,11 @@ public class Colaborador implements Serializable{
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-	public String getSetor() {
+	public CentroTrabalho getSetor() {
 		return setor;
 	}
-	public void setSetor(String setor) {
+	public void setSetor(CentroTrabalho setor) {
 		this.setor = setor;
-	}
-	
+	}	
 	
 }

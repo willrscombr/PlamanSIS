@@ -13,6 +13,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
 import com.locar.pipe.enuns.StatusOrdem;
+import com.locar.pipe.modelos.CentroTrabalho;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.OrdemServicoPreventiva;
 
@@ -27,6 +28,7 @@ public class OrdemServicoBean implements Serializable {
 	private List<OrdemServicoPreventiva> osp;
 	private List<OrdemServicoCorretiva> osnFiltrada;
 	private List<OrdemServicoPreventiva> ospFiltrada;
+	private List<CentroTrabalho> setores;
 
 	private boolean tipoOs;
 	private String status;
@@ -57,6 +59,7 @@ public class OrdemServicoBean implements Serializable {
 		this.ospFiltrada = new ArrayList<OrdemServicoPreventiva>();
 		this.osnFiltrada = new ArrayList<OrdemServicoCorretiva>();
 		this.selectOsRetrabalho = null;
+		
 	}
 
 	// --------------------------------Metodos da
@@ -433,6 +436,14 @@ public class OrdemServicoBean implements Serializable {
 
 	public void setPesquisaPreventiva(String pesquisaPreventiva) {
 		this.pesquisaPreventiva = pesquisaPreventiva;
+	}
+
+	public List<CentroTrabalho> getSetores() {
+		return setores;
+	}
+
+	public void setSetores(List<CentroTrabalho> setores) {
+		this.setores = setores;
 	}
 
 }

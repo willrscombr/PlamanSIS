@@ -47,17 +47,12 @@
 
 				<h:outputLabel value="Cargo: " for="cargo" />
 				<h:inputText value="#{colaboradorBean.colaborador.cargo}" id="cargo" />
-
-				<h:outputLabel value="Setor: " for="setor" />
-				<h:inputText value="#{colaboradorBean.colaborador.setor}" id="setor" />
 			</h:panelGrid>
 			<br />
-			<h:commandButton action="#{colaboradorBean.salvarColaborador}"
-				value="Salvar" />
+			<h:commandButton  action="#{colaboradorBean.salvarColaborador}" value="Salvar"/>
 		</h:form>
 	</fieldset>
 	<br />
-
 	<h:form>
 		<h:link outcome="/index" value="Retornar para Inicio" />
 	</h:form>
