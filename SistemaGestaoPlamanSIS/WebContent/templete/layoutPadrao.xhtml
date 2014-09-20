@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Plaman - Sistema de gestao</title>
+	<h:outputStylesheet library="css" name="sistema.css" />
+</h:head>
+
+<h:body>
+	<div id="header" class="header">
+		<h:graphicImage value="/images/LogoPlamanSubititle.png"
+			styleClass="imgLogo" />
+	</div>
+	<div class="menu">
+		<h:link outcome="/colaborador/colaboradorIndex">COLABORADORES</h:link>
+		<h:link outcome="/index">DEPARTAMENTOS</h:link>
+		<h:link outcome="/index">GESTÃO</h:link>
+		<h:link outcome="/index">HOME</h:link>
+	</div>
+	<div id="content" class="content">
+		<ui:insert name="tituloTela">
+		
+		</ui:insert>
+		<ui:insert name="conteudo">
+
+		</ui:insert>
+	</div>
+
+	<div id="footer" class="footer">
+		Sistema desenvolvido por <span style="color: #FF0011">Maique
+			Rosa</span>, acesse o github
+		<h:outputLink value="https://github.com/domzinhuu" target="_blank">@maique.rosa</h:outputLink>
+		para conhecer a documentação.<br /> Locar Pipe - Plaman OS 2014
+	</div>
+
+</h:body>
+
+</html>

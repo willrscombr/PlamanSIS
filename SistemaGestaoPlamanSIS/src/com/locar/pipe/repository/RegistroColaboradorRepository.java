@@ -1,14 +1,17 @@
 package com.locar.pipe.repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.locar.pipe.interfaces.RegistroColaboradorInterface;
+import com.locar.pipe.modelos.CentroTrabalho;
 import com.locar.pipe.modelos.Colaborador;
 
 public class RegistroColaboradorRepository implements
-		RegistroColaboradorInterface {
+		RegistroColaboradorInterface, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	// Este atributo esta subistituindo o banco de dados
 	private List<Colaborador> listaDeColaboradores;
 
@@ -35,7 +38,8 @@ public class RegistroColaboradorRepository implements
 				colab = colaborador;
 			}
 		}
-
+		
+		System.out.println("OLHAA EU CHEGUEI AQUI SEM NINGUEM CHAMAR!!!!!");
 	}
 
 	@Override

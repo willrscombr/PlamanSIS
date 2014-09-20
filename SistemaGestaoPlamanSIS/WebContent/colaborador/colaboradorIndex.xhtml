@@ -1,61 +1,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/templete/layoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head>
-	<title>Setor - Colaboradores</title>
+	<ui:define name="tituloTela">
+		<div>
+			<h2 class="h2Topo">Gestão de Colaboradores</h2>
+		</div>
+	</ui:define>
 
-	<style>
-.textoCorpo {
-	font-weight: bold;
-	font-size: 18px;
-}
+	<ui:define name="conteudo">
+		<div id="conteudoColaborador">
+			<h:form id="frmColab">
 
-.header {
-	color: white;
-	background-color: #000000;
-	margin: 0;
-}
-</style>
-</h:head>
+				<h:button outcome="formularioColab" value="Novo Colaborador" />
 
-<h:body>
-	<fieldset class="header">
-		<h1>Bem Vindo ao Setor de Cadastro e Manutenção de Colaboradores</h1>
-	</fieldset>
-	<br />
-	<h:link outcome="listaColaborador" value="Ver Lista de colaboradores" />
-	<br />
-	<br />
-	<fieldset>
-		<p>Preencha o formulario abaixo para cadastrar um Colaborador:</p>
-		<span style="color: blue;"><h:messages /></span>
-		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Matricula: " for="matricula" />
-				<h:inputText value="#{colaboradorBean.colaborador.matricula}"
-					id="matricula" />
+				<h:dataTable value="#{colaboradorBean.colaboradores}" var="colab"
+					styleClass="grid" headerClass="headerTabela" cellspacing="0"
+					cellpadding="1" rowClasses="impar, par"
+					columnClasses="matricula, nome, cargo, departamento, funcao"
+					width="100%" summary="Tabela de colaboradores">
 
-				<h:outputLabel value="Nome: " for="nome" />
-				<h:inputText value="#{colaboradorBean.colaborador.nome}" id="nome" />
+					<h:column>
+						<f:facet name="header">MATRIC</f:facet>
+						<h:outputText value="#{colab.matricula}" />
+					</h:column>
 
-				<h:outputLabel value="Sobrenome: " for="sobrenome" />
-				<h:inputText value="#{colaboradorBean.colaborador.sobrenome}"
-					id="sobrenome" />
+					<h:column>
+						<f:facet name="header">NOME</f:facet>
+						<h:outputText value="#{colab.nome} #{colab.sobrenome}" />
+					</h:column>
 
-				<h:outputLabel value="Cargo: " for="cargo" />
-				<h:inputText value="#{colaboradorBean.colaborador.cargo}" id="cargo" />
-			</h:panelGrid>
-			<br />
-			<h:commandButton  action="#{colaboradorBean.salvarColaborador}" value="Salvar"/>
-		</h:form>
-	</fieldset>
-	<br />
-	<h:form>
-		<h:link outcome="/index" value="Retornar para Inicio" />
-	</h:form>
-</h:body>
+					<h:column>
+						<f:facet name="header">CARGO</f:facet>
+						<h:outputText value="#{colab.cargo}" />
+					</h:column>
 
-</html>
+					<h:column>
+						<f:facet name="header">DEPARTAMENTO</f:facet>
+						<h:outputText value="#{colab.setor.sigla}"
+							title="#{colab.setor.nome}" />
+					</h:column>
+
+					<h:column>
+						
+						<h:commandLink action="formularioEditColab">
+							<f:setPropertyActionListener value="#{colab}" target="#{colaboradorBean.colaboradorSelecionado}" />
+							<h:graphicImage value="/images/editar.png" />
+						</h:commandLink>
+						
+						<h:commandLink action="#{colaboradorBean.deletar}">
+							<h:graphicImage value="/images/excluir.png" />
+							<f:setPropertyActionListener value="#{colab}" target="#{colaboradorBean.colaboradorSelecionado}" />
+						</h:commandLink>
+						
+					</h:column>
+				</h:dataTable>
+				
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>

@@ -1,18 +1,19 @@
 package com.locar.pipe.enuns;
 
 public enum StatusOrdem {
+
+	ABERTO("aberto"), DESIGNADO("designado"), IMPRESSO("impresso"), CANCELADO(
+			"cancelado"), ATRASO("atraso"), ENCERRADO("encerrado"), PENDENTE(
+			"pendente");
+
 	
-	PROGRAMADA,
-	ABERTA,
-	ANDAMENTO,
-	CANCELADA,
-	ATRASO,
-	ENCERRADA,
-	PENDENTE;
+	String status;
 	
-	
-	public String toString(){
-		return name(); 
+	StatusOrdem(String status) {
+		this.status = status;
 	}
 
+	public String getStatus() {
+		return status;
+	}
 }

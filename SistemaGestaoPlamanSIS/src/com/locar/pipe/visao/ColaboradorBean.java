@@ -4,83 +4,64 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
+import com.locar.pipe.modelos.CentroTrabalho;
 import com.locar.pipe.modelos.Colaborador;
+import com.locar.pipe.repository.DepartamentoRepository;
+import com.locar.pipe.repository.RegistroColaboradorRepository;
 
 @ManagedBean
 @SessionScoped
-public class ColaboradorBean implements Serializable{
+public class ColaboradorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	private Colaborador colaborador;
-	private List<Colaborador> colaboradores;
-	private List<Colaborador> ColaboradoresFiltrados;
 	private Colaborador colaboradorSelecionado;
-	private String textoPesquisa;
-	
-	public ColaboradorBean(){
-		this.colaborador = new Colaborador();
-		this.colaboradorSelecionado = new Colaborador();
-		this.colaboradores = new ArrayList<Colaborador>();
-		this.ColaboradoresFiltrados = new ArrayList<Colaborador>();
-		this.textoPesquisa = new String("");
-	}
-	
-	//-----------------------------------------Metodos Gerais----------------------------------------------------------
+	private List<CentroTrabalho> departamentos;
+	private List<Colaborador> colaboradores;
+	private RegistroColaboradorRepository registro;
+	private DepartamentoRepository setor;
 
-	public void salvarColaborador(){
-		if(validarColaborador(colaborador)){
-			this.colaboradores.add(colaborador);
-			this.colaborador = new Colaborador();
-			
-			FacesMessage msg = new FacesMessage("Salvo com Sucesso :) !");
-			FacesContext.getCurrentInstance().addMessage("Sucesso", msg);
-		}else{
-			FacesMessage msg = new FacesMessage("Ouve algum problema ao tentar salvar :( !");
-			FacesContext.getCurrentInstance().addMessage("Sucesso", msg);
-		}
+	@PostConstruct
+	public void init(){
+		colaborador = new Colaborador();
+		colaboradores = new ArrayList<Colaborador>();
+		departamentos = new ArrayList<CentroTrabalho>();
+		registro = new RegistroColaboradorRepository();
+		setor = new DepartamentoRepository();
+		colaboradores = registro.listarTodos();
+		departamentos = setor.listarSetor();
 	}
-	
-	public void excluirColaborador(){
-		this.colaboradores.remove(this.colaboradorSelecionado);
-		pesquisa();
-	}
-	
-	public String iniciarListaColaborador(){
-		return "listaColaborador?faces-redirect=true";
-	}
-	
-	public void pesquisa(){
-		this.ColaboradoresFiltrados.clear();
 
-		for(Colaborador colab : colaboradores){
-			if(colab.getNome().toLowerCase().contains(textoPesquisa.toLowerCase())){
-				this.ColaboradoresFiltrados.add(colab);
-			}
-		}
+	// ----------------Metodos Gerais---------------------
+
+	public void salvarColaborador() {		
+		registro.salvar(colaborador);
+		
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Sucesso","Salvo com sucesso");
+		FacesContext.getCurrentInstance().addMessage("", msg);
+		colaborador = new Colaborador();
 	}
 	
-	public void preencherTextoPesquisa(ValueChangeEvent event){
-		System.out.println(textoPesquisa);
+	
+	public String editarColaborador(){
+	//	registro.editar(colaboradorSelecionado);
+		return "colaboradorIndex?faces-redirect=true";
 	}
 	
-	//------------------------------------------------Validação Dados---------------------------------------------------
-	
-	public boolean validarColaborador(Colaborador colab){
-		if( ( !"".equals(colab.getNome()) ) && ( !"".equals(colab.getMatricula()) ) && (!"".equals(colab.getSetor()) ) ){
-			return true;
-		}else{
-			return false;
-		}
+	public void deletar(){
+		registro.excluir(colaboradorSelecionado);
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Excluido dos Registros!");
+		FacesContext.getCurrentInstance().addMessage("", msg);
+		colaboradorSelecionado = new Colaborador();
 	}
 	
-	//----------------------------------------------Getters and Setters-------------------------------------------------
+	// ---------Getters and Setters-------------------
 	public Colaborador getColaborador() {
 		return colaborador;
 	}
@@ -105,18 +86,8 @@ public class ColaboradorBean implements Serializable{
 		this.colaboradorSelecionado = colaboradorSelecionado;
 	}
 
-	public String getTextoPesquisa() {
-		return textoPesquisa;
+	public List<CentroTrabalho> getDepartamentos() {
+		return departamentos;
 	}
-
-	public void setTextoPesquisa(String textoPesquisa) {
-		this.textoPesquisa = textoPesquisa;
-	}
-
-	public List<Colaborador> getColaboradoresFiltrados() {
-		return ColaboradoresFiltrados;
-	}
-
-	
 
 }

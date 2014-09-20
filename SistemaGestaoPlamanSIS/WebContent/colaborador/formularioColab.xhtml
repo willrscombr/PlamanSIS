@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templete/layoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:define name="tituloTela">
+		<div>
+			<h2 class="h2Topo">Gestão de Colaboradores</h2>
+		</div>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h1>Novo Colaborador</h1>
+		<h:form id="cadastroColabForm">
+			<div id="msgBox" class="msgboxstyle">
+				<h:messages showDetail="true" showSummary="true" layout="table"
+					errorClass="errorMsg" warnClass="wrrMsg" infoClass="sucessMsg"
+					styleClass="msgboxstyle" />
+			</div>
+
+			<h:panelGrid columns="2" styleClass="gridCadastro"
+				columnClasses="gridCadastroCol1, gridCadastroCol2">
+				<h:outputLabel value="Matricula: " for="matric" />
+				<h:panelGroup>
+					<h:inputText value="#{colaboradorBean.colaborador.matricula}"
+						id="matric" size="4" required="true"
+						requiredMessage="A matricula precisa ser preenchida" />
+					<h:message for="matric" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Nome: " for="nome" />
+				<h:panelGroup>
+					<h:inputText value="#{colaboradorBean.colaborador.nome}" id="nome"
+						required="true" requiredMessage="O nome deve ser preenchido" />
+					<h:message for="nome" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Sobrenome: " for="sobrenome" />
+				<h:inputText value="#{colaboradorBean.colaborador.sobrenome}"
+					id="sobrenome" size="60" />
+
+				<h:outputLabel value="Cargo: " for="cargo" />
+				<h:panelGroup>
+					<h:inputText value="#{colaboradorBean.colaborador.cargo}"
+						id="cargo" required="true"
+						requiredMessage="cargo deve ser preenchido" />
+					<h:message for="cargo" errorClass="errorMsg" />
+				</h:panelGroup>
+				<h:outputLabel value="Departamento: " for="setor" />
+				<h:panelGroup>
+					<h:selectOneMenu value="#{colaboradorBean.colaborador.setor}"
+						id="setor" required="true"
+						requiredMessage="Você precisa selecionar um Departamento">
+						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
+						<f:selectItems value="#{colaboradorBean.departamentos}"
+							var="depart" itemLabel="#{depart.nome}" itemValue="#{depart}" />
+					</h:selectOneMenu>
+					<h:message for="setor" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputText value="" />
+				<h:commandButton action="#{colaboradorBean.salvarColaborador}"
+					value="Salvar" />
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

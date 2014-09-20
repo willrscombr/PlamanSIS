@@ -1,0 +1,253 @@
+html,body{
+	height: 100%;
+	margin: 0px;
+}
+h1{
+	font-size: 24px;
+	text-shadow: 0px 0px 25px #666666;
+	border-radius: 5px;
+	padding: 5px;
+	font-weight: bold;
+	margin-left: 15px;
+}
+.msgboxstyle{
+	border:0;
+	border-radius:4px;
+	width:500px;
+	margin-left: 10px;
+}
+
+.errorMsg{
+	font-size: 12px;
+	color: red;
+	font-family: arial;
+	font-weight: bold;
+}
+
+.warrMsg{
+	font-size: 12px;
+	color: yellow;
+	font-family: arial;
+	font-weight: bold;
+}
+
+.sucessMsg{
+	font-size: 14px;
+	color: green;
+	font-family: arial;
+	font-weight: bold;
+}
+
+input[type="button"]{
+	padding: 5px;
+	margin: 20px 15px 10px;
+	border-radius:6px;
+	background-color: rgb(181,181,181);
+	font-weight: bold;
+	color:#ffffff;
+	font-family:arial;
+	text-shadow: 1px 0px 1px #000000;
+	box-shadow: 2px 5px 3px rgb(207,207,207);
+	cursor: pointer;
+	
+}
+
+input[type="submit"]{
+	padding: 5px;
+	margin: 20px 15px 10px;
+	border-radius:6px;
+	background-color: rgb(181,181,181);
+	font-weight: bold;
+	color:#ffffff;
+	font-family:arial;
+	text-shadow: 1px 0px 1px #000000;
+	box-shadow: 2px 5px 3px rgb(207,207,207);
+	cursor: pointer;
+	padding: 5px 10px 5px 10px;
+	width: 120px;
+	
+}
+
+input[type="text"]{
+	border-radius: 2px;
+	border:0;
+	padding:5px 10px 0px 5px;
+	text-transform:capitalize;
+	box-shadow: 0px 0px 5px #666666; 
+	
+}
+
+input[type="submit"]:HOVER{
+	background-color: #E8E8E8;
+	color: #000000;
+	text-shadow: 1px 0px 1px #ffffff;
+	padding: 0px 10px 0px 10px;
+	padding: 5px 10px 5px 10px;
+	width: 120px;
+}
+
+select{
+	border-radius: 2px;
+	border:0;
+	padding:5px;
+	text-transform:capitalize;
+	box-shadow: 0px 0px 5px #666666; 
+}
+
+.btmFormColab{
+	margin: 10px 20px;
+}
+
+.h2Topo{
+	background: url("../images/icoColab.png") no-repeat 5px 1px;
+	font-family: arial;
+	height: 40px;
+	margin: 5px 0px 0px 0px;
+	padding-left:65px;
+	padding-top:15px;
+	font-size:18px;
+	font-weight:bold;
+	letter-spacing: -1px;
+}
+
+.header{
+	height: 80px;
+	background: #555555;
+}
+
+.content{
+	background-color:#ffffff;
+	padding: 0px 0px 20px 0px;
+}
+
+.menu{
+	height:35px;
+	background-color: rgba(220,220,220, 0.5);
+}
+
+.menu a{
+	margin-left: 4px;
+	margin-right:5px;
+	border-radius: 6px;
+	color: white;
+	padding:5px;
+	background-color: #cccccc;
+	text-decoration: none;
+	text-shadow: 0px 0px 5px #000000;
+	box-shadow: 2px 2px 5px #000000;
+	float: right;
+}
+
+.menu a:HOVER{
+	background-color: #F5F5F5;
+	
+}
+
+.footer{
+	position:absolute;
+	bottom:0;
+	height: 50px;
+	width:100%;
+	background: #555555;
+	color: white;
+	text-align: center;
+}
+
+
+.imgLogo{
+	padding: 20px 10px;
+}
+
+.imgColab{
+	margin: 20px;
+	background-color: red;
+}
+
+.formularioColaborador{
+	border-radius:6px;
+	padding: 20px;
+}
+
+.formColLabel{
+	font-family: arial;
+}
+
+.formColLInput{
+	box-shadow: 1px 1px 2px #000000;
+	border-radius:6px;
+}
+
+.grid{
+	border: 1px solid;
+	margin-left: 20px;
+	border-radius: 4px;
+	text-transform: capitalize;
+	text-shadow: 0px 0px 5px #ffffff;
+}
+.headerTabela{
+	background-color: #666666;
+	color: white;
+}
+
+td.matricula{
+	width:10px;
+	text-align: center;
+}
+
+td.nome{
+	width:200px;
+	text-align: center;
+}
+	
+td.cargo{
+	width: 100px;
+	text-align: center;
+	
+}
+td.departamento{
+	width:100px;
+	text-align: center;
+}
+
+td.funcao{
+	width:30px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.clear{
+	clear: both !important;
+}
+
+.impar{
+	background-color: #eeeeee;
+}
+
+.par{
+	background-color: #9c9c9c;
+}
+
+#conteudoColaborador{
+	float: left;	
+	width: 50%;
+}
+
+.gridCadastro{
+	border:  1px solid;
+	border-radius: 6px;
+	height:200px;
+	padding:20px;
+	background-color: #CCCCCC;
+	margin: 10px 20px;
+}
+
+.gridCadastroCol1{
+	font-family: arial;
+	font-weight: bold;
+	text-shadow: 0px 0px 3px #ffffff;
+}
+
+.gridCadastroCol2{
+	
+	padding: 10px;	 
+}
