@@ -5,25 +5,25 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.locar.pipe.modelos.CentroTrabalho;
+import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.repository.DepartamentoRepository;
 
-@FacesConverter(forClass = CentroTrabalho.class)
+@FacesConverter(forClass = Departamento.class)
 public class SetorConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		CentroTrabalho setor = null;
+		Departamento setor = null;
 		DepartamentoRepository dep = new DepartamentoRepository();
 		
-		if(value != null){
-			for(CentroTrabalho c : dep.listarSetor()){
+		if(value != null && !value.isEmpty()){
+			for(Departamento c : dep.listarSetor()){
 				if(c.getId() == Long.parseLong(value)){
 					setor = c;
 				}
 			}
 		}
-		return (CentroTrabalho) setor;
+		return (Departamento) setor;
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class SetorConverter implements Converter {
 			Object value) {
 
 		if (value != null) {
-			String codigo = String.valueOf(((CentroTrabalho) value).getId())
+			String codigo = String.valueOf(((Departamento) value).getId())
 					.toString();
 
 			return codigo;

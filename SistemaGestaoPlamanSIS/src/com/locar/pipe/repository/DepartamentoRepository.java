@@ -5,62 +5,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.locar.pipe.interfaces.DepartamentosInterface;
-import com.locar.pipe.modelos.CentroTrabalho;
+import com.locar.pipe.modelos.Departamento;
 
 public class DepartamentoRepository implements DepartamentosInterface, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private long sentenceId = 1;
 	
 	// Este atributo será substituido pela implementação do Banco de dados
-	private List<CentroTrabalho> departamentoCadastrado;
+	private List<Departamento> departamentoCadastrado;
 
 	public DepartamentoRepository() {
-		this.departamentoCadastrado = new ArrayList<CentroTrabalho>();
+		this.departamentoCadastrado = new ArrayList<Departamento>();
 	}
 
 	@Override
-	public void salvar(CentroTrabalho setor) {
+	public void salvar(Departamento setor) {
+		setor.setId(departamentoCadastrado.size()+1);
 		this.departamentoCadastrado.add(setor);
 	}
 
 	@Override
-	public void excluir(CentroTrabalho setor) {
+	public void excluir(Departamento setor) {
 		this.departamentoCadastrado.remove(setor);
 	}
 
 	@Override
-	public List<CentroTrabalho> listarSetor() {
-		CentroTrabalho centro = new CentroTrabalho();
-
-		centro.setId(1);
+	public List<Departamento> listarSetor() {
+		Departamento centro = new Departamento();
+		
+		centro.setId(sentenceId++);
 		centro.setNome("ELÉTRICA");
 		centro.setSigla("ELE");
 		this.departamentoCadastrado.add(centro);
 
-		centro = new CentroTrabalho();
+		centro = new Departamento();
 
-		centro.setId(2);
+		centro.setId(sentenceId++);
 		centro.setNome("MECANICA");
 		centro.setSigla("MEC");
 		this.departamentoCadastrado.add(centro);
 
-		centro = new CentroTrabalho();
+		centro = new Departamento();
 
-		centro.setId(3);
+		centro.setId(sentenceId++);
 		centro.setNome("OPERACIONAL");
 		centro.setSigla("OPE");
 		this.departamentoCadastrado.add(centro);
 
-		centro = new CentroTrabalho();
+		centro = new Departamento();
 
-		centro.setId(4);
+		centro.setId(sentenceId++);
 		centro.setNome("REFRIGERAÇÃO");
 		centro.setSigla("REFR");
 		this.departamentoCadastrado.add(centro);
 		
-		centro = new CentroTrabalho();
+		centro = new Departamento();
 
-		centro.setId(5);
+		centro.setId(sentenceId++);
 		centro.setNome("MANUTENÇÃO");
 		centro.setSigla("MAN");
 		this.departamentoCadastrado.add(centro);
@@ -70,10 +72,10 @@ public class DepartamentoRepository implements DepartamentosInterface, Serializa
 	}
 
 	@Override
-	public CentroTrabalho buscarSetorPorNome(String nome) {
-		CentroTrabalho sector = null;
+	public Departamento buscarSetorPorNome(String nome) {
+		Departamento sector = null;
 
-		for (CentroTrabalho setor : this.departamentoCadastrado) {
+		for (Departamento setor : this.departamentoCadastrado) {
 			if (setor.getNome().equalsIgnoreCase(nome)) {
 				sector = setor;
 			}
@@ -82,10 +84,10 @@ public class DepartamentoRepository implements DepartamentosInterface, Serializa
 	}
 
 	@Override
-	public CentroTrabalho buscarSetorPorSigla(String sigla) {
-		CentroTrabalho sector = null;
+	public Departamento buscarSetorPorSigla(String sigla) {
+		Departamento sector = null;
 
-		for (CentroTrabalho setor : this.departamentoCadastrado) {
+		for (Departamento setor : this.departamentoCadastrado) {
 			if (setor.getNome().equalsIgnoreCase(sigla)) {
 				sector = setor;
 			}
@@ -94,8 +96,8 @@ public class DepartamentoRepository implements DepartamentosInterface, Serializa
 	}
 
 	@Override
-	public void editar(CentroTrabalho setor) {
-		for (CentroTrabalho s : this.departamentoCadastrado) {
+	public void editar(Departamento setor) {
+		for (Departamento s : this.departamentoCadastrado) {
 			if (s.getId() == setor.getId()) {
 				s = setor;
 			}
@@ -103,9 +105,9 @@ public class DepartamentoRepository implements DepartamentosInterface, Serializa
 	}
 
 	@Override
-	public CentroTrabalho buscarSetorPorId(long id) {
-		CentroTrabalho setor = null;
-		for(CentroTrabalho centro : this.departamentoCadastrado){
+	public Departamento buscarSetorPorId(long id) {
+		Departamento setor = null;
+		for(Departamento centro : this.departamentoCadastrado){
 			if(centro.getId() == id){
 				setor = centro;
 			}

@@ -1,8 +1,31 @@
-html,body{
-	height: 100%;
-	margin: 0px;
+/*******************************************************************************
+MeyerWeb Reset
+*******************************************************************************/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+	em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+	b, u, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table,
+	caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+	details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+	output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
 }
-h1{
+
+html,body {
+	font-family: myriad pro, arial;
+	height: 100%;
+}
+
+#geral{
+	min-height: 100%;
+	position: relative;
+}
+
+h1 {
 	font-size: 24px;
 	text-shadow: 0px 0px 25px #666666;
 	border-radius: 5px;
@@ -10,74 +33,90 @@ h1{
 	font-weight: bold;
 	margin-left: 15px;
 }
-.msgboxstyle{
-	border:0;
-	border-radius:4px;
-	width:500px;
+
+h3 {
+	font-size: 18px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+	color: white;
+	text-shadow: 0px 0px 3px #000000;
+	font-family: myriad pro, arial;
+	text-align: center;
+	background-color: #999999;
+	height: 30px;
+	font-family: myriad pro, arial;
+	color: white;
+}
+
+.msgboxstyle {
+	border: 0;
+	border-radius: 4px;
+	width: 500px;
 	margin-left: 10px;
 }
 
-.errorMsg{
+.errorMsg {
 	font-size: 12px;
 	color: red;
 	font-family: arial;
 	font-weight: bold;
 }
 
-.warrMsg{
+.warrMsg {
 	font-size: 12px;
 	color: yellow;
 	font-family: arial;
 	font-weight: bold;
 }
 
-.sucessMsg{
+.sucessMsg {
 	font-size: 14px;
 	color: green;
 	font-family: arial;
 	font-weight: bold;
 }
 
-input[type="button"]{
+input[type="button"] {
 	padding: 5px;
-	margin: 20px 15px 10px;
-	border-radius:6px;
-	background-color: rgb(181,181,181);
+	margin: 2px 2px 5px;
+	border-radius: 3px;
+	background-color: #dddddd;
 	font-weight: bold;
-	color:#ffffff;
-	font-family:arial;
-	text-shadow: 1px 0px 1px #000000;
-	box-shadow: 2px 5px 3px rgb(207,207,207);
+	color: #00000;
+	font-family: arial;
+	text-shadow: 0px 0px 1px #ffffff;
+	box-shadow: 2px 5px 3px rgb(207, 207, 207);
 	cursor: pointer;
-	
 }
 
-input[type="submit"]{
+input[type="button"]:HOVER {
+	background-color: #eeeeee;
+}
+
+input[type="submit"] {
 	padding: 5px;
 	margin: 20px 15px 10px;
-	border-radius:6px;
-	background-color: rgb(181,181,181);
+	border-radius: 6px;
+	background-color: rgb(181, 181, 181);
 	font-weight: bold;
-	color:#ffffff;
-	font-family:arial;
+	color: #ffffff;
+	font-family: arial;
 	text-shadow: 1px 0px 1px #000000;
-	box-shadow: 2px 5px 3px rgb(207,207,207);
+	box-shadow: 2px 5px 3px rgb(207, 207, 207);
 	cursor: pointer;
 	padding: 5px 10px 5px 10px;
 	width: 120px;
-	
 }
 
-input[type="text"]{
+input[type="text"] {
 	border-radius: 2px;
-	border:0;
-	padding:5px 10px 0px 5px;
-	text-transform:capitalize;
-	box-shadow: 0px 0px 5px #666666; 
-	
+	border: 0;
+	padding: 6px;
+	text-transform: capitalize;
+	box-shadow: 0px 0px 5px #666666;
 }
 
-input[type="submit"]:HOVER{
+input[type="submit"]:HOVER {
 	background-color: #E8E8E8;
 	color: #000000;
 	text-shadow: 1px 0px 1px #ffffff;
@@ -86,168 +125,298 @@ input[type="submit"]:HOVER{
 	width: 120px;
 }
 
-select{
+select {
 	border-radius: 2px;
-	border:0;
-	padding:5px;
-	text-transform:capitalize;
-	box-shadow: 0px 0px 5px #666666; 
+	border: 0;
+	padding: 5px;
+	text-transform: capitalize;
+	box-shadow: 0px 0px 5px #666666;
 }
 
-.btmFormColab{
+.btmFormColab {
 	margin: 10px 20px;
 }
 
-.h2Topo{
-	background: url("../images/icoColab.png") no-repeat 5px 1px;
-	font-family: arial;
-	height: 40px;
-	margin: 5px 0px 0px 0px;
-	padding-left:65px;
-	padding-top:15px;
-	font-size:18px;
-	font-weight:bold;
-	letter-spacing: -1px;
+.h2Topo {
+	padding-left: 15px;
+	font-size: 18px;
+	font-weight: bold;
+	float: left;
+	padding-top: 10px;
 }
 
-.header{
-	height: 80px;
+.header {
+	height: 60px;
 	background: #555555;
 }
 
-.content{
-	background-color:#ffffff;
-	padding: 0px 0px 20px 0px;
+.content {
+	background-color: #ffffff;
+	padding: 0px 0px 40px 0px;
 }
 
-.menu{
-	height:35px;
-	background-color: rgba(220,220,220, 0.5);
+.menu {
+	height: 35px;
+	background-color: rgba(220, 220, 220, 0.5);
 }
 
-.menu a{
+.menu a {
 	margin-left: 4px;
-	margin-right:5px;
+	margin-right: 5px;
 	border-radius: 6px;
-	color: white;
-	padding:5px;
+	color: black;
+	padding: 5px;
 	background-color: #cccccc;
 	text-decoration: none;
-	text-shadow: 0px 0px 5px #000000;
+	text-shadow: 0px 0px 1px #ffffff;
 	box-shadow: 2px 2px 5px #000000;
 	float: right;
 }
 
-.menu a:HOVER{
+.menu a:HOVER {
 	background-color: #F5F5F5;
-	
 }
 
-.footer{
-	position:absolute;
-	bottom:0;
+.footer {
+	position: absolute;
+	bottom: 0;
 	height: 50px;
-	width:100%;
+	width: 100%;
 	background: #555555;
+	padding-top: 10px;
 	color: white;
+	font-size:smaller;
 	text-align: center;
 }
 
-
-.imgLogo{
-	padding: 20px 10px;
+.imgLogo {
+	padding: 0px 10px;
 }
 
-.imgColab{
+.imgColab {
 	margin: 20px;
 	background-color: red;
 }
 
-.formularioColaborador{
-	border-radius:6px;
+.formularioColaborador {
+	border-radius: 6px;
 	padding: 20px;
 }
 
-.formColLabel{
+.formColLabel {
 	font-family: arial;
 }
 
-.formColLInput{
+.formColLInput {
 	box-shadow: 1px 1px 2px #000000;
-	border-radius:6px;
+	border-radius: 6px;
 }
 
-.grid{
+.grid {
 	border: 1px solid;
-	margin-left: 20px;
 	border-radius: 4px;
-	text-transform: capitalize;
-	text-shadow: 0px 0px 5px #ffffff;
+	text-transform: uppercase;
 }
-.headerTabela{
+
+.headerTabela {
 	background-color: #666666;
 	color: white;
 }
 
-td.matricula{
-	width:10px;
+td.matricula {
+	width: 10px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+td.nome {
+	width: 200px;
 	text-align: center;
 }
 
-td.nome{
-	width:200px;
-	text-align: center;
-}
-	
-td.cargo{
+td.cargo {
 	width: 100px;
 	text-align: center;
-	
 }
-td.departamento{
-	width:100px;
+
+td.departamento {
+	width: 100px;
 	text-align: center;
 }
 
-td.funcao{
-	width:30px;
+td.funcao {
+	width: 30px;
 	text-align: center;
 	text-decoration: none;
 }
 
-.clear{
+.clear {
 	clear: both !important;
 }
 
-.impar{
+.impar {
 	background-color: #eeeeee;
+	font-size: 18px;
+	text-shadow: 0px 0px 5px #ffffff;
 }
 
-.par{
-	background-color: #9c9c9c;
+.par {
+	background-color: #dddddd;
+	font-size: 18px;
+	text-shadow: 0px 0px 5px #ffffff;
 }
 
-#conteudoColaborador{
-	float: left;	
-	width: 50%;
+#conteudoColaborador {
+	
 }
 
-.gridCadastro{
-	border:  1px solid;
+#conteudoDepartamento {
+	height: 100%;
+}
+
+.gridCadastro {
+	border: 1px solid;
 	border-radius: 6px;
-	height:200px;
-	padding:20px;
+	height: 200px;
+	padding: 20px;
 	background-color: #CCCCCC;
-	margin: 10px 20px;
+	margin: 10px 15px;
 }
 
-.gridCadastroCol1{
+.gridCadastroCol1 {
 	font-family: arial;
 	font-weight: bold;
 	text-shadow: 0px 0px 3px #ffffff;
 }
 
-.gridCadastroCol2{
-	
-	padding: 10px;	 
+.gridCadastroCol2 {
+	padding: 10px;
+}
+
+#infoEsquerda {
+	float: left;
+	border-radius: 5px;
+	background-color: #eeeeee;
+	padding: 15px;
+	width: 500px;
+	height: 500px;
+	margin-left: 20px;
+	box-shadow: 0px 0px 15px #000000;
+}
+
+#infoDireita {
+	padding: 15px;
+	float: left;
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px #000000;
+	background-color: #eeeeee;
+	width: 500px;
+	height: 500px;
+	background-color: #eeeeee;
+	width: 500px;
+	height: 500px;
+	margin-left: 30px;
+}
+
+#infoGeral {
+	padding: 15px;
+	float: left;
+	border-radius: 5px;
+	background-color: #eeeeee;
+	width: 300px;
+	height: 500px;
+	box-shadow: 0px 0px 15px #000000;
+	margin-left: 50px;
+}
+
+.ultimasNoticias {
+	font-family: myriad pro, arial;
+	font-style: italic;
+	text-decoration: underline;
+	color: #0000CD;
+}
+
+.gridNoticias {
+	margin-top: 10px;
+	border-radius: 5px;
+	background-color: #ffffff;
+	width: 500px;
+	text-decoration: underline;
+	list-style: none;
+	padding: 5px;
+	box-shadow: 0px 0px 20px #000000;
+}
+
+.gridNoticiasInfo {
+	margin-top: 10px;
+	border-radius: 5px;
+	background-color: #ffffff;
+	list-style: none;
+	padding: 15px 25px 15px 15px;
+	margin-bottom: 10px;
+	width: 300px;
+	box-shadow: 0px 0px 20px #000000;
+	width: 300px;
+}
+
+.colunaInfo1 {
+	padding-bottom: 5px;
+	font-family: myriad pro;
+}
+
+.colunaInfo2 {
+	font-family: myriad pro;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+.linksGrids {
+	color: blue;
+	text-decoration: :none;
+	margin-right: 10px;
+}
+
+.gridNoticias span {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+#painelPesquisa{
+}
+.imgpesquisa{
+	margin-top: 5px;
+}
+
+td.numero{
+	width: 40px;
+	text-align: center;
+}
+
+td.local{
+	width: 100px;
+	text-align: center;
+}
+
+td.equipamento{
+	width: 120px;
+	text-align: center;
+}
+
+td.descricao{
+	padding-left: 10px;
+}
+
+td.tipo{
+	text-align: center;
+	width: 120px;	
+}
+
+td.status{
+	width: 20px;
+	text-align: center;
+}
+
+.avisoPequeno{
+	font-size: smaller;
+	font-style: italic;
 }

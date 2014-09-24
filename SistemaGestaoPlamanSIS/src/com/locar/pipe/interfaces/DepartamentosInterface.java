@@ -2,16 +2,16 @@ package com.locar.pipe.interfaces;
 
 import java.util.List;
 
-import com.locar.pipe.modelos.CentroTrabalho;
+import com.locar.pipe.modelos.Departamento;
 
 public interface DepartamentosInterface {
 	
-	void salvar(CentroTrabalho setor);
-	void excluir(CentroTrabalho setor);
-	void editar(CentroTrabalho setor);
-	List<CentroTrabalho> listarSetor();
-	CentroTrabalho buscarSetorPorNome(String nome);
-	CentroTrabalho buscarSetorPorSigla(String sigla);
-	CentroTrabalho buscarSetorPorId(long id);
+	void salvar(Departamento setor);
+	void excluir(Departamento setor);
+	void editar(Departamento setor);
+	List<Departamento> listarSetor();
+	Departamento buscarSetorPorNome(String nome);
+	Departamento buscarSetorPorSigla(String sigla);
+	Departamento buscarSetorPorId(long id);
 
 }

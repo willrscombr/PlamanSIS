@@ -3,12 +3,14 @@ package com.locar.pipe.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.locar.pipe.enuns.TipoDeOrdem;
 import com.locar.pipe.interfaces.ColecaoOsInterface;
 import com.locar.pipe.modelos.OrdemServico;
 
 public class ColecaoOsRepository implements ColecaoOsInterface {
 
+	private static final long serialVersionUID = 1L;
 	// Atributo será substituido pela implementação do banco de dados
 	private List<OrdemServico> listaDeOrdem;
 	
@@ -83,5 +85,10 @@ public class ColecaoOsRepository implements ColecaoOsInterface {
 		}
 
 		return ordem;
+	}
+
+	@Override
+	public List<OrdemServico> listarTodas() {
+		return this.listaDeOrdem;
 	}
 }

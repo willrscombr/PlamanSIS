@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.locar.pipe.interfaces.RegistroColaboradorInterface;
-import com.locar.pipe.modelos.CentroTrabalho;
 import com.locar.pipe.modelos.Colaborador;
 
 public class RegistroColaboradorRepository implements
@@ -38,8 +37,6 @@ public class RegistroColaboradorRepository implements
 				colab = colaborador;
 			}
 		}
-		
-		System.out.println("OLHAA EU CHEGUEI AQUI SEM NINGUEM CHAMAR!!!!!");
 	}
 
 	@Override
@@ -53,6 +50,7 @@ public class RegistroColaboradorRepository implements
 		for (Colaborador colab : this.listaDeColaboradores) {
 			if (colab.getSetor().getNome().equalsIgnoreCase(setor)) {
 				colaboradoresPorSetor.add(colab);
+				System.out.println("Entrou No repositorio De Colaboradores");
 			}
 		}
 

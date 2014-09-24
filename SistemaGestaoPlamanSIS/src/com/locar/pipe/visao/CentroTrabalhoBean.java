@@ -4,61 +4,73 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-
-import com.locar.pipe.modelos.CentroTrabalho;
+import com.locar.pipe.modelos.Departamento;
+import com.locar.pipe.repository.DepartamentoRepository;
+import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
 @ApplicationScoped
 public class CentroTrabalhoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private CentroTrabalho centro;
-	private List<CentroTrabalho> centrosCadastrado;
+	private Departamento centro;
+	private Departamento setorSelecionado;
+	private DepartamentoRepository departamento;
+	private List<Departamento> centrosCadastrado;
 
 	// --------------CONSTRUTORES----------------------
-	public CentroTrabalhoBean() {
-		centro = new CentroTrabalho();
-		centrosCadastrado = new ArrayList<CentroTrabalho>();
+	@PostConstruct
+	public void init() {
+		centro = new Departamento();
+		departamento = new DepartamentoRepository();
+		setorSelecionado = new Departamento();
+		centrosCadastrado = new ArrayList<Departamento>();
+		centrosCadastrado = departamento.listarSetor();
 	}
 
 	// --------------METODOS DA VIEW-------------------
 	public void salvarCentroDeTrabalho() {		
-		centrosCadastrado.add(centro);
-		centro = new CentroTrabalho();
-		FacesMessage msg = new FacesMessage("Salvo Com Sucesso!");
-		FacesContext.getCurrentInstance().addMessage("Sucesso", msg);
-
+		departamento.salvar(centro);
+		centro = new Departamento();
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento Salvo!");
 	}
 	
-	public CentroTrabalho pegarCentro(String centroName){
-		CentroTrabalho c = new CentroTrabalho();
-		for(CentroTrabalho center : centrosCadastrado){
-			if(center.getNome().equalsIgnoreCase(centroName)){
-				c = center;
-			}
-		}
-		return c;
+	public void editarCentroDeTrabalho(){
+		departamento.editar(setorSelecionado);
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento Editado!");
 	}
 
+	public void deletarCentroDeTrabalho(){
+		departamento.excluir(setorSelecionado);
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento excluido!");
+	}
 	// --------------GETTERS AND SETTERS--------------
-	public CentroTrabalho getCentro() {
+	public Departamento getCentro() {
 		return centro;
 	}
 
-	public void setCentro(CentroTrabalho centro) {
+	public void setCentro(Departamento centro) {
 		this.centro = centro;
 	}
 
-	public List<CentroTrabalho> getCentrosCadastrado() {
+	public List<Departamento> getCentrosCadastrado() {
 		return centrosCadastrado;
 	}
 
-	public void setCentrosCadastrado(List<CentroTrabalho> centrosCadastrado) {
+	public void setCentrosCadastrado(List<Departamento> centrosCadastrado) {
 		this.centrosCadastrado = centrosCadastrado;
+	}
+
+	public Departamento getSetorSelecionado() {
+		return setorSelecionado;
+	}
+
+	public void setSetorSelecionado(Departamento setorSelecionado) {
+		this.setorSelecionado = setorSelecionado;
 	}
 
 }

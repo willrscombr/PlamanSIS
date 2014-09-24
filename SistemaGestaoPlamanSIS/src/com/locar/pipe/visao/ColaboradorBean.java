@@ -6,24 +6,24 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import com.locar.pipe.modelos.CentroTrabalho;
+import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.repository.DepartamentoRepository;
 import com.locar.pipe.repository.RegistroColaboradorRepository;
 
 @ManagedBean
-@SessionScoped
+@ApplicationScoped
 public class ColaboradorBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Colaborador colaborador;
 	private Colaborador colaboradorSelecionado;
-	private List<CentroTrabalho> departamentos;
-	private List<Colaborador> colaboradores;
+	private List<Departamento> departamentos;
+	public static List<Colaborador> colaboradores;
 	private RegistroColaboradorRepository registro;
 	private DepartamentoRepository setor;
 
@@ -31,7 +31,7 @@ public class ColaboradorBean implements Serializable {
 	public void init(){
 		colaborador = new Colaborador();
 		colaboradores = new ArrayList<Colaborador>();
-		departamentos = new ArrayList<CentroTrabalho>();
+		departamentos = new ArrayList<Departamento>();
 		registro = new RegistroColaboradorRepository();
 		setor = new DepartamentoRepository();
 		colaboradores = registro.listarTodos();
@@ -74,10 +74,6 @@ public class ColaboradorBean implements Serializable {
 		return colaboradores;
 	}
 
-	public void setColaboradores(List<Colaborador> colaboradores) {
-		this.colaboradores = colaboradores;
-	}
-
 	public Colaborador getColaboradorSelecionado() {
 		return colaboradorSelecionado;
 	}
@@ -86,7 +82,7 @@ public class ColaboradorBean implements Serializable {
 		this.colaboradorSelecionado = colaboradorSelecionado;
 	}
 
-	public List<CentroTrabalho> getDepartamentos() {
+	public List<Departamento> getDepartamentos() {
 		return departamentos;
 	}
 

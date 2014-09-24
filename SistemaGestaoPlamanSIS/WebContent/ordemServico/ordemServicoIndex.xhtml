@@ -1,169 +1,72 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/templete/layoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-
-<h:head>
-	<title>Setor - Ordem Serviço</title>
-	<h:outputStylesheet library="css" name="osIndexStyle.css" />
-</h:head>
-
-<h:body>
-	<fieldset class="cabecalho">
-		<h1>PLAMAN - GESTÃO DE OS</h1>
-	</fieldset>
-	<fieldset>
-		<h:form>
-
-			<h:commandButton value="Criar OS"
-				action="CadastroOs?faces-redirect=true" />
-			--
-			<h:commandButton value="Add 'OS' teste"
-				action="#{ordemServicoBean.gerarOs}" />
-			--
-			<h:commandButton value="Banco de hora" />
-			--
-			<h:commandButton value="Pesquisar Avançada" />
-		</h:form>
-	</fieldset>
-	<fieldset>
-		<h:form>
-			<div class="tituloTable">
-				ORDEM DE SERVIÇO CORRETIVA
-				<div style="float: right;" class="campoFiltrar">
-					<h:selectOneMenu value="#{ordemServicoBean.pesquisaCoretiva}" id="pesquisa" valueChangeListener="#{ordemServicoBean.filtrarInicioCorretivo}">
-						<f:selectItem itemValue="ABERTA" />
-						<f:selectItem itemValue="ANDAMENTO" />
-						<f:selectItem itemValue="CANCELADA" />
-						<f:selectItem itemValue="ATRASO" />
-						<f:selectItem itemValue="ENCERRADA" />
-						<f:selectItem itemValue="PENDENTE" />
-						
-						<f:ajax render="tabelaOSN" />
-					</h:selectOneMenu>
-					<h:outputLabel value="Filtrar" for="pesquisa"
-						styleClass="fontesprincipais" />
-				</div>
+	<ui:define name="nomePagina">
+		GESTÃO DO SISTEMA
+	</ui:define>
+	<ui:define name="tituloTela">
+		<h2 class="h2Topo">Gestão do Sistema</h2>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+	<div>
+		<h:button outcome="/ordemServico/formularioOs" value="Nova OS CORRETIVA"/>
+		<h:button outcome="/ordemServico/formularioOs" value="Nova OS PREVENTIVA"/>
+		<h:button outcome="/ordemServico/listagemdeordem" value="Listar Ordem de Serviço" />
+	</div>
+			<div id="infoEsquerda">
+				<h3>ORDENS PREVENTIVAS</h3>
+				<span class="ultimasNoticias">ultimas ordens emitidas..</span>
+					<h:panelGrid columns="2" styleClass="gridNoticias">
+					<li>Reparo no guindaste... <span>para mecanica..</span> criado 22/08/2014</li><h:link styleClass="linksGrids">Ver...</h:link>
+					<li>Lubrificacao na fireline... <span>para operacional..</span> criado 22/08/2014</li><h:link styleClass="linksGrids">Ver...</h:link>
+				</h:panelGrid>
+				<br />
+				<span class="ultimasNoticias">Avisos...</span>
+				<h:panelGrid columns="2" styleClass="gridNoticias">
+					<p>Sem avisos no momento</p>
+				</h:panelGrid>
 			</div>
-			<h:dataTable value="#{ordemServicoBean.osnFiltrada}" var="os" border="1"
-				styleClass="tabela" headerClass="header"
-				columnClasses="nOs, local, equipamento, tipo, tarefa, setor, executor, expedicao, status"
-				rowClasses="par, impar" id="tabelaOSN">
-				<h:column>
-					<f:facet name="header">Nº</f:facet>
-					<h:commandLink value="OSN#{os.id}"
-						action="detalhesOSN?faces-redirect=true"
-						actionListener="#{ordemServicoBean.escolherTipoDeExibicao}">
-						<f:setPropertyActionListener value="#{os}"
-							target="#{ordemServicoBean.ordemCorretivaSelecionada}" />
-					</h:commandLink>
-				</h:column>
-				<h:column>
-					<f:facet name="header">LOCAL</f:facet>
-					<h:outputText value="#{os.localManutencao}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">EQUIPAMENTO</f:facet>
-					<h:outputText value="#{os.equipamento}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">TIPO</f:facet>
-					<h:outputText value="#{os.tipoCorretiva}" />
-				</h:column>
 
-				<h:column>
-					<f:facet name="header">TAREFA A REALIZAR</f:facet>
-					<h:outputText value="#{os.acao}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">SETOR</f:facet>
-					<h:outputText value="#{os.setorResponsavel}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">EXECUTOR</f:facet>
-					<h:outputText value="#{os.matriculaExecutor}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">DATA EXPEDIÇÃO</f:facet>
-					<h:outputText value="#{os.dataExpedicao}">
-						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
-					</h:outputText>
-				</h:column>
-				<h:column footerClass="#{os.statusOrdem}">
-					<f:facet name="header">STATUS</f:facet>
-					<h:outputText value="#{os.statusOrdem}" styleClass="#{os.statusOrdem}"/>
-				</h:column>
-			</h:dataTable>
-			<br />
-			<div class="tituloTable">
-				ORDEM DE SERVIÇO PREVENTIVA
-				<div style="float: right;" class="campoFiltrar">
-					<h:selectOneMenu value="#{ordemServicoBean.pesquisaPreventiva}" id="filtrar" valueChangeListener="#{ordemServicoBean.filtrarInicioPreventivo}">
-						<f:selectItem itemValue="ABERTA" />
-						<f:selectItem itemValue="ANDAMENTO" />
-						<f:selectItem itemValue="CANCELADA" />
-						<f:selectItem itemValue="ATRASO" />
-						<f:selectItem itemValue="ENCERRADA" />
-						<f:selectItem itemValue="PENDENTE" />
-						
-					 <f:ajax render="tabelaOSP"/>
-					</h:selectOneMenu>
-					<h:outputLabel value="Filtrar" for="filtrar"
-						styleClass="fontesprincipais" />
-				</div>
+			<div id="infoDireita">
+				<h3>ORDENS CORRETIVAS</h3>
+				<span class="ultimasNoticias">ultimas ordens emitidas..</span>
+				<h:panelGrid columns="2" styleClass="gridNoticias">
+					<li>Reparo no guindaste... <span>para mecanica..</span> criado 22/08/2014</li><h:link styleClass="linksGrids">Ver...</h:link>
+					<li>Lubrificacao na fireline... <span>para operacional..</span> criado 22/08/2014</li><h:link styleClass="linksGrids">Ver...</h:link>
+				</h:panelGrid>
+				<br />
+				
+				<span class="ultimasNoticias">Avisos...</span>
+				<h:panelGrid columns="2" styleClass="gridNoticias">
+					<li><b style="font-weight: bold;">OSN342</b> - Gerou <span style="font-weight: bold; color: black;">1</span> retrabalho.. <span>para Mecanica...</span> Status: ABERTA </li>
+					<h:link styleClass="linksGrids">Ver...</h:link>
+				</h:panelGrid>
 			</div>
-			<h:dataTable value="#{ordemServicoBean.ospFiltrada}" var="os" border="1"
-				styleClass="tabela" headerClass="header"
-				columnClasses="nOs, local, equipamento, ciclo, tarefa, setor, executor, expedicao, status"
-				rowClasses="par, impar" id="tabelaOSP">
-				<h:column>
-					<f:facet name="header">Nº</f:facet>
-					<h:commandLink value="OSP#{os.id}"
-						action="detalhesOSP?faces-redirect=true"
-						actionListener="#{ordemServicoBean.escolherTipoDeExibicao}">
-						<f:setPropertyActionListener value="#{os}"
-							target="#{ordemServicoBean.ordemPreventivaSelecionada}" />
-					</h:commandLink>
-				</h:column>
-				<h:column>
-					<f:facet name="header">LOCAL</f:facet>
-					<h:outputText value="#{os.localManutencao}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">EQUIPAMENTO</f:facet>
-					<h:outputText value="#{os.equipamento}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">CICLO</f:facet>
-					<h:outputText value="#{os.cicloEmHoras} horas ">
-					</h:outputText>
-				</h:column>
-				<h:column>
-					<f:facet name="header">TAREFA A REALIZAR</f:facet>
-					<h:outputText value="#{os.acao}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">SETOR</f:facet>
-					<h:outputText value="#{os.setorResponsavel}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">EXECUTOR</f:facet>
-					<h:outputText value="#{os.matriculaExecutor}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">DATA EXPEDIÇÃO</f:facet>
-					<h:outputText value="#{os.dataExpedicao}">
-						<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
-					</h:outputText>
-				</h:column>
-				<h:column>
-					<f:facet name="header">STATUS</f:facet>
-					<h:outputText value="#{os.statusOrdem}" styleClass="#{os.statusOrdem}"/>
-				</h:column>
-			</h:dataTable>
-		</h:form>
-	</fieldset>
-</h:body>
-
-</html>
+			
+			<div id="infoGeral">
+				<h3>Informações GERAIS</h3>
+				<span class="ultimasNoticias">Resumo do sistema</span>
+				<h:panelGrid columns="2" styleClass="gridNoticiasInfo" columnClasses="colunaInfo1, colunaInfo2">
+					<h:outputText value="Total de ordem no sistema: " />
+					<h:outputText value="340" />
+					<h:outputText value="Total de OSN: " />
+					<h:outputText value="170" />
+					<h:outputText value="Total de OSN ABERTA: " />
+					<h:outputText value="45" />
+					<h:outputText value="Total de OSP: " />
+					<h:outputText value="170" />
+					<h:outputText value="Total de OSP ABERTA: " />
+					<h:outputText value="5" />
+				</h:panelGrid>
+				<span class="ultimasNoticias">Outras informações</span>
+				<h:panelGrid columns="2" styleClass="gridNoticiasInfo" columnClasses="colunaInfo1, colunaInfo2">
+					<li>Sem informações no momento</li>
+				</h:panelGrid>
+			</div>
+			<div class="clear"></div>
+	</ui:define>
+</ui:composition>

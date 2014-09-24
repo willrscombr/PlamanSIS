@@ -5,37 +5,38 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<title>Plaman - Sistema de gestao</title>
+	<title><ui:insert name="nomePagina"></ui:insert></title>
 	<h:outputStylesheet library="css" name="sistema.css" />
 </h:head>
 
 <h:body>
-	<div id="header" class="header">
-		<h:graphicImage value="/images/LogoPlamanSubititle.png"
-			styleClass="imgLogo" />
-	</div>
-	<div class="menu">
-		<h:link outcome="/colaborador/colaboradorIndex">COLABORADORES</h:link>
-		<h:link outcome="/index">DEPARTAMENTOS</h:link>
-		<h:link outcome="/index">GESTÃO</h:link>
-		<h:link outcome="/index">HOME</h:link>
-	</div>
-	<div id="content" class="content">
-		<ui:insert name="tituloTela">
-		
-		</ui:insert>
-		<ui:insert name="conteudo">
+	<div id="geral">
+		<div id="header" class="header">
+			<h:graphicImage value="/images/LogoPlamanSubititle.png"
+				styleClass="imgLogo" />
+		</div>
+		<div id="content" class="content">
+			<div class="menu">
+				<ui:insert name="tituloTela">
+				</ui:insert>
+				<h:link outcome="/colaborador/colaboradorIndex">COLABORADORES</h:link>
+				<h:link outcome="/centroTrabalho/centroTrabalhoIndex.xhtml">DEPARTAMENTOS</h:link>
+				<h:link outcome="/ordemServico/ordemServicoIndex.xhtml">GESTÃO</h:link>
+				<h:link outcome="/index">HOME</h:link>
+			</div>
+			<ui:insert name="conteudo">
 
-		</ui:insert>
+			</ui:insert>
+			<div class="clear"></div>
+		</div>
+		<div id="footer" class="footer">
+			Sistema desenvolvido por <span style="color: #FF0011">Maique
+				Rosa</span>, acesse o github
+			<h:outputLink value="https://github.com/domzinhuu" target="_blank"
+				style="color:red;">@maique.rosa</h:outputLink>
+			para conhecer a documentação.<br /> Locar Pipe - Plaman OS 2014
+		</div>
 	</div>
-
-	<div id="footer" class="footer">
-		Sistema desenvolvido por <span style="color: #FF0011">Maique
-			Rosa</span>, acesse o github
-		<h:outputLink value="https://github.com/domzinhuu" target="_blank">@maique.rosa</h:outputLink>
-		para conhecer a documentação.<br /> Locar Pipe - Plaman OS 2014
-	</div>
-
 </h:body>
 
 </html>

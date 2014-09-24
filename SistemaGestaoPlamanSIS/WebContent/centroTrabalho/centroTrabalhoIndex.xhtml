@@ -1,46 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="/templete/layoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head>
-	<title>Centro de Trabalho</title>
-	<h:outputStylesheet library="css" name="centroTrabalhoStyle.css"/>
-</h:head>
+	<ui:define name="tituloTela">
+		<div>
+			<h2 class="h2Topo">Centro de Trabalho</h2>
+		</div>
+	</ui:define>
 
-<h:body>
-	<fieldset class="cabecalho">
-		<h1>Cadastro de Centro de Trabalho</h1>
-	</fieldset>
+	<ui:define name="conteudo">
+		<div id="conteudoDepartamento">
+			<h:form id="frmDepartamento">
 
-	<fieldset>
-		<h:form>
-			<h:messages layout="table"/>
-			<h:panelGrid columns="2" styleClass="formularioCentroTrabalho">
-				<h:outputLabel value="Nome do Centro de trabalho: " />
-				<h:inputText value="#{centroTrabalhoBean.centro.nome}" size="10" />
+				<h:button outcome="formularioDepartamento" value="Novo Departamento" />
 
-				<h:outputLabel value="Sigla: " />
-				<h:inputText value="#{centroTrabalhoBean.centro.sigla}" size="3" />
-			</h:panelGrid>
+				<h:dataTable value="#{centroTrabalhoBean.centrosCadastrado}" var="setor"
+					styleClass="grid" headerClass="headerTabela" cellspacing="1"
+					cellpadding="1" rowClasses="impar, par"
+					columnClasses="matricula, nome, cargo, departamento, funcao"
+					width="100%" summary="Tabela de colaboradores">
 
-			<h:outputText value="" />
-			<h:commandButton action="#{centroTrabalhoBean.salvarCentroDeTrabalho}" value="Salvar" />
-		</h:form>
-	</fieldset>
-	
-	<h:dataTable value="#{centroTrabalhoBean.centrosCadastrado}" var="centro" id="tabelaCentro" styleClass="tabelaCentro" columnClasses="colunaNome, colunaSigla">
-		<h:column>
-			<f:facet name="header">NOME</f:facet>
-			<h:outputText value="#{centro.nome}" />
-		</h:column>
-		
-		<h:column>
-			<f:facet name="header">SIGLA</f:facet>
-			<h:outputText value="#{centro.sigla}" />
-		</h:column>
-	</h:dataTable>
-</h:body>
+					<h:column>
+						<f:facet name="header">DEPARTAMENTO</f:facet>
+						<h:outputText value="#{setor.nome}" />
+					</h:column>
 
-</html>
+					<h:column>
+						<f:facet name="header">SIGLA</f:facet>
+						<h:outputText value="#{setor.sigla}" />
+					</h:column>
+
+					<h:column>
+						
+						<h:commandLink action="formularioEditDepartamento?faces-redirect=true">
+							<f:setPropertyActionListener value="#{setor}" target="#{centroTrabalhoBean.setorSelecionado}" />
+							<h:graphicImage value="/images/editar.png" />
+						</h:commandLink>
+						
+						<h:commandLink action="#{centroTrabalhoBean.deletarCentroDeTrabalho}">
+							<h:graphicImage value="/images/excluir.png" />
+							<f:setPropertyActionListener value="#{setor}" target="#{centroTrabalhoBean.setorSelecionado}" />
+						</h:commandLink>
+						
+					</h:column>
+				</h:dataTable>
+				
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>

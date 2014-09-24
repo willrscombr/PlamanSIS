@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templete/layoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<ui:define name="nomePagina">Nova Ordem</ui:define>
+
+	<ui:define name="tituloTela">
+		<div>
+			<h2 class="h2Topo">Registro de OS</h2>
+		</div>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h1>ORDEM DE SERVIÇO CORRETIVA</h1>
+		<h:form id="formularioOS">
+			<div id="msgBox" class="msgboxstyle">
+				<h:messages showDetail="true"  layout="table" errorClass="errorMsg"
+					warnClass="wrrMsg" infoClass="sucessMsg" styleClass="msgboxstyle" />
+			</div>
+			<h:panelGrid columns="2" styleClass="gridCadastro"
+				columnClasses="gridCadastroCol1, gridCadastroCol2">
+
+				<h:outputLabel value="Tipo da Corretiva: " for="tipoCorretiva" />
+				<h:panelGroup>
+					<h:selectOneRadio
+						value="#{ordemServicoBean.ordemServico.modoCorretivo}"
+						layout="pageDirection" id="tipoCorretiva" required="true"
+						requiredMessage="* Escolha uma das opções">
+						<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
+							var="modo" itemValue="#{modo}" />
+					</h:selectOneRadio>
+					<h:message for="tipoCorretiva" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Local: " for="local" />
+				<h:panelGroup>
+					<h:inputText value="#{ordemServicoBean.ordemServico.local}"
+						id="local" required="true"
+						requiredMessage="* É Necessario Preencher este campo" />
+					<h:message for="local" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Equipamento " for="equipamento" />
+				<h:panelGroup>
+					<h:inputText value="#{ordemServicoBean.ordemServico.equipamento}"
+						required="true"
+						requiredMessage="* É Necessario Preencher este campo"
+						id="equipamento" />
+					<h:message for="equipamento" errorClass="errorMsg" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Descrição: " for="desc" />
+				<h:panelGroup>
+					<h:inputTextarea value="#{ordemServicoBean.ordemServico.acao}"
+						id="desc" required="true"
+						requiredMessage="* É Necessario Preencher este campo" rows="5"
+						cols="40" />
+					<h:message for="desc" errorClass="errorMsg" />
+				</h:panelGroup>
+				<h:outputText value="" />
+				<h:outputText styleClass="avisoPequeno"
+					value="*caso não deseje programar a OS agora não preencha estes campos" />
+
+				<h:outputLabel value="Departamento: " for="dept" />
+				<h:selectOneMenu id="dept"
+					value="#{ordemServicoBean.ordemServico.setor}"
+					valueChangeListener="#{ordemServicoBean.filtrarColaboradores}">
+					<f:ajax render="listaColab" />
+					<f:selectItem noSelectionOption="true" itemLabel="SELECIONE" />
+					<f:selectItems value="#{ordemServicoBean.departamentos}"
+						var="depart" itemValue="#{depart}" itemLabel="#{depart.nome}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel value="Responsavel: " for="listaColab" />
+					<h:selectOneMenu value=""
+						id="listaColab">
+						<f:selectItems value="#{ordemServicoBean.filtroColaborador}"
+							var="colab" itemLabel="#{colab.nome}" itemValue="#{colab}" />
+					</h:selectOneMenu>
+
+				<h:outputText value="" />
+				<h:panelGroup>
+					<h:commandButton action="#{ordemServicoBean.salvar}" value="Abrir" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+
+
+</ui:composition>

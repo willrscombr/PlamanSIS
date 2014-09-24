@@ -12,13 +12,14 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
+		
 		<div id="conteudoColaborador">
 			<h:form id="frmColab">
 
 				<h:button outcome="formularioColab" value="Novo Colaborador" />
 
 				<h:dataTable value="#{colaboradorBean.colaboradores}" var="colab"
-					styleClass="grid" headerClass="headerTabela" cellspacing="0"
+					styleClass="grid" headerClass="headerTabela" cellspacing="1"
 					cellpadding="1" rowClasses="impar, par"
 					columnClasses="matricula, nome, cargo, departamento, funcao"
 					width="100%" summary="Tabela de colaboradores">
@@ -46,7 +47,7 @@
 
 					<h:column>
 						
-						<h:commandLink action="formularioEditColab">
+						<h:commandLink action="formularioEditColab?faces-redirect=true">
 							<f:setPropertyActionListener value="#{colab}" target="#{colaboradorBean.colaboradorSelecionado}" />
 							<h:graphicImage value="/images/editar.png" />
 						</h:commandLink>
