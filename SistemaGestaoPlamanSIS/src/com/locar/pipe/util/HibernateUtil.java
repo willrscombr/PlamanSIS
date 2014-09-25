@@ -37,6 +37,6 @@ public class HibernateUtil {
 		ExternalContext externContext = context.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) externContext.getRequest();
 		
-		return request;
+		return request.getAttribute(attName);
 	}
 }
