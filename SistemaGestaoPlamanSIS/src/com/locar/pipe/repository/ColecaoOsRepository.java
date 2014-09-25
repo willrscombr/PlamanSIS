@@ -3,92 +3,84 @@ package com.locar.pipe.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.enuns.TipoDeOrdem;
 import com.locar.pipe.interfaces.ColecaoOsInterface;
 import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.util.HibernateUtil;
 
 public class ColecaoOsRepository implements ColecaoOsInterface {
-
 	private static final long serialVersionUID = 1L;
-	// Atributo será substituido pela implementação do banco de dados
-	private List<OrdemServico> listaDeOrdem;
-	
-	public ColecaoOsRepository() {
-		this.listaDeOrdem = new ArrayList<OrdemServico>();
-	}
 
 	@Override
 	public void salvar(OrdemServico ordemCorretiva) {
-		this.listaDeOrdem.add(ordemCorretiva);
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+		session.save(ordemCorretiva);
 
 	}
 
 	@Override
 	public void excluir(OrdemServico ordemCorretiva) {
-		this.listaDeOrdem.remove(ordemCorretiva);
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+		session.delete(ordemCorretiva);
 
 	}
 
 	@Override
 	public void editar(OrdemServico ordemCorretiva) {
-		for (OrdemServico ordem : this.listaDeOrdem) {
-			if (ordem.getId() == ordemCorretiva.getId()) {
-				ordem = ordemCorretiva;
-			}
-		}
-
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+		session.update(ordemCorretiva);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrdemServico> listarTodasCorretiva() {
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+
 		List<OrdemServico> corretivas = new ArrayList<OrdemServico>();
-		
-		for(OrdemServico os : this.listaDeOrdem){
-			if(os.getTipo() == TipoDeOrdem.CORRETIVA){
-				corretivas.add(os);
-			}
-		}
-		
-		if(corretivas.isEmpty()){
-			return null;
-		}
-		
+		corretivas = session.createCriteria(OrdemServico.class)
+				.add(Restrictions.eq("tipo", TipoDeOrdem.CORRETIVA)).list();
+
 		return corretivas;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrdemServico> listarTodasPreventivas() {
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+
 		List<OrdemServico> preventivas = new ArrayList<OrdemServico>();
-		
-		for(OrdemServico os : this.listaDeOrdem){
-			if(os.getTipo() == TipoDeOrdem.PREVENTIVA){
-				preventivas.add(os);
-			}
-		}
-		
-		if(preventivas.isEmpty()){
-			return null;
-		}
-		
+		preventivas = session.createCriteria(OrdemServico.class)
+				.add(Restrictions.eq("tipo", TipoDeOrdem.PREVENTIVA)).list();
+
 		return preventivas;
 	}
 
 	@Override
 	public OrdemServico buscarPorId(long id) {
 		OrdemServico ordem = null;
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
 
-		for (OrdemServico os : this.listaDeOrdem) {
-			if (os.getId() == id) {
-				ordem = os;
-			}
-		}
+		ordem = (OrdemServico) session.get(OrdemServico.class, id);
 
 		return ordem;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrdemServico> listarTodas() {
-		return this.listaDeOrdem;
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+
+		return session.createCriteria(OrdemServico.class)
+				.add(Restrictions.eq("tipo", TipoDeOrdem.CORRETIVA)).list();
 	}
 }

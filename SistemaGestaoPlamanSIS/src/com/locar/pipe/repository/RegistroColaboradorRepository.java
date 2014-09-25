@@ -1,10 +1,10 @@
 package com.locar.pipe.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.interfaces.RegistroColaboradorInterface;
@@ -19,42 +19,32 @@ public class RegistroColaboradorRepository implements
 
 	@Override
 	public void salvar(Colaborador colaborador) {
-		Session session = HibernateUtil.getSession();
-		Transaction tx = session.getTransaction();
-		
-		tx.begin();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
 		session.save(colaborador);
-		tx.commit();
-		session.close();
 	}
 
 	@Override
 	public void excluir(Colaborador colaborador) {
-		Session session = HibernateUtil.getSession();
-		session.getTransaction().begin();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
 		session.delete(colaborador);
-		session.getTransaction().commit();
-		
-		session.close();
 	}
 
 	@Override
 	public void editar(Colaborador colaborador) {
-		Session session = HibernateUtil.getSession();
-		session.getTransaction().begin();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
 		session.update(colaborador);
-		session.getTransaction().commit();
-		session.close();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Colaborador> listarTodos() {
-		Session session = HibernateUtil.getSession();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
 		List<Colaborador> colaboradores = session.createCriteria(
 				Colaborador.class).list();
-		
-		session.close();
 
 		return colaboradores;
 	}
@@ -62,28 +52,36 @@ public class RegistroColaboradorRepository implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Colaborador> listarPorSetor(Departamento setor) {
-		Session session = HibernateUtil.getSession();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+		List<Colaborador> colaboradorPorSetor = new ArrayList<Colaborador>();
+		colaboradorPorSetor = session.createCriteria(Colaborador.class)
+				.add(Restrictions.eq("setor", setor)).list();
 
-		List<Colaborador> colaboradores = session
-				.createCriteria(Colaborador.class)
-				.add(Restrictions.eq("setor", setor.getId())).list();
-		
-		session.close();
-		return colaboradores;
+		return colaboradorPorSetor;
 	}
 
 	@Override
 	public Colaborador buscarPorNome(String nome) {
 		Colaborador colabPorNome = null;
-		Session session = HibernateUtil.getSession();
-		colabPorNome = (Colaborador) session.get(Colaborador.class, nome);
-		session.close();
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+
+		colabPorNome = (Colaborador) session.createCriteria(Colaborador.class)
+				.add(Restrictions.eq("nome", nome)).uniqueResult();
+
 		return colabPorNome;
 	}
 
 	@Override
 	public Colaborador buscarPorMatricula(String matricula) {
 		Colaborador colabPorMatricula = null;
+		Session session = (Session) HibernateUtil
+				.getAttributeRequest("session");
+
+		colabPorMatricula = (Colaborador) session
+				.createCriteria(Colaborador.class)
+				.add(Restrictions.eq("matricula", matricula)).uniqueResult();
 
 		return colabPorMatricula;
 	}

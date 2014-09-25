@@ -29,7 +29,7 @@
 						value="#{ordemServicoBean.ordemServico.modoCorretivo}"
 						layout="pageDirection" id="tipoCorretiva" required="true"
 						requiredMessage="* Escolha uma das opções">
-						<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
+						<f:selectItems value="#{ordemServicoBean.modosCorretivo}"
 							var="modo" itemValue="#{modo}" />
 					</h:selectOneRadio>
 					<h:message for="tipoCorretiva" errorClass="errorMsg" />
