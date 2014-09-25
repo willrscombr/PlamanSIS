@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,9 +23,10 @@ import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.StatusOrdem;
 import com.locar.pipe.enuns.TipoDeOrdem;
 import com.locar.pipe.enuns.TipoEncerramento;
+import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
-@Table(name = "ordem_servico")
+@Table(name = "tb_ordem_servico")
 public class OrdemServico implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,62 +36,48 @@ public class OrdemServico implements Serializable {
 	@GeneratedValue
 	@Column(name = "id_ordem_servico")
 	private long id;
-
 	@Column(name = "ciclo_preventiva")
 	private int cicloPreventiva;
-	private String local;
-	private String equipamento;
-	private String acao;
-	private String observacao;
 	private boolean retrabalho;
-
 	@Column(name = "id_os_retrabalho")
 	private long idOrdemRetrabalho;
 
 	// Tipos enumarated
 	@Enumerated(EnumType.STRING)
 	private TipoDeOrdem tipo;
-
+	@Enumerated(EnumType.STRING)
+	private TipoTrabalho tipoTrabalho;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "modo_corretivo")
 	private ModoCorretivo modoCorretivo;
-
 	@Enumerated(EnumType.STRING)
 	private StatusOrdem status;
-
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_encerramento")
 	private TipoEncerramento tipoEncerramento;
 
-	// Classes para mapeamento
+	// Classes para mapeamento-----------------------
 	@ManyToOne
 	private Departamento setor;
-
 	@ManyToMany
 	@JoinTable(name = "ordem_colaborador_rel", joinColumns = { @JoinColumn(name = "id_ordem") }, inverseJoinColumns = { @JoinColumn(name = "id_colaborador") })
 	private List<Colaborador> executores;
-
-	// Tipos Temporal
+	@OneToMany(mappedBy="ordem")
+	private List<ItemDeOrdem> itensOrdem;
+	
+	// Tipos Temporal------------------------------
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
-
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_expedicao")
 	private Date dataExpedicao;
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "hora_expedicao")
-	private Date horaExpedicao;
-
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_finalizacao")
 	private Date dataFinalizacao;
-
-	@Temporal(TemporalType.TIME)
-	@Column(name = "hora_finalizacao")
-	private Date horaFinalizacao;
-
+	
+	
+	//GETTERS AND SETTERS--------------------------
 	public long getId() {
 		return id;
 	}
@@ -106,28 +94,12 @@ public class OrdemServico implements Serializable {
 		this.cicloPreventiva = cicloPreventiva;
 	}
 
-	public String getAcao() {
-		return acao;
-	}
-
-	public void setAcao(String acao) {
-		this.acao = acao;
-	}
-
 	public Date getDataExpedicao() {
 		return dataExpedicao;
 	}
 
 	public void setDataExpedicao(Date dataExpedicao) {
 		this.dataExpedicao = dataExpedicao;
-	}
-
-	public Date getHoraExpedicao() {
-		return horaExpedicao;
-	}
-
-	public void setHoraExpedicao(Date horaExpedicao) {
-		this.horaExpedicao = horaExpedicao;
 	}
 
 	public Date getDataFinalizacao() {
@@ -137,23 +109,7 @@ public class OrdemServico implements Serializable {
 	public void setDataFinalizacao(Date dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
-
-	public Date getHoraFinalizacao() {
-		return horaFinalizacao;
-	}
-
-	public void setHoraFinalizacao(Date horaFinalizacao) {
-		this.horaFinalizacao = horaFinalizacao;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
+	
 	public boolean isRetrabalho() {
 		return retrabalho;
 	}
@@ -218,22 +174,6 @@ public class OrdemServico implements Serializable {
 		this.tipoEncerramento = tipoEncerramento;
 	}
 
-	public String getLocal() {
-		return local;
-	}
-
-	public void setLocal(String local) {
-		this.local = local;
-	}
-
-	public String getEquipamento() {
-		return equipamento;
-	}
-
-	public void setEquipamento(String equipamento) {
-		this.equipamento = equipamento;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -262,6 +202,22 @@ public class OrdemServico implements Serializable {
 
 	public void setExecutores(List<Colaborador> executores) {
 		this.executores = executores;
+	}
+
+	public TipoTrabalho getTipoTrabalho() {
+		return tipoTrabalho;
+	}
+
+	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
+		this.tipoTrabalho = tipoTrabalho;
+	}
+
+	public List<ItemDeOrdem> getItensOrdem() {
+		return itensOrdem;
+	}
+
+	public void setItensOrdem(List<ItemDeOrdem> itensOrdem) {
+		this.itensOrdem = itensOrdem;
 	}
 
 }

@@ -8,13 +8,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.repository.DepartamentoRepository;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
 @ApplicationScoped
-public class CentroTrabalhoBean implements Serializable {
+public class DepartamentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Departamento centro;
@@ -29,6 +30,7 @@ public class CentroTrabalhoBean implements Serializable {
 		departamento = new DepartamentoRepository();
 		setorSelecionado = new Departamento();
 		centrosCadastrado = new ArrayList<Departamento>();
+		System.out.println("ENTROU");
 		centrosCadastrado = departamento.listarSetor();
 	}
 

@@ -75,7 +75,7 @@
 				</h:selectOneMenu>
 
 				<h:outputLabel value="Responsavel: " for="listaColab" />
-					<h:selectOneMenu value=""
+					<h:selectOneMenu value="#{ordemServicoBean.ordemServico.executores}"
 						id="listaColab">
 						<f:selectItems value="#{ordemServicoBean.filtroColaborador}"
 							var="colab" itemLabel="#{colab.nome}" itemValue="#{colab}" />

@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="tb_colaborador")
 public class Colaborador implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -25,7 +29,7 @@ public class Colaborador implements Serializable{
 	//Classe para Mapeamento
 	@ManyToOne
 	private Departamento setor;
-	@ManyToMany(mappedBy="executores" )
+	@ManyToMany(mappedBy="executores")
 	@Column(name="ordens_designadas")
 	private List<OrdemServico> ordensDesignadas;
 	

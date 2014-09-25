@@ -1,85 +1,90 @@
 package com.locar.pipe.repository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.interfaces.RegistroColaboradorInterface;
 import com.locar.pipe.modelos.Colaborador;
+import com.locar.pipe.modelos.Departamento;
+import com.locar.pipe.util.HibernateUtil;
 
 public class RegistroColaboradorRepository implements
 		RegistroColaboradorInterface, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	// Este atributo esta subistituindo o banco de dados
-	private List<Colaborador> listaDeColaboradores;
-
-	public RegistroColaboradorRepository() {
-		this.listaDeColaboradores = new ArrayList<Colaborador>();
-	}
 
 	@Override
 	public void salvar(Colaborador colaborador) {
-		this.listaDeColaboradores.add(colaborador);
-
+		Session session = HibernateUtil.getSession();
+		Transaction tx = session.getTransaction();
+		
+		tx.begin();
+		session.save(colaborador);
+		tx.commit();
+		session.close();
 	}
 
 	@Override
 	public void excluir(Colaborador colaborador) {
-		this.listaDeColaboradores.remove(colaborador);
-
+		Session session = HibernateUtil.getSession();
+		session.getTransaction().begin();
+		session.delete(colaborador);
+		session.getTransaction().commit();
+		
+		session.close();
 	}
 
 	@Override
 	public void editar(Colaborador colaborador) {
-		for (Colaborador colab : this.listaDeColaboradores) {
-			if (colab.getId() == colaborador.getId()) {
-				colab = colaborador;
-			}
-		}
+		Session session = HibernateUtil.getSession();
+		session.getTransaction().begin();
+		session.update(colaborador);
+		session.getTransaction().commit();
+		session.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Colaborador> listarTodos() {
-		return this.listaDeColaboradores;
+		Session session = HibernateUtil.getSession();
+		List<Colaborador> colaboradores = session.createCriteria(
+				Colaborador.class).list();
+		
+		session.close();
+
+		return colaboradores;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Colaborador> listarPorSetor(String setor) {
-		List<Colaborador> colaboradoresPorSetor = new ArrayList<Colaborador>();
-		for (Colaborador colab : this.listaDeColaboradores) {
-			if (colab.getSetor().getNome().equalsIgnoreCase(setor)) {
-				colaboradoresPorSetor.add(colab);
-				System.out.println("Entrou No repositorio De Colaboradores");
-			}
-		}
+	public List<Colaborador> listarPorSetor(Departamento setor) {
+		Session session = HibernateUtil.getSession();
 
-		if (colaboradoresPorSetor.isEmpty()) {
-			return null;
-		} else {
-			return colaboradoresPorSetor;
-		}
+		List<Colaborador> colaboradores = session
+				.createCriteria(Colaborador.class)
+				.add(Restrictions.eq("setor", setor.getId())).list();
+		
+		session.close();
+		return colaboradores;
 	}
 
 	@Override
 	public Colaborador buscarPorNome(String nome) {
 		Colaborador colabPorNome = null;
-		for (Colaborador colab : this.listaDeColaboradores) {
-			if (colab.getNome().equalsIgnoreCase(nome)) {
-				colabPorNome = colab;
-			}
-		}
+		Session session = HibernateUtil.getSession();
+		colabPorNome = (Colaborador) session.get(Colaborador.class, nome);
+		session.close();
 		return colabPorNome;
 	}
 
 	@Override
 	public Colaborador buscarPorMatricula(String matricula) {
 		Colaborador colabPorMatricula = null;
-		for (Colaborador colab : this.listaDeColaboradores) {
-			if (colab.getNome().equalsIgnoreCase(matricula)) {
-				colabPorMatricula = colab;
-			}
-		}
+
 		return colabPorMatricula;
 	}
 

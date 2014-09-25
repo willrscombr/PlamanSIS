@@ -7,7 +7,7 @@
 
 	<ui:define name="tituloTela">
 		<div>
-			<h2 class="h2Topo">Centro de Trabalho</h2>
+			<h2 class="h2Topo">Departamentos</h2>
 		</div>
 	</ui:define>
 
@@ -17,7 +17,7 @@
 
 				<h:button outcome="formularioDepartamento" value="Novo Departamento" />
 
-				<h:dataTable value="#{centroTrabalhoBean.centrosCadastrado}" var="setor"
+				<h:dataTable value="#{departamentoBean.centrosCadastrado}" var="setor"
 					styleClass="grid" headerClass="headerTabela" cellspacing="1"
 					cellpadding="1" rowClasses="impar, par"
 					columnClasses="matricula, nome, cargo, departamento, funcao"
@@ -36,13 +36,13 @@
 					<h:column>
 						
 						<h:commandLink action="formularioEditDepartamento?faces-redirect=true">
-							<f:setPropertyActionListener value="#{setor}" target="#{centroTrabalhoBean.setorSelecionado}" />
+							<f:setPropertyActionListener value="#{setor}" target="#{DepartamentoBean.setorSelecionado}" />
 							<h:graphicImage value="/images/editar.png" />
 						</h:commandLink>
 						
-						<h:commandLink action="#{centroTrabalhoBean.deletarCentroDeTrabalho}">
+						<h:commandLink action="#{DepartamentoBean.deletarCentroDeTrabalho}">
 							<h:graphicImage value="/images/excluir.png" />
-							<f:setPropertyActionListener value="#{setor}" target="#{centroTrabalhoBean.setorSelecionado}" />
+							<f:setPropertyActionListener value="#{setor}" target="#{DepartamentoBean.setorSelecionado}" />
 						</h:commandLink>
 						
 					</h:column>

@@ -14,5 +14,11 @@
     	<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     	<property name="show_sql">true</property>
     	<property name="format_sql">true</property>
+    	
+    	<mapping class="com.locar.pipe.modelos.Departamento"/>
+    	<mapping class="com.locar.pipe.modelos.Colaborador"/>
+    	<mapping class="com.locar.pipe.modelos.OrdemServico"/>
+    	<mapping class="com.locar.pipe.modelos.SolicitacaoServico"/>
+    	<mapping class="com.locar.pipe.modelos.ItemDeOrdem"/>
     </session-factory>
 </hibernate-configuration>

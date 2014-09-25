@@ -27,6 +27,7 @@ public class ColaboradorBean implements Serializable {
 	private RegistroColaboradorRepository registro;
 	private DepartamentoRepository setor;
 
+	//Metodos Funcionais
 	@PostConstruct
 	public void init(){
 		colaborador = new Colaborador();
@@ -38,6 +39,12 @@ public class ColaboradorBean implements Serializable {
 		departamentos = setor.listarSetor();
 	}
 
+	public void atualizarListas(){
+		colaboradores.clear();
+		departamentos.clear();
+		colaboradores = registro.listarTodos();
+		departamentos = setor.listarSetor();
+	}
 	// ----------------Metodos Gerais---------------------
 
 	public void salvarColaborador() {		
@@ -46,11 +53,15 @@ public class ColaboradorBean implements Serializable {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Sucesso","Salvo com sucesso");
 		FacesContext.getCurrentInstance().addMessage("", msg);
 		colaborador = new Colaborador();
+		atualizarListas();
 	}
 	
 	
 	public String editarColaborador(){
 	//	registro.editar(colaboradorSelecionado);
+		registro.editar(colaboradorSelecionado);
+				
+		atualizarListas();
 		return "colaboradorIndex?faces-redirect=true";
 	}
 	
@@ -59,6 +70,8 @@ public class ColaboradorBean implements Serializable {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Excluido dos Registros!");
 		FacesContext.getCurrentInstance().addMessage("", msg);
 		colaboradorSelecionado = new Colaborador();
+		
+		atualizarListas();
 	}
 	
 	// ---------Getters and Setters-------------------

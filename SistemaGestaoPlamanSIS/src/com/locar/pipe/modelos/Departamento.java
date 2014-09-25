@@ -1,14 +1,16 @@
 package com.locar.pipe.modelos;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="departamento")
+@Table(name="tb_departamento")
 public class Departamento implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +23,15 @@ public class Departamento implements Serializable {
 	private String nome;
 	private String sigla;
 
+	@OneToMany(mappedBy="setor")
+	private List<Colaborador> colaboradores;
+	
+	@OneToMany(mappedBy="setor")
+	private List<OrdemServico> ordems;
+	
+	@OneToMany(mappedBy="setor")
+	private List<SolicitacaoServico> solicitacoes;
+	
 	public long getId() {
 		return id;
 	}
@@ -65,6 +76,30 @@ public class Departamento implements Serializable {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public List<Colaborador> getColaboradores() {
+		return colaboradores;
+	}
+
+	public void setColaboradores(List<Colaborador> colaboradores) {
+		this.colaboradores = colaboradores;
+	}
+
+	public List<OrdemServico> getOrdems() {
+		return ordems;
+	}
+
+	public void setOrdems(List<OrdemServico> ordems) {
+		this.ordems = ordems;
+	}
+
+	public List<SolicitacaoServico> getSolicitacoes() {
+		return solicitacoes;
+	}
+
+	public void setSolicitacoes(List<SolicitacaoServico> solicitacoes) {
+		this.solicitacoes = solicitacoes;
 	}
 
 }

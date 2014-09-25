@@ -14,16 +14,11 @@ public class SetorConverter implements Converter {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Departamento setor = null;
-		DepartamentoRepository dep = new DepartamentoRepository();
 		
-		if(value != null && !value.isEmpty()){
-			for(Departamento c : dep.listarSetor()){
-				if(c.getId() == Long.parseLong(value)){
-					setor = c;
-				}
-			}
-		}
-		return (Departamento) setor;
+		DepartamentoRepository repositorio = new DepartamentoRepository();
+		setor = repositorio.buscarSetorPorId(Long.parseLong(value));
+		
+		return setor;
 	}
 
 	@Override
