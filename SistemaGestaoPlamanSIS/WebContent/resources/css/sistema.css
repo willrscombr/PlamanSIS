@@ -71,8 +71,9 @@ h3 {
 
 .sucessMsg {
 	font-size: 14px;
-	color: green;
+	color: #00FF7F;
 	font-family: arial;
+	padding:15px;
 	font-weight: bold;
 }
 

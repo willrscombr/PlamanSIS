@@ -16,11 +16,20 @@ public class DepartamentoRepository implements DepartamentosInterface, Serializa
 	
 	@Override
 	public void salvar(Departamento setor) {
-	
+		Session session = HibernateUtil.getSession();
+		session.getTransaction().begin();
+		session.save(setor);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override
 	public void excluir(Departamento setor) {
+		Session session = HibernateUtil.getSession();
+		session.getTransaction().begin();
+		session.delete(setor);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override

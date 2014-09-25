@@ -30,7 +30,6 @@ public class DepartamentoBean implements Serializable {
 		departamento = new DepartamentoRepository();
 		setorSelecionado = new Departamento();
 		centrosCadastrado = new ArrayList<Departamento>();
-		System.out.println("ENTROU");
 		centrosCadastrado = departamento.listarSetor();
 	}
 
@@ -44,11 +43,13 @@ public class DepartamentoBean implements Serializable {
 	public void editarCentroDeTrabalho(){
 		departamento.editar(setorSelecionado);
 		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento Editado!");
+		this.init();
 	}
 
 	public void deletarCentroDeTrabalho(){
 		departamento.excluir(setorSelecionado);
 		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento excluido!");
+		init();
 	}
 	// --------------GETTERS AND SETTERS--------------
 	public Departamento getCentro() {

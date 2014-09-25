@@ -2,12 +2,12 @@ package com.locar.pipe.enuns;
 
 public enum TipoTrabalho {
 
-	LUBRIFICACAO("lubrificação"),
+	LUBRIFICACAO("lubrificÃ£o"),
 	REAPERTO("reaperto"),
 	RETRABALHO("retrabalho"),
-	INSPEÇAO("inspeção"),
-	REVISAO("revisão"),
-	SEGURANÇA("segurança");
+	INSPEÃ‡AO("inspeÃ§Ã£o"),
+	REVISAO("revisÃ£o"),
+	SEGURANÃ‡A("seguranÃ§a");
 	
 	private String tipoTrabalho;
 	

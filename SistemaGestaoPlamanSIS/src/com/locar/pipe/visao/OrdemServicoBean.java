@@ -45,8 +45,8 @@ public class OrdemServicoBean implements Serializable {
 		ordensDeServico = colecaoDeOs.listarTodas();
 		this.departamentos = new ArrayList<Departamento>();
 		this.setores = new DepartamentoRepository();
-		this.departamentos = this.setores.listarSetor();
 		this.filtroColaborador = new ArrayList<Colaborador>();
+		this.departamentos = setores.listarSetor();
 	}
 
 	// ------------Metodos da View---------------
