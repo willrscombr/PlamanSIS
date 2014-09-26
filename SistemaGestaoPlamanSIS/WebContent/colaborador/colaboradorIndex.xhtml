@@ -15,7 +15,7 @@
 		
 		<div id="conteudoColaborador">
 			<h:form id="frmColab">
-				<h:messages showDetail="true" showSummary="false"/>
+				<h:messages showDetail="true" showSummary="false" errorClass="errorMsg" infoClass="sucessMsg" warnClass="wrnMsg"/>
 				<h:button outcome="formularioColab" value="Novo Colaborador" />
 
 				<h:dataTable value="#{colaboradorBean.colaboradores}" var="colab"

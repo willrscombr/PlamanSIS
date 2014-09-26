@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-@WebFilter(servletNames = { "FacesServlet" })
+@WebFilter(servletNames = { "Faces Servlet"})
 public class HibernateSessionFilter implements Filter {
 
 	@Override
