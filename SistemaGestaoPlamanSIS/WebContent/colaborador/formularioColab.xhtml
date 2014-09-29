@@ -1,9 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templete/layoutPadrao.xhtml"
+<ui:composition template="/template/templateGeral.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="tituloTela">
 		<div>
@@ -12,60 +13,40 @@
 	</ui:define>
 
 	<ui:define name="conteudo">
-		<h1>Novo Colaborador</h1>
-		<h:form id="cadastroColabForm">
-			<div id="msgBox" class="msgboxstyle">
-				<h:messages showDetail="true" showSummary="true" layout="table"
-					errorClass="errorMsg" warnClass="wrrMsg" infoClass="sucessMsg"
-					styleClass="msgboxstyle" />
-			</div>
+		<h:form id="frmColaborador">
+			<p:panelGrid columns="2" styleClass="panelgrid">
+				<p:outputLabel value="Matricula" for="matricula" />
+				<p:inputText value="#{colaboradorBean.colaborador.matricula}"
+					id="matricula" required="true"
+					requiredMessage="Preencha esse campo Matricula" />
 
-			<h:panelGrid columns="2" styleClass="gridCadastro"
-				columnClasses="gridCadastroCol1, gridCadastroCol2">
-				<h:outputLabel value="Matricula: " for="matric" />
-				<h:panelGroup>
-					<h:inputText value="#{colaboradorBean.colaborador.matricula}"
-						id="matric" size="4" required="true"
-						requiredMessage="A matricula precisa ser preenchida" />
-					<h:message for="matric" errorClass="errorMsg" />
-				</h:panelGroup>
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText value="#{colaboradorBean.colaborador.nome}" id="nome"
+					required="true" requiredMessage="Preencha esse campo Nome" />
 
-				<h:outputLabel value="Nome: " for="nome" />
-				<h:panelGroup>
-					<h:inputText value="#{colaboradorBean.colaborador.nome}" id="nome"
-						required="true" requiredMessage="O nome deve ser preenchido" />
-					<h:message for="nome" errorClass="errorMsg" />
-				</h:panelGroup>
+				<p:outputLabel value="Sobrenome" for="sobrenome" />
+				<p:inputText value="#{colaboradorBean.colaborador.sobrenome}"
+					id="sobrenome" />
 
-				<h:outputLabel value="Sobrenome: " for="sobrenome" />
-				<h:inputText value="#{colaboradorBean.colaborador.sobrenome}"
-					id="sobrenome" size="60" />
+				<p:outputLabel value="Cargo" for="cargo" />
+				<p:inputText value="#{colaboradorBean.colaborador.cargo}" id="cargo"
+					required="true" requiredMessage="Preencha esse campo Cargo" />
+				<p:outputLabel value="Setor" for="setor" />
 
-				<h:outputLabel value="Cargo: " for="cargo" />
-				<h:panelGroup>
-					<h:inputText value="#{colaboradorBean.colaborador.cargo}"
-						id="cargo" required="true"
-						requiredMessage="cargo deve ser preenchido" />
-					<h:message for="cargo" errorClass="errorMsg" />
-				</h:panelGroup>
-				<h:outputLabel value="Departamento: " for="setor" />
-				<h:panelGroup>
-					<h:selectOneMenu value="#{colaboradorBean.colaborador.setor}"
-						id="setor" required="true"
-						requiredMessage="Você precisa selecionar um Departamento">
-						<f:selectItem itemLabel="SELECIONE" noSelectionOption="true" />
-						<f:selectItems value="#{colaboradorBean.departamentos}"
-							var="depart" itemLabel="#{depart.nome}" itemValue="#{depart}" />
-					</h:selectOneMenu>
-					<h:message for="setor" errorClass="errorMsg" />
-				</h:panelGroup>
+				<p:selectOneMenu value="#{colaboradorBean.colaborador.setor}"
+					required="true" requiredMessage="Escolha um setor" id="setor">
+					<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+					<f:selectItems value="#{colaboradorBean.departamentos}" var="item"
+						itemLabel="#{item.nome}" itemValue="#{item}" />
+				</p:selectOneMenu>
 
-				<h:outputText value="" />
-				<h:commandButton action="#{colaboradorBean.salvarColaborador}"
-					value="Salvar" />
-			</h:panelGrid>
-
+				<p:outputLabel value="" />
+				<p:commandButton value="Cadastrar"
+					action="#{colaboradorBean.salvarColaborador}">
+				</p:commandButton>
+			</p:panelGrid>
 		</h:form>
+
 	</ui:define>
 
 

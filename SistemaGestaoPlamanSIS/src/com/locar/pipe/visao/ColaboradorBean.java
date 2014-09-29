@@ -47,13 +47,15 @@ public class ColaboradorBean implements Serializable {
 	}
 	// ----------------Metodos Gerais---------------------
 
-	public void salvarColaborador() {		
+	public String salvarColaborador() {		
 		registro.salvar(colaborador);
 		
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Sucesso","Salvo com sucesso");
 		FacesContext.getCurrentInstance().addMessage("", msg);
 		colaborador = new Colaborador();
 		atualizarListas();
+		
+		return "colaboradorIndex?faces-redirect=true";
 	}
 	
 	

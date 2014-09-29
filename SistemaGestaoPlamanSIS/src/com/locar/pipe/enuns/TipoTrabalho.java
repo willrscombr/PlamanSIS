@@ -7,7 +7,8 @@ public enum TipoTrabalho {
 	RETRABALHO("retrabalho"),
 	INSPEÇAO("inspeção"),
 	REVISAO("revisão"),
-	SEGURANÇA("segurança");
+	SEGURANÇA("segurança"),
+	OUTROS("outros");
 	
 	private String tipoTrabalho;
 	

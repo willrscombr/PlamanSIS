@@ -1,12 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templates/common.xhtml"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<ui:composition template="/template/templateGeral.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 	
-			<ui:define name="pageTitle">Title</ui:define>
-			<ui:define name="pageHeader">Header</ui:define>
-			<ui:define name="body">
-			</ui:define>
+	<f:metadata>
+		<f:viewAction action="#{solicitacaoBean.init}" />
+	</f:metadata>
+
+	<ui:define name="title_page">Solicitação Serviço</ui:define>
+
+	<ui:define name="conteudo">
+		<p:panel id="panelSolicitacao" header="Abrir solicitação"
+			menuTitle="Solicitar">
+
+			<h:form id="formSolicitacao">
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+				<h:panelGrid columns="2" columnClasses="labelGrid, inputGrid" style="margin-top:10px" id="painelSolicita">
+					
+					<p:outputLabel value="Tipo de Trabalho: "/>
+					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.tipoTrabalho}">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+						<f:selectItems value="#{solicitacaoBean.tiposDeTrabalhos()}" var="item" itemLabel="#{item}" itemValue="#{item}"/>
+					</p:selectOneMenu>
+				
+					<p:outputLabel value="Equipamento: " />
+					<p:inputText value="#{solicitacaoBean.solicitacao.equipamento}" placeholder="Equipamento.." />
+
+					<p:outputLabel value="Componente: " />
+					<p:inputText value="#{solicitacaoBean.solicitacao.componente}" placeholder="Componente do equipamento" size="25"/>
+
+					<p:outputLabel value="Descrição" style="position:absolute; top:45%" />
+					<p:inputTextarea
+						value="#{solicitacaoBean.solicitacao.descricaoAcao}"
+						autoResize="true" cols="40" rows="5"
+						placeholder="Descrição da ação a executar" />
+
+					<p:outputLabel value=""/>
+					<h:panelGroup>
+					<p:commandButton value="Cancelar" style="float:right" action="/index.xhtml?faces-redirect=true" />
+					<p:commandButton value="Solicitar" style="float:right" action="#{solicitacaoBean.salvar}" update="@form">
+						<f:setPropertyActionListener value="#{segurancaBean.colaboradorLogado.setor}" target="#{solicitacaoBean.solicitacao.setor}" />
+					</p:commandButton>
+					</h:panelGroup>
+				</h:panelGrid>
+			</h:form>
+			<p:outputPanel autoUpdate="true" id="tabelaDeSolicitacao">
+				<p:dataTable var="solicitacao" value="#{solicitacaoBean.solicitacoes}" id="tbSolicitacaoAberta">
+					
+					<f:facet name="header">Solicitações em aberto</f:facet>
+					
+					<p:column headerText="Tipo Trabalho">
+						<p:outputLabel value="#{solicitacao.tipoTrabalho}"/>
+					</p:column>
+					
+					<p:column headerText="Equipamento">
+						<p:outputLabel value="#{solicitacao.equipamento}"/>
+					</p:column>
+					
+					<p:column headerText="Componente">
+						<p:outputLabel value="#{solicitacao.componente}"/>
+					</p:column>
+					
+					<p:column headerText="Data de Criação">
+						<p:outputLabel value="#{solicitacao.dataCriacao}" >
+							<f:convertDateTime pattern="dd/MM/yyyy" type="both" locale="pt_BR"/>
+						</p:outputLabel>
+					</p:column>
+
+				</p:dataTable>
+			</p:outputPanel>
+		</p:panel>
+	</ui:define>
 </ui:composition>

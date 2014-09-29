@@ -48,6 +48,14 @@ h3 {
 	color: white;
 }
 
+.painelLogin{
+	padding: 100px;
+	margin-top: 150px;
+	background-color: #D3D3D3;
+	border:1px solid;
+	border-radius:5px;	
+}
+
 .msgboxstyle {
 	border: 0;
 	border-radius: 4px;
@@ -113,7 +121,6 @@ input[type="text"] {
 	border-radius: 2px;
 	border: 0;
 	padding: 6px;
-	text-transform: capitalize;
 	box-shadow: 0px 0px 5px #666666;
 }
 

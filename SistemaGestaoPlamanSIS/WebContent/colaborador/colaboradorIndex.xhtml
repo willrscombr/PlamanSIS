@@ -1,66 +1,60 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="/templete/layoutPadrao.xhtml"
+<ui:composition template="/template/templateGeral.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="tituloTela">
-		<div>
-			<h2 class="h2Topo">Gestão de Colaboradores</h2>
-		</div>
+	<ui:define name="title_page">
+		<h:outputText value="Colaboradores"/>
 	</ui:define>
 
 	<ui:define name="conteudo">
-		
-		<div id="conteudoColaborador">
+		<div>
 			<h:form id="frmColab">
-				<h:messages showDetail="true" showSummary="false" errorClass="errorMsg" infoClass="sucessMsg" warnClass="wrnMsg"/>
-				<h:button outcome="formularioColab" value="Novo Colaborador" />
-
-				<h:dataTable value="#{colaboradorBean.colaboradores}" var="colab"
-					styleClass="grid" headerClass="headerTabela" cellspacing="1"
-					cellpadding="1" rowClasses="impar, par"
-					columnClasses="matricula, nome, cargo, departamento, funcao"
-					width="100%" summary="Tabela de colaboradores">
-
-					<h:column>
-						<f:facet name="header">MATRIC</f:facet>
-						<h:outputText value="#{colab.matricula}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">NOME</f:facet>
-						<h:outputText value="#{colab.nome} #{colab.sobrenome}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">CARGO</f:facet>
-						<h:outputText value="#{colab.cargo}" />
-					</h:column>
-
-					<h:column>
-						<f:facet name="header">DEPARTAMENTO</f:facet>
-						<h:outputText value="#{colab.setor.sigla}"
-							title="#{colab.setor.nome}" />
-					</h:column>
-
-					<h:column>
-						
-						<h:commandLink action="formularioEditColab?faces-redirect=true">
-							<f:setPropertyActionListener value="#{colab}" target="#{colaboradorBean.colaboradorSelecionado}" />
-							<h:graphicImage value="/images/editar.png" />
-						</h:commandLink>
-						
-						<h:commandLink action="#{colaboradorBean.deletar}">
-							<h:graphicImage value="/images/excluir.png" />
-							<f:setPropertyActionListener value="#{colab}" target="#{colaboradorBean.colaboradorSelecionado}" />
-						</h:commandLink>
-						
-					</h:column>
-				</h:dataTable>
-				
+				<p:dataTable value="#{colaboradorBean.colaboradores}" var="colaborador" >
+					<p:column styleClass="matricula">
+						<f:facet name="header">
+							MATRICULA
+						</f:facet>
+						<p:outputLabel value="OSP#{colaborador.matricula}"/>
+					</p:column>				
+					
+					<p:column styleClass="nome">
+						<f:facet name="header">
+							NOME
+						</f:facet>
+						<p:outputLabel value="#{colaborador.nome} #{colaborador.sobrenome}"/>
+					</p:column>				
+					
+					<p:column>
+						<f:facet name="header">
+							CARGO
+						</f:facet>
+						<p:outputLabel value="#{colaborador.cargo}"/>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							SETOR
+						</f:facet>
+						<p:outputLabel value="#{colaborador.setor}"/>
+					</p:column>								
+					
+					<p:column>
+							<p:commandLink action="formularioEditColaborador?faces-redirect=true">
+								<p:graphicImage url="/images/editar.png"/>
+								<f:setPropertyActionListener value="#{colaborador}" target="#{colaboradorBean.colaboradorSelecionado}" />
+							</p:commandLink>
+							
+							<p:commandLink>
+								<p:graphicImage url="/images/excluir.png"/>
+							</p:commandLink>
+					</p:column>				
+				</p:dataTable>		
 			</h:form>
+			
 		</div>
 
 	</ui:define>

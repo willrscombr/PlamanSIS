@@ -1,20 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-  <display-name>SistemaGestaoPlamanSIS</display-name>
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <welcome-file-list>
-  	<welcome-file>index.xhtml</welcome-file>
-  </welcome-file-list>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </servlet-mapping>
-  <context-param>
-  	<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
-  	<param-value>true</param-value>
-  </context-param>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>SistemaGestaoPlamanSIS</display-name>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bootstrap</param-value>
+	</context-param>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/login.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-role>
+		<role-name>liberado</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>planejamento</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>solicitacoes</role-name>
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Ordem</web-resource-name>
+			<url-pattern>/ordemServico/ordemServicoIndex.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Ordem</web-resource-name>
+			<url-pattern>/ordemServico/formularioOs.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Ordem</web-resource-name>
+			<url-pattern>/ordemServico/listagemdeordem.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Ordem</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+			<role-name>solicitacoes</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Departamento</web-resource-name>
+			<url-pattern>/centroTrabalho/departamentoIndex.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Departamento</web-resource-name>
+			<url-pattern>/centroTrabalho/formularioDepartamento.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Departamento</web-resource-name>
+			<url-pattern>/centroTrabalho/formularioEditDepartamento.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Colaboradores</web-resource-name>
+			<url-pattern>/colaborador/formularioColaborador.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Colaboradores</web-resource-name>
+			<url-pattern>/colaborador/formularioEditColaborador.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia Colaboradores</web-resource-name>
+			<url-pattern>/colaborador/colaboradorIndex.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+		<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia solicitacoes</web-resource-name>
+			<url-pattern>/solicitacaoServico/gerarSolicitacao.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>solicitacoes</role-name>
+			<role-name>liberado</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+		<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Gerencia solicitacoes</web-resource-name>
+			<url-pattern>/solicitacaoServico/listaSolicitacoes.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>solicitacoes</role-name>
+			<role-name>liberado</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>

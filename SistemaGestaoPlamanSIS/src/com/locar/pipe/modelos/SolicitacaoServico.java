@@ -5,10 +5,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.locar.pipe.enuns.StatusSolicitacao;
+import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
 @Table(name="tb_solicitacao_servico")
@@ -16,15 +21,21 @@ public class SolicitacaoServico  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue
-	public long id;
-	public String equipamento;
-	public String componente;
+	private long id;
+	private String equipamento;
+	private String componente;
 	@Column(name="descricao_acao")
-	public String DescricaoAcao;
+	private String DescricaoAcao;
+	@Enumerated(EnumType.STRING)
+	@Column(name="tipo_trabalho")
+	private TipoTrabalho tipoTrabalho;
+	@Enumerated(EnumType.STRING)
+	@Column(name="status_solict")
+	private StatusSolicitacao statusSolicitacao;
 	@ManyToOne
-	public Departamento setor;
+	private Departamento setor;
 	@Column(name="data_criacao")
-	public Date dataCriacao;
+	private Date dataCriacao;
 	
 	public long getId() {
 		return id;
@@ -82,6 +93,18 @@ public class SolicitacaoServico  implements Serializable{
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	public TipoTrabalho getTipoTrabalho() {
+		return tipoTrabalho;
+	}
+	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
+		this.tipoTrabalho = tipoTrabalho;
+	}
+	public StatusSolicitacao getStatusSolicitacao() {
+		return statusSolicitacao;
+	}
+	public void setStatusSolicitacao(StatusSolicitacao statusSolicitacao) {
+		this.statusSolicitacao = statusSolicitacao;
 	}
 	
 	
