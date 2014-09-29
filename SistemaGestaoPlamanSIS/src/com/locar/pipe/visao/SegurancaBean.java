@@ -21,7 +21,7 @@ public class SegurancaBean implements Serializable {
 
 	private String login;
 	private String senha;
-	private Colaborador colaboradorLogado;
+	public static Colaborador colaboradorLogado;
 
 	
 	@PostConstruct
@@ -36,7 +36,8 @@ public class SegurancaBean implements Serializable {
 
 			if (this.getRequest().getUserPrincipal() != null) {
 				RegistroColaboradorRepository dao = new RegistroColaboradorRepository();
-				this.colaboradorLogado = dao.buscarPorNome(login);
+				SegurancaBean.setColaboradorLogado(dao.buscarPorNome(login));
+				this.getRequest().setAttribute("colaboradorLogado", colaboradorLogado);
 			}
 
 			return "index?faces-redirect=true";
@@ -82,5 +83,10 @@ public class SegurancaBean implements Serializable {
 
 	public Colaborador getColaboradorLogado() {
 		return colaboradorLogado;
+	}
+
+
+	public static void setColaboradorLogado(Colaborador colaboradorLogado) {
+		SegurancaBean.colaboradorLogado = colaboradorLogado;
 	}
 }

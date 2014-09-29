@@ -61,13 +61,11 @@
 									<div id="helloUser">
 
 										<span class="txtBenvindo"> <h:outputLabel
-												value="Bem vindo" />
+												value="Bem vindo, " />
 										</span>
-
-										<!-- Caso o usuario seja o desenvolvedor estes campos serão exibidos -->
 										<span class="usuarioLogado"> <h:outputLabel
-												value=" #{segurancaBean.colaboradorLogado.nome} 
-											#{segurancaBean.colaboradorLogado.sobrenome}"
+												value="#{segurancaBean.colaboradorLogado.nome} 
+											#{segurancaBean.colaboradorLogado.sobrenome} "
 												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
 										</span> <span class="setorUsuario"><h:outputLabel

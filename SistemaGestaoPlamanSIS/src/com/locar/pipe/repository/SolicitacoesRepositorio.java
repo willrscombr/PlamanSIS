@@ -3,6 +3,9 @@ package com.locar.pipe.repository;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import com.locar.pipe.enuns.StatusSolicitacao;
 import com.locar.pipe.interfaces.SolicitacoesOrdem;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.util.HibernateUtil;
@@ -42,6 +45,16 @@ public class SolicitacoesRepositorio implements SolicitacoesOrdem{
 	public List<SolicitacaoServico> listarTodas() {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		return session.createCriteria(SolicitacaoServico.class).list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SolicitacaoServico> listarPorStatus(StatusSolicitacao status) {
+		List<SolicitacaoServico> listaPorStatus = null;
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		
+		listaPorStatus = session.createCriteria(SolicitacaoServico.class).add(Restrictions.eq("statusSolicitacao", status)).list();
+		return listaPorStatus;
 	}
 
 }

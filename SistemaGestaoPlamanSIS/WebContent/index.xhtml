@@ -1,19 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/template/templateGeral.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="conteudo">
-		<p:outputPanel id="InformacoesIndexTopo">
-			<p:panel header="Informações">
-				<h:panelGrid columns="2">
-					<p:outputLabel />
-				</h:panelGrid>
-			</p:panel>
-		</p:outputPanel>
-	</ui:define>
 
+
+	<ui:define name="conteudo">
+	<div style="height:500px">
+    <h:form>
+      <div id="info1">
+      	<p:panel header="Informações do Setor">
+      		<p:panel >
+      			Existem <span style="color: blue;">#{solicitacaoBean.qntSolicitacaoAberta}</span> Solicitações em aberto 
+      		</p:panel>
+      		<p:panel >
+      			Existe <span style="color: blue;">#{solicitacaoBean.qntOrdemoAberta}</span> ordem de serviço aberta para o seu setor
+      		</p:panel>
+      	</p:panel>
+      </div>
+      
+           <div id="info2">
+      	<p:panel header="Informações do Setor">
+      		<p:panel >
+      			Existem <span style="color: blue;">5</span> Solicitações em aberto
+      		</p:panel>
+      		<p:panel >
+      			Existe <span style="color: blue;">15</span> ordem de serviço para o seu setor
+      		</p:panel>
+      	</p:panel>
+      </div>
+    </h:form>
+    </div>
+	</ui:define>
 </ui:composition>
