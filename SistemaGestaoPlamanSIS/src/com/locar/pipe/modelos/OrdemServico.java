@@ -20,7 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.locar.pipe.enuns.ModoCorretivo;
-import com.locar.pipe.enuns.StatusOrdem;
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoDeOrdem;
 import com.locar.pipe.enuns.TipoEncerramento;
 import com.locar.pipe.enuns.TipoTrabalho;
@@ -37,7 +37,7 @@ public class OrdemServico implements Serializable {
 	@Column(name = "id_ordem_servico")
 	private long id;
 	@Column(name = "ciclo_preventiva")
-	private int cicloPreventiva;
+	private Long cicloPreventiva;
 	private boolean retrabalho;
 	@Column(name = "id_os_retrabalho")
 	private long idOrdemRetrabalho;
@@ -51,7 +51,7 @@ public class OrdemServico implements Serializable {
 	@Column(name = "modo_corretivo")
 	private ModoCorretivo modoCorretivo;
 	@Enumerated(EnumType.STRING)
-	private StatusOrdem status;
+	private Status status;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_encerramento")
 	private TipoEncerramento tipoEncerramento;
@@ -86,11 +86,11 @@ public class OrdemServico implements Serializable {
 		this.id = id;
 	}
 
-	public int getCicloPreventiva() {
+	public Long getCicloPreventiva() {
 		return cicloPreventiva;
 	}
 
-	public void setCicloPreventiva(int cicloPreventiva) {
+	public void setCicloPreventiva(Long cicloPreventiva) {
 		this.cicloPreventiva = cicloPreventiva;
 	}
 
@@ -158,11 +158,11 @@ public class OrdemServico implements Serializable {
 		this.dataCriacao = dataCriacao;
 	}
 
-	public StatusOrdem getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusOrdem status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

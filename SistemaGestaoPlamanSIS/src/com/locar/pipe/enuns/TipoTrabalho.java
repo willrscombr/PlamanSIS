@@ -4,6 +4,7 @@ public enum TipoTrabalho {
 
 	LUBRIFICACAO("lubrificão"),
 	REAPERTO("reaperto"),
+	REPARO("reparo"),
 	RETRABALHO("retrabalho"),
 	INSPEÇAO("inspeção"),
 	REVISAO("revisão"),

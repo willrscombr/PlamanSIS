@@ -2,7 +2,7 @@ package com.locar.pipe.enuns;
 
 public enum TipoEncerramento {
 
-	TECNICO("técnico"), COMERCIAL("comercial"),NAOENCERRADO("não encerrado"),PARCIAL("parcial");
+	TECNICO("tecnico"), COMERCIAL("comercial"),PARCIAL("parcial");
 
 	String tipoEncerramento;
 

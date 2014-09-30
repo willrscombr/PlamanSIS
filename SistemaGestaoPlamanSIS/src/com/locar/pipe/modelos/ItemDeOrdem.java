@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import com.locar.pipe.enuns.Status;
 
 @Entity
 @Table(name="tb_item_de_ordem")
@@ -20,13 +22,17 @@ public class ItemDeOrdem implements Serializable{
 	//Atributos Primitivos----------------
 	@Id @GeneratedValue
 	private long id;
-	
+	private String solucao;
 	
 	//Classes para mapeamento----------------
 	@OneToOne
 	private SolicitacaoServico solicitacaoServico;
 	@ManyToOne
 	private OrdemServico ordem;
+	
+	//Tipos enumerated----------------
+	@Enumerated
+	private Status status;
 	
 	//Atributos Temporais----------------
 	@Temporal(TemporalType.DATE)
@@ -97,6 +103,24 @@ public class ItemDeOrdem implements Serializable{
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	public OrdemServico getOrdem() {
+		return ordem;
+	}
+	public void setOrdem(OrdemServico ordem) {
+		this.ordem = ordem;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	public String getSolucao() {
+		return solucao;
+	}
+	public void setSolucao(String solucao) {
+		this.solucao = solucao;
 	} 
 	
 	

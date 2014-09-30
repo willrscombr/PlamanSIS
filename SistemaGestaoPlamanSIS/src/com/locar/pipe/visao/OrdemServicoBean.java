@@ -10,13 +10,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
 
 import com.locar.pipe.enuns.ModoCorretivo;
-import com.locar.pipe.enuns.StatusOrdem;
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoDeOrdem;
 import com.locar.pipe.enuns.TipoDePesquisa;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.OrdemServico;
-import com.locar.pipe.repository.ColecaoOsRepository;
+import com.locar.pipe.repository.OrdemServicoRepository;
 import com.locar.pipe.repository.DepartamentoRepository;
 
 @ManagedBean
@@ -24,7 +24,7 @@ import com.locar.pipe.repository.DepartamentoRepository;
 public class OrdemServicoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private ColecaoOsRepository colecaoDeOs;
+	private OrdemServicoRepository colecaoDeOs;
 	private List<Departamento> departamentos;
 	private List<Colaborador> filtroColaborador;
 	private DepartamentoRepository setores;
@@ -37,7 +37,7 @@ public class OrdemServicoBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		this.colecaoDeOs = new ColecaoOsRepository();
+		this.colecaoDeOs = new OrdemServicoRepository();
 		this.ordensDeServico = new ArrayList<OrdemServico>();
 		this.repositorioDeOrdem = new ArrayList<OrdemServico>();
 		this.ordemSelecionada = new OrdemServico();
@@ -81,7 +81,7 @@ public class OrdemServicoBean implements Serializable {
 
 		case STATUS:
 			for(OrdemServico os : this.repositorioDeOrdem){
-				if(os.getStatus() == StatusOrdem.valueOf(txtPesquisa)){
+				if(os.getStatus() == Status.valueOf(txtPesquisa)){
 					this.ordensDeServico.add(os);
 				}
 			}
@@ -109,8 +109,8 @@ public class OrdemServicoBean implements Serializable {
 		return ModoCorretivo.values();
 	}
 
-	public StatusOrdem[] statusOrdem() {
-		return StatusOrdem.values();
+	public Status[] statusOrdem() {
+		return Status.values();
 	}
 
 	public TipoDePesquisa[] tipoPesquisa() {

@@ -7,22 +7,18 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
-import com.locar.pipe.converters.SetorConverter;
-import com.locar.pipe.enuns.StatusSolicitacao;
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoTrabalho;
-import com.locar.pipe.interfaces.ColecaoOsInterface;
-import com.locar.pipe.interfaces.SolicitacoesOrdem;
+import com.locar.pipe.interfaces.OrdemServicoInterface;
+import com.locar.pipe.interfaces.SolicitacoesInterface;
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.modelos.Departamento;
+import com.locar.pipe.modelos.OrdemServico;
 import com.locar.pipe.modelos.SolicitacaoServico;
-import com.locar.pipe.repository.ColecaoOsRepository;
+import com.locar.pipe.repository.OrdemServicoRepository;
 import com.locar.pipe.repository.SolicitacoesRepositorio;
-import com.locar.pipe.util.HibernateUtil;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
@@ -30,36 +26,43 @@ import com.locar.pipe.util.MensagensUtil;
 public class SolicitacaoBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private int qntSolicitacaoAberta;
+	private long qntSolicitacaoAberta;
 	private long qntOrdemoAberta;
 	private Colaborador colaboradorLogado;
 	private List<SolicitacaoServico> listaPorStatus;
-	private SolicitacaoServico solicitacao;
 	private List<SolicitacaoServico> solicitacoes;
-	private SolicitacoesOrdem solicitacaoOrdem;
-	private ColecaoOsInterface servidorOrdem;
+	private List<OrdemServico> ultimasOrdens;
+	private SolicitacaoServico solicitacao;
+	private SolicitacoesInterface solicitacaoOrdem;
+	private OrdemServicoInterface servidorOrdem;
 	
-	@PostConstruct
-	public void init(){
+	public SolicitacaoBean() {
 		qntOrdemoAberta = 0;
 		qntSolicitacaoAberta = 0;
 		colaboradorLogado = new Colaborador();
 		solicitacoes = new ArrayList<SolicitacaoServico>();
 		listaPorStatus = new ArrayList<SolicitacaoServico>();
+		ultimasOrdens = new ArrayList<OrdemServico>();
 		solicitacaoOrdem = new SolicitacoesRepositorio();
 		solicitacao = new SolicitacaoServico();
+		servidorOrdem = new OrdemServicoRepository();
+	}
+	
+	@PostConstruct
+	public void init(){
 		solicitacoes = solicitacaoOrdem.listarTodas();
-		listaPorStatus = solicitacaoOrdem.listarPorStatus(StatusSolicitacao.ABERTO);
+		listaPorStatus = solicitacaoOrdem.listarPorStatus(Status.ABERTO);
 		qntSolicitacaoAberta = listaPorStatus.size();
-		servidorOrdem = new ColecaoOsRepository();
 		colaboradorLogado = SegurancaBean.colaboradorLogado;
-		qntOrdemoAberta = servidorOrdem.qntDeOrdemPorSetor(colaboradorLogado.getSetor());
+		ultimasOrdens = servidorOrdem.listarUltimasCinco(colaboradorLogado.getSetor());
+		qntOrdemoAberta = servidorOrdem.qntDeOrdemPorSetorStatus(colaboradorLogado.getSetor(),Status.ABERTO);
+		qntSolicitacaoAberta = solicitacaoOrdem.qntPorSetorStatus(colaboradorLogado.getSetor(), Status.ABERTO);
 	}
 	
 	//-------METODOS DE GERENCIAMENTO---------
 	public void salvar(){
 		solicitacao.setDataCriacao(Calendar.getInstance().getTime());
-		solicitacao.setStatusSolicitacao(StatusSolicitacao.ABERTO);
+		solicitacao.setStatus(Status.ABERTO);
 		solicitacaoOrdem.salvarSolicitcao(solicitacao);
 		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Solicitação foi enviada ao planejamento");
 		this.init();
@@ -80,31 +83,27 @@ public class SolicitacaoBean implements Serializable{
 		this.solicitacao = solicitacao;
 	}
 
-	public SolicitacoesOrdem getSolicitacaoOrdem() {
+	public SolicitacoesInterface getSolicitacaoOrdem() {
 		return solicitacaoOrdem;
 	}
 
-	public void setSolicitacaoOrdem(SolicitacoesOrdem solicitacaoOrdem) {
+	public void setSolicitacaoOrdem(SolicitacoesInterface solicitacaoOrdem) {
 		this.solicitacaoOrdem = solicitacaoOrdem;
 	}
-
-
 
 	public List<SolicitacaoServico> getSolicitacoes() {
 		return solicitacoes;
 	}
 
-
-
 	public void setSolicitacoes(List<SolicitacaoServico> solicitacoes) {
 		this.solicitacoes = solicitacoes;
 	}
 
-	public int getQntSolicitacaoAberta() {
+	public long getQntSolicitacaoAberta() {
 		return qntSolicitacaoAberta;
 	}
 
-	public void setQntSolicitacaoAberta(int qntSolicitacaoAberta) {
+	public void setQntSolicitacaoAberta(long qntSolicitacaoAberta) {
 		this.qntSolicitacaoAberta = qntSolicitacaoAberta;
 	}
 
@@ -122,5 +121,9 @@ public class SolicitacaoBean implements Serializable{
 
 	public void setQntOrdemoAberta(int qntOrdemoAberta) {
 		this.qntOrdemoAberta = qntOrdemoAberta;
+	}
+
+	public List<OrdemServico> getUltimasOrdens() {
+		return ultimasOrdens;
 	}
 }

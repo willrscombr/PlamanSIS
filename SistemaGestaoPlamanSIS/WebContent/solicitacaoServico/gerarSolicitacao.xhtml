@@ -19,7 +19,7 @@
 			<h:form id="formSolicitacao">
 				<p:growl autoUpdate="true" showDetail="true" showSummary="false" />
 				<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid"
-					style="margin-top:10px" id="painelSolicita">
+					style="margin-top:10px; height:450px;" id="painelSolicita"  >
 					
 					<p:outputLabel value="Tipo de Trabalho: " />
 					<p:selectOneMenu
@@ -37,7 +37,7 @@
 					<p:inputText value="#{solicitacaoBean.solicitacao.componente}"
 						placeholder="Componente do equipamento" size="25" />
 
-					<p:outputLabel value="Descrição" style="position:absolute; top:45%" />
+					<p:outputLabel value="Descrição" />
 					<p:inputTextarea
 						value="#{solicitacaoBean.solicitacao.descricaoAcao}"
 						autoResize="true" cols="40" rows="5"
@@ -58,7 +58,7 @@
 			</h:form>
 			<p:outputPanel autoUpdate="true" id="tabelaDeSolicitacao">
 				<p:dataTable var="solicitacao"
-					value="#{solicitacaoBean.solicitacoes}" id="tbSolicitacaoAberta">
+					value="#{solicitacaoBean.listaPorStatus}" id="tbSolicitacaoAberta">
 
 					<p:column headerText="Tipo Trabalho">
 						<p:outputLabel value="#{solicitacao.tipoTrabalho}" />

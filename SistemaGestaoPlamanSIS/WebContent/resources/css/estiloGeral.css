@@ -175,8 +175,32 @@ html, body {
 }
 
 #info1{
-	
+	margin-left:5px;
 	width: 600px;
 	height: 300px;
-	border: 1px solid;
+}
+
+#info2{
+	position:absolute;
+	left:40.5%;
+	top:16.6%;
+	width: 300px;
+	height: 300px;
+}
+
+#info3{
+	position:absolute;
+	left:62%;
+	top:16.6%;
+	width: 600px;
+	height: 300px;
+}
+
+.txtLabel{
+	
+}
+
+.txtValor{
+	font-weight: normal;
+	font-size: 14px;
 }

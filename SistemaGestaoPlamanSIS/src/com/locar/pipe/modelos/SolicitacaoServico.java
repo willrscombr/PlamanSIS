@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.locar.pipe.enuns.StatusSolicitacao;
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
@@ -31,7 +31,7 @@ public class SolicitacaoServico  implements Serializable{
 	private TipoTrabalho tipoTrabalho;
 	@Enumerated(EnumType.STRING)
 	@Column(name="status_solict")
-	private StatusSolicitacao statusSolicitacao;
+	private Status statusSolicitacao;
 	@ManyToOne
 	private Departamento setor;
 	@Column(name="data_criacao")
@@ -100,10 +100,10 @@ public class SolicitacaoServico  implements Serializable{
 	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
 		this.tipoTrabalho = tipoTrabalho;
 	}
-	public StatusSolicitacao getStatusSolicitacao() {
+	public Status getStatusSolicitacao() {
 		return statusSolicitacao;
 	}
-	public void setStatusSolicitacao(StatusSolicitacao statusSolicitacao) {
+	public void setStatus(Status statusSolicitacao) {
 		this.statusSolicitacao = statusSolicitacao;
 	}
 	

@@ -3,18 +3,20 @@ package com.locar.pipe.interfaces;
 import java.io.Serializable;
 import java.util.List;
 
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
 
-public interface ColecaoOsInterface extends Serializable {
+public interface OrdemServicoInterface extends Serializable {
 
 	void salvar(OrdemServico ordemCorretiva);
 	void excluir(OrdemServico ordemCorretiva);
 	void editar(OrdemServico ordemCorretiva);
-	long qntDeOrdemPorSetor(Departamento setor);
+	long qntDeOrdemPorSetorStatus(Departamento setor,Status status);
 	List<OrdemServico> listarTodas();
 	List<OrdemServico> listarTodasCorretiva();
 	List<OrdemServico> listarTodasPreventivas();
+	List<OrdemServico> listarUltimasCinco(Departamento setor);
 	OrdemServico buscarPorId(long id);
 	
 }
