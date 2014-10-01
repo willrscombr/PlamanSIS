@@ -35,11 +35,13 @@ public class SolicitacaoBean implements Serializable{
 	private SolicitacaoServico solicitacao;
 	private SolicitacoesInterface solicitacaoOrdem;
 	private OrdemServicoInterface servidorOrdem;
+	private OrdemServico ordemSelecionada;
 	
 	public SolicitacaoBean() {
 		qntOrdemoAberta = 0;
 		qntSolicitacaoAberta = 0;
 		colaboradorLogado = new Colaborador();
+		ordemSelecionada = new OrdemServico();
 		solicitacoes = new ArrayList<SolicitacaoServico>();
 		listaPorStatus = new ArrayList<SolicitacaoServico>();
 		ultimasOrdens = new ArrayList<OrdemServico>();
@@ -51,9 +53,9 @@ public class SolicitacaoBean implements Serializable{
 	@PostConstruct
 	public void init(){
 		solicitacoes = solicitacaoOrdem.listarTodas();
-		listaPorStatus = solicitacaoOrdem.listarPorStatus(Status.ABERTO);
 		qntSolicitacaoAberta = listaPorStatus.size();
 		colaboradorLogado = SegurancaBean.colaboradorLogado;
+		listaPorStatus = solicitacaoOrdem.listarPorStatusSetor(colaboradorLogado.getSetor(),Status.ABERTO);
 		ultimasOrdens = servidorOrdem.listarUltimasCinco(colaboradorLogado.getSetor());
 		qntOrdemoAberta = servidorOrdem.qntDeOrdemPorSetorStatus(colaboradorLogado.getSetor(),Status.ABERTO);
 		qntSolicitacaoAberta = solicitacaoOrdem.qntPorSetorStatus(colaboradorLogado.getSetor(), Status.ABERTO);
@@ -125,5 +127,13 @@ public class SolicitacaoBean implements Serializable{
 
 	public List<OrdemServico> getUltimasOrdens() {
 		return ultimasOrdens;
+	}
+
+	public OrdemServico getOrdemSelecionada() {
+		return ordemSelecionada;
+	}
+
+	public void setOrdemSelecionada(OrdemServico ordemSelecionada) {
+		this.ordemSelecionada = ordemSelecionada;
 	}
 }

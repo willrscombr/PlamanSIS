@@ -17,32 +17,42 @@
 			menuTitle="Solicitar">
 
 			<h:form id="formSolicitacao">
-				<p:growl autoUpdate="true" showDetail="true" showSummary="false" />
 				<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid"
 					style="margin-top:10px; height:450px;" id="painelSolicita"  >
 					
 					<p:outputLabel value="Tipo de Trabalho: " />
-					<p:selectOneMenu
-						value="#{solicitacaoBean.solicitacao.tipoTrabalho}">
+					<h:panelGroup>
+					<p:message for="tipoTrabalho"/>
+					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.tipoTrabalho}" required="true" requiredMessage="Escolha um tipo de trabalho">
 						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 						<f:selectItems value="#{solicitacaoBean.tiposDeTrabalhos()}"
-							var="item" itemLabel="#{item}" itemValue="#{item}" />
+							var="item" itemLabel="#{item}" itemValue="#{item}"  id="tipoTrabalho"/>
 					</p:selectOneMenu>
+					
+					</h:panelGroup>
 
 					<p:outputLabel value="Equipamento: " />
+					<h:panelGroup>
 					<p:inputText value="#{solicitacaoBean.solicitacao.equipamento}"
-						placeholder="Equipamento.." />
+						placeholder="Equipamento.." required="true" requiredMessage="Este campo é obrigatorio" id="equipamento"/>
+						<p:message for="equipamento"/>
+					</h:panelGroup>
 
 					<p:outputLabel value="Componente: " />
-					<p:inputText value="#{solicitacaoBean.solicitacao.componente}"
-						placeholder="Componente do equipamento" size="25" />
+					<h:panelGroup>
+					<p:inputText value="#{solicitacaoBean.solicitacao.componente}" required="true" requiredMessage="Este campo é obrigatorio"
+						placeholder="Componente do equipamento" size="25" id="componente"/>
+						<p:message for="componente"/>
+					</h:panelGroup>
 
 					<p:outputLabel value="Descrição" />
+					<h:panelGroup>
 					<p:inputTextarea
 						value="#{solicitacaoBean.solicitacao.descricaoAcao}"
 						autoResize="true" cols="40" rows="5"
-						placeholder="Descrição da ação a executar" />
-
+						placeholder="Descrição da ação a executar" required="true" requiredMessage="Este campo é obrigatorio" id="descricao"/>
+						<p:message for="descricao"/>
+					</h:panelGroup>
 					<p:outputLabel value="" />
 					<f:facet name="footer">
 						<p:commandButton value="Cancelar" style="float:right"

@@ -14,6 +14,6 @@ public interface SolicitacoesInterface {
 	SolicitacaoServico bucarSolicitacao(long id);
 	List<SolicitacaoServico> listarTodas();
 	long qntPorSetorStatus(Departamento setor, Status status);
-	List<SolicitacaoServico> listarPorStatus(Status status);
+	List<SolicitacaoServico> listarPorStatusSetor(Departamento setor,Status status);
 	
 }

@@ -204,3 +204,9 @@ html, body {
 	font-weight: normal;
 	font-size: 14px;
 }
+
+.tabelaDeItens{
+	position: absolute;
+	top: 5%;
+	left: 20%;
+}

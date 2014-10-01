@@ -10,37 +10,38 @@
 
 	<ui:define name="conteudo">
 		<div>
-			<h:form>
+			<h:form id="form">
 				<div id="info1">
 					<p:panel header="Informações do Setor" style="height:280px">
 						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntSolicitacaoAberta}</span> Solicitações em aberto 
-      		</p:panel>
+							<span class="txtValor">Existem <span
+								style="color: blue; font-weight: bold">#{solicitacaoBean.qntSolicitacaoAberta}</span>
+								Solicitações em aberto
+							</span>
+						</p:panel>
 						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntOrdemoAberta}</span> ordens de serviço aberta para o seu setor
-      		</p:panel>
+							<span class="txtValor"> Existem <span
+								style="color: blue; font-weight: bold">#{solicitacaoBean.qntOrdemoAberta}</span>
+								ordens de serviço aberta para o seu setor
+							</span>
+						</p:panel>
 					</p:panel>
 				</div>
 
 				<div id="info2">
 					<p:panel header="Outras Informações" style="height:280px">
 						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntSolicitacaoAberta}</span> Solicitações em aberto 
-      		</p:panel>
-						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntOrdemoAberta}</span> ordens de serviço aberta para o seu setor
-      		</p:panel>
+							<span class="txtValor">Não há informação</span>
+						</p:panel>
 					</p:panel>
 				</div>
 
 				<div id="info3">
 					<p:panel header="Relatorio" style="height:280px">
 						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntSolicitacaoAberta}</span> Solicitações em aberto 
-      		</p:panel>
-						<p:panel>
-      			Hà <span style="color: blue;">#{solicitacaoBean.qntOrdemoAberta}</span> ordens de serviço aberta para o seu setor
-      		</p:panel>
+							<span class="txtValor">Verificar informação que será
+								necessario por aqui</span>
+						</p:panel>
 					</p:panel>
 				</div>
 
@@ -68,7 +69,74 @@
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputLabel>
 							</p:column>
+
+							<p:column style="width:50px">
+								<p:commandButton oncomplete="PF('dlg').show()"
+									update=":form:modalOrdem" image="/images/binoculoPreview.png">
+									<f:setPropertyActionListener value="#{item}"
+										target="#{solicitacaoBean.ordemSelecionada}" />
+								</p:commandButton>
+							</p:column>
 						</p:dataTable>
+
+						<p:dialog header="Basic Dialog" widgetVar="dlg" modal="true"
+							height="500px" width="980px" id="modalOrdem">
+							<h:panelGrid columns="1" columnClasses="txtLabel, txtValor"
+								cellspacing="10">
+								<p:outputLabel value="Ordem: " />
+								<span class="txtValor">#{solicitacaoBean.ordemSelecionada.tipo}</span>
+
+								<p:outputLabel value="Ciclo da Ordem: "
+									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva != 0}" />
+								<h:outputText
+									value="#{solicitacaoBean.ordemSelecionada.cicloPreventiva}"
+									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva != 0}" />
+
+								<p:outputLabel value="Modo Corretivo: "
+									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva == 0}" />
+								<h:outputText styleClass="txtValor"
+									value="#{solicitacaoBean.ordemSelecionada.modoCorretivo}"
+									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva == 0}" />
+
+								<p:outputLabel value="Status: " />
+								<h:outputText styleClass="txtValor"
+									value="#{solicitacaoBean.ordemSelecionada.status}" />
+
+								<p:outputLabel value="Data de criação:" />
+								<h:outputText styleClass="txtValor"
+									value="#{solicitacaoBean.ordemSelecionada.dataCriacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<h:panelGroup>
+								
+									<div class="tabelaDeItens">
+										<p:dataTable
+											value="#{solicitacaoBean.ordemSelecionada.itensOrdem}"
+											var="item">
+											<p:column headerText="Equipamento" style="width:60px;">
+												<p:outputLabel
+													value="#{item.solicitacaoServico.equipamento}" />
+											</p:column>
+											<p:column headerText="Componente">
+												<p:outputLabel value="#{item.solicitacaoServico.componente}" />
+											</p:column>
+
+											<p:column headerText="Ação">
+												<p:outputLabel
+													value="#{item.solicitacaoServico.descricaoAcao}" />
+											</p:column>
+
+											<p:column headerText="Tipo de Trabalho">
+												<p:outputLabel
+													value="#{item.solicitacaoServico.tipoTrabalho}" />
+											</p:column>
+										</p:dataTable>
+									</div>
+									
+								</h:panelGroup>
+
+							</h:panelGrid>
+						</p:dialog>
 					</p:panel>
 				</div>
 			</h:form>

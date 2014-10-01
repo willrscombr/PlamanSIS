@@ -55,12 +55,12 @@ public class SolicitacoesRepositorio implements SolicitacoesInterface{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SolicitacaoServico> listarPorStatus(Status status) {
-		List<SolicitacaoServico> listaPorStatus = null;
+	public List<SolicitacaoServico> listarPorStatusSetor(Departamento setor,Status status) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
-		
-		listaPorStatus = session.createCriteria(SolicitacaoServico.class).add(Restrictions.eq("statusSolicitacao", status)).list();
-		return listaPorStatus;
+		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.add(Restrictions.eq("setor", setor));
+		crit.add(Restrictions.eq("statusSolicitacao", status));
+		return crit.list();
 	}
 
 	@Override
