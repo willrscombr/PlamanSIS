@@ -1,10 +1,10 @@
-package com.locar.pipe.interfaces;
+package com.locar.pipe.repository;
 
 import java.util.List;
 
 import com.locar.pipe.modelos.Departamento;
 
-public interface DepartamentosInterface {
+public interface DepartamentosDB {
 	
 	void salvar(Departamento setor);
 	void excluir(Departamento setor);

@@ -1,4 +1,4 @@
-package com.locar.pipe.repository;
+package com.locar.pipe.repository.infra;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.interfaces.SolicitacoesInterface;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.SolicitacaoServico;
+import com.locar.pipe.repository.SolicitacoesDB;
 import com.locar.pipe.util.HibernateUtil;
 
-public class SolicitacoesRepositorio implements SolicitacoesInterface{
+public class SolicitacoesRepositorio implements SolicitacoesDB{
 
 	@Override
 	public void salvarSolicitcao(SolicitacaoServico solicitacao) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
-		session.save(solicitacao);
+		session.merge(solicitacao);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class SolicitacoesRepositorio implements SolicitacoesInterface{
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
 		crit.add(Restrictions.eq("setor", setor));
-		crit.add(Restrictions.eq("statusSolicitacao", status));
+		crit.add(Restrictions.eq("status", status));
 		return crit.list();
 	}
 
@@ -70,7 +70,7 @@ public class SolicitacoesRepositorio implements SolicitacoesInterface{
 		
 		crit.setProjection(Projections.rowCount());
 		crit.add(Restrictions.eq("setor", setor));
-		crit.add(Restrictions.eq("statusSolicitacao", status));
+		crit.add(Restrictions.eq("status", status));
 		
 		return (Long) crit.uniqueResult();
 	}

@@ -58,11 +58,7 @@
 							<p:column>
       							Status: <span class="txtValor">#{item.status}</span>
 							</p:column>
-							<p:column>
-								<ui:repeat var="itOrdem" value="#{item.itensOrdem}">
-      								Equip: <span class="txtValor">#{itOrdem.solicitacaoServico.equipamento}</span>
-								</ui:repeat>
-							</p:column>
+						
 							<p:column>
       							Criada Em: <h:outputLabel value="#{item.dataCriacao}"
 									styleClass="txtValor">
@@ -84,7 +80,7 @@
 							<h:panelGrid columns="1" columnClasses="txtLabel, txtValor"
 								cellspacing="10">
 								<p:outputLabel value="Ordem: " />
-								<span class="txtValor">#{solicitacaoBean.ordemSelecionada.tipo}</span>
+								<span class="txtValor">#{solicitacaoBean.ordemSelecionada.tipoOrdem}</span>
 
 								<p:outputLabel value="Ciclo da Ordem: "
 									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva != 0}" />
@@ -107,33 +103,6 @@
 									value="#{solicitacaoBean.ordemSelecionada.dataCriacao}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
-								<h:panelGroup>
-								
-									<div class="tabelaDeItens">
-										<p:dataTable
-											value="#{solicitacaoBean.ordemSelecionada.itensOrdem}"
-											var="item">
-											<p:column headerText="Equipamento" style="width:60px;">
-												<p:outputLabel
-													value="#{item.solicitacaoServico.equipamento}" />
-											</p:column>
-											<p:column headerText="Componente">
-												<p:outputLabel value="#{item.solicitacaoServico.componente}" />
-											</p:column>
-
-											<p:column headerText="Ação">
-												<p:outputLabel
-													value="#{item.solicitacaoServico.descricaoAcao}" />
-											</p:column>
-
-											<p:column headerText="Tipo de Trabalho">
-												<p:outputLabel
-													value="#{item.solicitacaoServico.tipoTrabalho}" />
-											</p:column>
-										</p:dataTable>
-									</div>
-									
-								</h:panelGroup>
 
 							</h:panelGrid>
 						</p:dialog>

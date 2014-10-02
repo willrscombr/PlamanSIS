@@ -1,4 +1,4 @@
-package com.locar.pipe.repository;
+package com.locar.pipe.repository.infra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.locar.pipe.interfaces.DepartamentosInterface;
 import com.locar.pipe.modelos.Departamento;
+import com.locar.pipe.repository.DepartamentosDB;
 import com.locar.pipe.util.HibernateUtil;
 
-public class DepartamentoRepository implements DepartamentosInterface,
+public class DepartamentoRepository implements DepartamentosDB,
 		Serializable {
 
 	private static final long serialVersionUID = 1L;

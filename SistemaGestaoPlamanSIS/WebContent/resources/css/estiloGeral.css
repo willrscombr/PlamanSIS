@@ -90,8 +90,8 @@ html, body {
 
 .txtBenvindo {
 	position: absolute;
-	left: 80%;
-	top: 11.5%;
+	left: 84.5%;
+	top: 1.5%;
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
@@ -100,8 +100,8 @@ html, body {
 .usuarioLogado {
 	color: #000dd;
 	position: absolute;
-	left: 85%;
-	top: 11.5%;
+	left: 90%;
+	top: 1.5%;
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
@@ -113,7 +113,7 @@ html, body {
 .txtSetor {
 	position: absolute;
 	left: 88%;
-	top: 1.5%;
+	top: 5.5%;
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
@@ -123,19 +123,17 @@ html, body {
 	color: #000dd;
 	position: absolute;
 	left: 91%;
-	top: 1%;
-	font-size: 20px;
+	top: 5.3%;
+	font-size: 18px;
 	font-family: arial;
 	font-weight: normal;
-	text-transform: capitalize;
-	text-decoration: underline;
 }
 
 .logout a{
 	box-shadow: 0px 2px 5px #bbbbbb;
 	text-decoration:none;
 	position: absolute;
-	left: 93%;
+	left: 92.5%;
 	top: 11%;
 	background-color: #000000;
 	color:white;

@@ -5,8 +5,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.repository.RegistroColaboradorRepository;
+import com.locar.pipe.repository.infra.ColaboradorRepository;
 
 @FacesConverter(forClass=Colaborador.class)
 public class ColaboradorConverter  implements Converter{
@@ -15,7 +16,7 @@ public class ColaboradorConverter  implements Converter{
 	public Object getAsObject(FacesContext contex, UIComponent component, String value) {
 
 		Colaborador colaborador = null;
-		RegistroColaboradorRepository repositorio = new RegistroColaboradorRepository();
+		ColaboradorRepository repositorio = new ColaboradorRepository();
 		colaborador = repositorio.buscarPorNome(value);
 		return colaborador;
 	}

@@ -10,7 +10,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import com.locar.pipe.modelos.Departamento;
-import com.locar.pipe.repository.DepartamentoRepository;
+import com.locar.pipe.repository.infra.DepartamentoRepository;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean

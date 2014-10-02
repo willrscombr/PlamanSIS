@@ -23,10 +23,21 @@
 					<p:outputLabel value="Tipo de Trabalho: " />
 					<h:panelGroup>
 					<p:message for="tipoTrabalho"/>
-					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.tipoTrabalho}" required="true" requiredMessage="Escolha um tipo de trabalho">
+					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.tipoTrabalho}" required="true" requiredMessage="Escolha um tipo de trabalho" id="tipoTrabalho">
 						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-						<f:selectItems value="#{solicitacaoBean.tiposDeTrabalhos()}"
-							var="item" itemLabel="#{item}" itemValue="#{item}"  id="tipoTrabalho"/>
+						<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
+							var="item" itemLabel="#{item}" itemValue="#{item}"  />
+					</p:selectOneMenu>
+					
+					</h:panelGroup>
+					
+					<p:outputLabel value="Departamento: " />
+					<h:panelGroup>
+					<p:message for="departamento"/>
+					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.setor}" required="true" requiredMessage="Escolha um tipo de trabalho" id="departamento">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+						<f:selectItems value="#{solicitacaoBean.departamentos}"
+							var="item" itemLabel="#{item.sigla}" itemValue="#{item}" itemDescription="#{item.nome}"/>
 					</p:selectOneMenu>
 					
 					</h:panelGroup>
@@ -68,7 +79,7 @@
 			</h:form>
 			<p:outputPanel autoUpdate="true" id="tabelaDeSolicitacao">
 				<p:dataTable var="solicitacao"
-					value="#{solicitacaoBean.listaPorStatus}" id="tbSolicitacaoAberta">
+					value="#{solicitacaoBean.solicitacoesAbertas}" id="tbSolicitacaoAberta">
 
 					<p:column headerText="Tipo Trabalho">
 						<p:outputLabel value="#{solicitacao.tipoTrabalho}" />

@@ -11,13 +11,13 @@ import javax.faces.event.ValueChangeEvent;
 
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.enuns.TipoDeOrdem;
+import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoDePesquisa;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.OrdemServico;
-import com.locar.pipe.repository.OrdemServicoRepository;
-import com.locar.pipe.repository.DepartamentoRepository;
+import com.locar.pipe.repository.infra.DepartamentoRepository;
+import com.locar.pipe.repository.infra.OrdemServicoRepository;
 
 @ManagedBean
 @ApplicationScoped
@@ -101,8 +101,8 @@ public class OrdemServicoBean implements Serializable {
 		}
 	}
 
-	public TipoDeOrdem[] tipoDeOrdem() {
-		return TipoDeOrdem.values();
+	public TipoOrdem[] tipoDeOrdem() {
+		return TipoOrdem.values();
 	}
 
 	public ModoCorretivo[] modosCorretivo() {

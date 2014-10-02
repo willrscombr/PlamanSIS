@@ -17,7 +17,7 @@
 		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>home</param-value>
@@ -40,9 +40,22 @@
 	</security-role>
 
 	<security-role>
-		<role-name>solicitacoes</role-name>
+		<role-name>supervisao</role-name>
 	</security-role>
 
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Sistema Inicial</web-resource-name>
+			<url-pattern>/index.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>supervisao</role-name>
+			<role-name>planejamento</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Ordem</web-resource-name>
@@ -50,7 +63,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
-			<role-name>planejamento</role-name>
+			<role-name>supervisao</role-name>
 		</auth-constraint>
 	</security-constraint>
 
@@ -61,30 +74,7 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
-			<role-name>planejamento</role-name>
-		</auth-constraint>
-	</security-constraint>
-
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Gerencia Ordem</web-resource-name>
-			<url-pattern>/ordemServico/listagemdeordem.xhtml</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>liberado</role-name>
-			<role-name>planejamento</role-name>
-		</auth-constraint>
-	</security-constraint>
-
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Gerencia Ordem</web-resource-name>
-			<url-pattern>/index.xhtml</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>liberado</role-name>
-			<role-name>planejamento</role-name>
-			<role-name>solicitacoes</role-name>
+			<role-name>supervisao</role-name>
 		</auth-constraint>
 	</security-constraint>
 
@@ -102,7 +92,7 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Departamento</web-resource-name>
-			<url-pattern>/centroTrabalho/formularioDepartamento.xhtml</url-pattern>
+			<url-pattern>/centroTrabalho/cadastrarDepartamento.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
@@ -113,36 +103,36 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Departamento</web-resource-name>
-			<url-pattern>/centroTrabalho/formularioEditDepartamento.xhtml</url-pattern>
+			<url-pattern>/centroTrabalho/editarDepartamento.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
-			<url-pattern>/colaborador/formularioColaborador.xhtml</url-pattern>
+			<url-pattern>/colaborador/cadastrarColaborador.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
-			<url-pattern>/colaborador/formularioEditColaborador.xhtml</url-pattern>
+			<url-pattern>/colaborador/editarColaborador.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
@@ -153,26 +143,27 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
-		<security-constraint>
+
+	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia solicitacoes</web-resource-name>
 			<url-pattern>/solicitacaoServico/gerarSolicitacao.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>solicitacoes</role-name>
+			<role-name>planejamento</role-name>
 			<role-name>liberado</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
-		<security-constraint>
+
+	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia solicitacoes</web-resource-name>
-			<url-pattern>/solicitacaoServico/listaSolicitacoes.xhtml</url-pattern>
+			<url-pattern>/solicitacaoServico/listarSolicitacoes.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>solicitacoes</role-name>
+			<role-name>planejamento</role-name>
 			<role-name>liberado</role-name>
 		</auth-constraint>
 	</security-constraint>
+
 </web-app>

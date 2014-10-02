@@ -1,4 +1,4 @@
-package com.locar.pipe.repository;
+package com.locar.pipe.repository.infra;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,13 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.enuns.TipoDeOrdem;
-import com.locar.pipe.interfaces.OrdemServicoInterface;
+import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.repository.OrdemServicoDB;
 import com.locar.pipe.util.HibernateUtil;
 
-public class OrdemServicoRepository implements OrdemServicoInterface {
+public class OrdemServicoRepository implements OrdemServicoDB {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -45,14 +45,11 @@ public class OrdemServicoRepository implements OrdemServicoInterface {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrdemServico> listarTodasCorretiva() {
-		Session session = (Session) HibernateUtil
-				.getAttributeRequest("session");
-
-		List<OrdemServico> corretivas = new ArrayList<OrdemServico>();
-		corretivas = session.createCriteria(OrdemServico.class)
-				.add(Restrictions.eq("tipo", TipoDeOrdem.CORRETIVA)).list();
-
-		return corretivas;
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(OrdemServico.class);
+		crit.add(Restrictions.eq("tipoOrdem",TipoOrdem.CORRETIVA));
+		
+		return crit.list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -63,7 +60,7 @@ public class OrdemServicoRepository implements OrdemServicoInterface {
 
 		List<OrdemServico> preventivas = new ArrayList<OrdemServico>();
 		preventivas = session.createCriteria(OrdemServico.class)
-				.add(Restrictions.eq("tipo", TipoDeOrdem.PREVENTIVA)).list();
+				.add(Restrictions.eq("tipo", TipoOrdem.PREVENTIVA)).list();
 
 		return preventivas;
 	}
@@ -86,7 +83,7 @@ public class OrdemServicoRepository implements OrdemServicoInterface {
 				.getAttributeRequest("session");
 
 		return session.createCriteria(OrdemServico.class)
-				.add(Restrictions.eq("tipo", TipoDeOrdem.CORRETIVA)).list();
+				.add(Restrictions.eq("tipo", TipoOrdem.CORRETIVA)).list();
 	}
 
 	@Override

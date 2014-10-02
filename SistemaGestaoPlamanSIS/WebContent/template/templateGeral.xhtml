@@ -30,7 +30,7 @@
 										action="/index.xhtml?faces-redirect=true" />
 
 									<p:menuButton value="Colaboradores"
-										rendered="#{not facesContext.externalContext.isUserInRole('solicitacoes')}">
+										rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}">
 										<p:menuitem value="Listar Colaborador"
 											action="/colaborador/colaboradorIndex.xhtml?faces-redirect=true" />
 										<p:menuitem value="Cadastrar"
@@ -38,22 +38,26 @@
 									</p:menuButton>
 
 									<p:commandButton type="button" value="Departamento"
-										rendered="#{not facesContext.externalContext.isUserInRole('solicitacoes')}" />
+										rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 
-									<p:menuButton value="Solicitações">
+									<p:menuButton value="Solicitações" rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}">
 										<p:menuitem value="Abrir Solicitação"
 											outcome="/solicitacaoServico/gerarSolicitacao" />
 										<p:menuitem value="Solicitações Feitas" />
 									</p:menuButton>
 
 									<p:menuButton value="Ordem de Serviço">
-										<p:menuitem value="Criar Ordem Preventiva"
-											rendered="#{not facesContext.externalContext.isUserInRole('solicitacoes')}" />
-										<p:menuitem value="Criar Ordem Corretiva"
-											rendered="#{not facesContext.externalContext.isUserInRole('solicitacoes')}" />
+										<p:menuitem value="Ordem Preventiva"
+											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
+										<p:menuitem value="Ordem Corretiva"
+											rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}" />
 										<p:menuitem value="Listar Ordens" />
-										<p:menuitem value="Ver Relatório"
-											rendered="#{not facesContext.externalContext.isUserInRole('solicitacoes')}" />
+									</p:menuButton>
+									
+									<p:menuButton value="Material" rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}">
+										<p:menuitem value="Lista de materiais"
+											outcome="/solicitacaoServico/gerarSolicitacao" />
+										<p:menuitem value="Pendências" />
 									</p:menuButton>
 								</f:facet>
 
@@ -68,10 +72,8 @@
 											#{segurancaBean.colaboradorLogado.sobrenome} "
 												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
-										</span> <span class="setorUsuario"><h:outputLabel
-												value="#{segurancaBean.colaboradorLogado.setor.nome}"
-												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
-										</span>
+										</span><span class="setorUsuario">#{segurancaBean.colaboradorLogado.setor.nome}</span>
+									
 
 									</div>
 

@@ -1,4 +1,4 @@
-package com.locar.pipe.repository;
+package com.locar.pipe.repository.infra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,13 +7,13 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.locar.pipe.interfaces.RegistroColaboradorInterface;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
+import com.locar.pipe.repository.ColaboradorDB;
 import com.locar.pipe.util.HibernateUtil;
 
-public class RegistroColaboradorRepository implements
-		RegistroColaboradorInterface, Serializable {
+public class ColaboradorRepository implements
+		ColaboradorDB, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

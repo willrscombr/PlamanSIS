@@ -10,9 +10,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,61 +18,57 @@ import javax.persistence.TemporalType;
 
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.enuns.TipoDeOrdem;
-import com.locar.pipe.enuns.TipoEncerramento;
+import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
 @Table(name = "tb_ordem_servico")
 public class OrdemServico implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
-	// Tipos primitivos
-	@Id
-	@GeneratedValue
-	@Column(name = "id_ordem_servico")
-	private long id;
-	@Column(name = "ciclo_preventiva")
-	private Long cicloPreventiva;
-	private boolean retrabalho;
-	@Column(name = "id_os_retrabalho")
-	private long idOrdemRetrabalho;
 
-	// Tipos enumarated
+	@Column(name = "id_ordem_servico") @Id @GeneratedValue
+	private long id;
 	@Enumerated(EnumType.STRING)
-	private TipoDeOrdem tipo;
-	@Enumerated(EnumType.STRING)
-	private TipoTrabalho tipoTrabalho;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "modo_corretivo")
-	private ModoCorretivo modoCorretivo;
+	private TipoOrdem tipoOrdem;
 	@Enumerated(EnumType.STRING)
 	private Status status;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_encerramento")
-	private TipoEncerramento tipoEncerramento;
-
-	// Classes para mapeamento-----------------------
 	@ManyToOne
 	private Departamento setor;
-	@ManyToMany
-	@JoinTable(name = "ordem_colaborador_rel", joinColumns = { @JoinColumn(name = "id_ordem") }, inverseJoinColumns = { @JoinColumn(name = "id_colaborador") })
-	private List<Colaborador> executores;
-	@OneToMany(mappedBy="ordem")
-	private List<ItemDeOrdem> itensOrdem;
-	
-	// Tipos Temporal------------------------------
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_criacao")
+	private String equipamento;
+	private String componente;
+	@Column(name="descricao_acao")
+	private String DescricaoAcao;
+	@Column(name="descricao_solucao")
+	private String DescricaoSolucao;
+	@OneToMany(mappedBy="ordemServico")
+	private List<Material> materiaisPendentes;
+	@Column(name="pendencia_material")
+	private boolean pendenciaMaterial;
+	@Column(name="equipamento_parado")
+	private boolean equipamentoParado;
+	private String observacao;
+	@Enumerated(EnumType.STRING) @Column(name = "tipo_trabalho")
+	private TipoTrabalho tipoTrabalho;
+	@Column(name = "modo_corretivo") @Enumerated(EnumType.STRING)
+	private ModoCorretivo modoCorretivo;
+	@Column(name = "ciclo_preventivo")
+	private int cicloPreventivo;
+	@OneToMany(mappedBy="ordemServico")
+	private List<Colaborador> colaboradores;
+	private long id_solicitacao;
+	@Column(name="tipo_encerramento")
+	private boolean tipoEncerramento;
+	@Temporal(TemporalType.DATE) @Column(name = "data_criacao")
 	private Date dataCriacao;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_expedicao")
-	private Date dataExpedicao;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_finalizacao")
-	private Date dataFinalizacao;
-	
+	@Temporal(TemporalType.DATE) @Column(name = "data_inicio")
+	private Date dataInicio;
+	@Temporal(TemporalType.TIME) @Column(name = "hora_inicio")
+	private Date horaInicio;
+	@Temporal(TemporalType.DATE) @Column(name = "data_final")
+	private Date dataFinal;
+	@Temporal(TemporalType.TIME) @Column(name = "hora_final")
+	private Date horaFinal;
 	
 	//GETTERS AND SETTERS--------------------------
 	public long getId() {
@@ -86,52 +79,44 @@ public class OrdemServico implements Serializable {
 		this.id = id;
 	}
 
-	public Long getCicloPreventiva() {
-		return cicloPreventiva;
+	public int getCicloPreventivo() {
+		return cicloPreventivo;
 	}
 
-	public void setCicloPreventiva(Long cicloPreventiva) {
-		this.cicloPreventiva = cicloPreventiva;
-	}
-
-	public Date getDataExpedicao() {
-		return dataExpedicao;
-	}
-
-	public void setDataExpedicao(Date dataExpedicao) {
-		this.dataExpedicao = dataExpedicao;
-	}
-
-	public Date getDataFinalizacao() {
-		return dataFinalizacao;
-	}
-
-	public void setDataFinalizacao(Date dataFinalizacao) {
-		this.dataFinalizacao = dataFinalizacao;
+	public void setCicloPreventivo(int cicloPreventiva) {
+		this.cicloPreventivo = cicloPreventiva;
 	}
 	
-	public boolean isRetrabalho() {
-		return retrabalho;
+	public boolean isTipoEncerramento() {
+		return tipoEncerramento;
 	}
 
-	public void setRetrabalho(boolean retrabalho) {
-		this.retrabalho = retrabalho;
+	public void setTipoEncerramento(boolean tipoEncerramento) {
+		this.tipoEncerramento = tipoEncerramento;
 	}
 
-	public long getIdOrdemRetrabalho() {
-		return idOrdemRetrabalho;
+	public Date getHoraInicio() {
+		return horaInicio;
 	}
 
-	public void setIdOrdemRetrabalho(long idOrdemRetrabalho) {
-		this.idOrdemRetrabalho = idOrdemRetrabalho;
+	public void setHoraInicio(Date horaInicio) {
+		this.horaInicio = horaInicio;
 	}
 
-	public TipoDeOrdem getTipo() {
-		return tipo;
+	public Date getDataFinal() {
+		return dataFinal;
 	}
 
-	public void setTipo(TipoDeOrdem tipo) {
-		this.tipo = tipo;
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
+	}
+
+	public Date getHoraFinal() {
+		return horaFinal;
+	}
+
+	public void setHoraFinal(Date horaFinal) {
+		this.horaFinal = horaFinal;
 	}
 
 	public ModoCorretivo getModoCorretivo() {
@@ -165,15 +150,123 @@ public class OrdemServico implements Serializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
-	public TipoEncerramento getTipoEncerramento() {
-		return tipoEncerramento;
+	
+	public TipoTrabalho getTipoTrabalho() {
+		return tipoTrabalho;
 	}
 
-	public void setTipoEncerramento(TipoEncerramento tipoEncerramento) {
-		this.tipoEncerramento = tipoEncerramento;
+	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
+		this.tipoTrabalho = tipoTrabalho;
 	}
 
+	public String getEquipamento() {
+		return equipamento;
+	}
+
+	public void setEquipamento(String equipamento) {
+		this.equipamento = equipamento;
+	}
+
+	public String getComponente() {
+		return componente;
+	}
+
+	public void setComponente(String componente) {
+		this.componente = componente;
+	}
+
+	public String getDescricaoAcao() {
+		return DescricaoAcao;
+	}
+
+	public void setDescricaoAcao(String descricaoAcao) {
+		DescricaoAcao = descricaoAcao;
+	}
+	
+	public String getDescricaoSolucao() {
+		return DescricaoSolucao;
+	}
+
+	public void setDescricaoSolucao(String descricaoSolucao) {
+		DescricaoSolucao = descricaoSolucao;
+	}
+
+	public List<Material> getMateriaisPendentes() {
+		return materiaisPendentes;
+	}
+
+	public void setMateriaisPendentes(List<Material> materiaisPendentes) {
+		this.materiaisPendentes = materiaisPendentes;
+	}
+
+	public void setTipoOrdem(TipoOrdem tipoOrdem) {
+		this.tipoOrdem = tipoOrdem;
+	}
+	public TipoOrdem isTipoOrdem() {
+		return tipoOrdem;
+	}
+
+	public boolean isPendenciaMaterial() {
+		return pendenciaMaterial;
+	}
+
+	public void setPendenciaMaterial(boolean pendenciaMaterial) {
+		this.pendenciaMaterial = pendenciaMaterial;
+	}
+	
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public int getCicloPreventiva() {
+		return cicloPreventivo;
+	}
+
+	public void setCicloPreventiva(int cicloPreventiva) {
+		this.cicloPreventivo = cicloPreventiva;
+	}
+
+	public List<Colaborador> getColaboradores() {
+		return colaboradores;
+	}
+
+	public void setColaboradores(List<Colaborador> colaboradores) {
+		this.colaboradores = colaboradores;
+	}
+
+	public long getId_solicitacao() {
+		return id_solicitacao;
+	}
+
+	public void setId_solicitacao(long id_solicitacao) {
+		this.id_solicitacao = id_solicitacao;
+	}
+	public boolean isEquipamentoParado() {
+		return equipamentoParado;
+	}
+
+	public void setEquipamentoParado(boolean equipamentoParado) {
+		this.equipamentoParado = equipamentoParado;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public TipoOrdem getTipoOrdem() {
+		return tipoOrdem;
+	}
+
+	//------Equals and HashCode---------------
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -195,29 +288,4 @@ public class OrdemServico implements Serializable {
 			return false;
 		return true;
 	}
-
-	public List<Colaborador> getExecutores() {
-		return executores;
-	}
-
-	public void setExecutores(List<Colaborador> executores) {
-		this.executores = executores;
-	}
-
-	public TipoTrabalho getTipoTrabalho() {
-		return tipoTrabalho;
-	}
-
-	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
-		this.tipoTrabalho = tipoTrabalho;
-	}
-
-	public List<ItemDeOrdem> getItensOrdem() {
-		return itensOrdem;
-	}
-
-	public void setItensOrdem(List<ItemDeOrdem> itensOrdem) {
-		this.itensOrdem = itensOrdem;
-	}
-
 }

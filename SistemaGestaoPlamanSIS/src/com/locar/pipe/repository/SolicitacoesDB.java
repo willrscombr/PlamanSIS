@@ -1,4 +1,4 @@
-package com.locar.pipe.interfaces;
+package com.locar.pipe.repository;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import com.locar.pipe.enuns.Status;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.SolicitacaoServico;
 
-public interface SolicitacoesInterface {
+public interface SolicitacoesDB {
 
 	void salvarSolicitcao(SolicitacaoServico solicitacao);
 	void excluirSolicitacao(SolicitacaoServico solicitacao);

@@ -6,7 +6,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.locar.pipe.modelos.Departamento;
-import com.locar.pipe.repository.DepartamentoRepository;
+import com.locar.pipe.repository.infra.DepartamentoRepository;
 
 @FacesConverter(forClass = Departamento.class)
 public class SetorConverter implements Converter {

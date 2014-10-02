@@ -1,11 +1,11 @@
-package com.locar.pipe.interfaces;
+package com.locar.pipe.repository;
 
 import java.util.List;
 
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 
-public interface RegistroColaboradorInterface {
+public interface ColaboradorDB {
 	
 	void salvar(Colaborador colaborador);
 	void excluir(Colaborador colaborador);

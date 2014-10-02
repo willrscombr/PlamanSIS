@@ -12,8 +12,8 @@ import javax.faces.context.FacesContext;
 
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.repository.DepartamentoRepository;
-import com.locar.pipe.repository.RegistroColaboradorRepository;
+import com.locar.pipe.repository.infra.ColaboradorRepository;
+import com.locar.pipe.repository.infra.DepartamentoRepository;
 
 @ManagedBean
 @ApplicationScoped
@@ -24,7 +24,7 @@ public class ColaboradorBean implements Serializable {
 	private Colaborador colaboradorSelecionado;
 	private List<Departamento> departamentos;
 	public static List<Colaborador> colaboradores;
-	private RegistroColaboradorRepository registro;
+	private ColaboradorRepository registro;
 	private DepartamentoRepository setor;
 
 	//Metodos Funcionais
@@ -33,7 +33,7 @@ public class ColaboradorBean implements Serializable {
 		colaborador = new Colaborador();
 		colaboradores = new ArrayList<Colaborador>();
 		departamentos = new ArrayList<Departamento>();
-		registro = new RegistroColaboradorRepository();
+		registro = new ColaboradorRepository();
 		setor = new DepartamentoRepository();
 		colaboradores = registro.listarTodos();
 		departamentos = setor.listarSetor();

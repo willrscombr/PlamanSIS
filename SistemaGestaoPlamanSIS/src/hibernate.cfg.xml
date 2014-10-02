@@ -16,6 +16,6 @@
 		<mapping class="com.locar.pipe.modelos.Colaborador" />
 		<mapping class="com.locar.pipe.modelos.OrdemServico" />
 		<mapping class="com.locar.pipe.modelos.SolicitacaoServico" />
-		<mapping class="com.locar.pipe.modelos.ItemDeOrdem" />
+		<mapping class="com.locar.pipe.modelos.Material"/>
 	</session-factory>
 </hibernate-configuration>

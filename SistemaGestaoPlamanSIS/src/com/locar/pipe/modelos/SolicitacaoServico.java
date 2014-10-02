@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.locar.pipe.enuns.Status;
@@ -20,23 +21,26 @@ import com.locar.pipe.enuns.TipoTrabalho;
 public class SolicitacaoServico  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name="id_solicitacao")
 	private long id;
+	@ManyToOne
+	private Departamento setor;
 	private String equipamento;
 	private String componente;
 	@Column(name="descricao_acao")
 	private String DescricaoAcao;
-	@Enumerated(EnumType.STRING)
-	@Column(name="tipo_trabalho")
-	private TipoTrabalho tipoTrabalho;
-	@Enumerated(EnumType.STRING)
 	@Column(name="status_solict")
-	private Status statusSolicitacao;
-	@ManyToOne
-	private Departamento setor;
+	private Status status;
 	@Column(name="data_criacao")
 	private Date dataCriacao;
+	@Column(name="tipo_trabalho") @Enumerated(EnumType.STRING)
+	private TipoTrabalho tipoTrabalho;
+	@OneToOne
+	private Colaborador solicitante;
 	
+	
+	
+	//-------Getters and Setters---------------
 	public long getId() {
 		return id;
 	}
@@ -73,7 +77,26 @@ public class SolicitacaoServico  implements Serializable{
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
+	public TipoTrabalho getTipoTrabalho() {
+		return tipoTrabalho;
+	}
+	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
+		this.tipoTrabalho = tipoTrabalho;
+	}
+	public void setStatus(Status statusSolicitacao) {
+		this.status = statusSolicitacao;
+	}
+	public Colaborador getSolicitante() {
+		return solicitante;
+	}
+	public void setSolicitante(Colaborador solicitante) {
+		this.solicitante = solicitante;
+	}
+	public Status getStatus() {
+		return status;
+	}
 	
+	//------------Equals and HashCode------------
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -93,18 +116,6 @@ public class SolicitacaoServico  implements Serializable{
 		if (id != other.id)
 			return false;
 		return true;
-	}
-	public TipoTrabalho getTipoTrabalho() {
-		return tipoTrabalho;
-	}
-	public void setTipoTrabalho(TipoTrabalho tipoTrabalho) {
-		this.tipoTrabalho = tipoTrabalho;
-	}
-	public Status getStatusSolicitacao() {
-		return statusSolicitacao;
-	}
-	public void setStatus(Status statusSolicitacao) {
-		this.statusSolicitacao = statusSolicitacao;
 	}
 	
 	

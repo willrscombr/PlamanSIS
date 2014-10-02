@@ -1,4 +1,4 @@
-package com.locar.pipe.interfaces;
+package com.locar.pipe.repository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,7 +7,7 @@ import com.locar.pipe.enuns.Status;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
 
-public interface OrdemServicoInterface extends Serializable {
+public interface OrdemServicoDB extends Serializable {
 
 	void salvar(OrdemServico ordemCorretiva);
 	void excluir(OrdemServico ordemCorretiva);

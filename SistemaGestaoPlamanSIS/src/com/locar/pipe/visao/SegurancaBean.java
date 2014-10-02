@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.repository.RegistroColaboradorRepository;
+import com.locar.pipe.repository.infra.ColaboradorRepository;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
@@ -35,7 +35,7 @@ public class SegurancaBean implements Serializable {
 			this.getRequest().login(login, senha);
 
 			if (this.getRequest().getUserPrincipal() != null) {
-				RegistroColaboradorRepository dao = new RegistroColaboradorRepository();
+				ColaboradorRepository dao = new ColaboradorRepository();
 				SegurancaBean.setColaboradorLogado(dao.buscarPorNome(login));
 				this.getRequest().setAttribute("colaboradorLogado", colaboradorLogado);
 			}
