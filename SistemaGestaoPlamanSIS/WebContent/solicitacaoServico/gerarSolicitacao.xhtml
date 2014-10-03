@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<f:metadata>
-		<f:viewAction action="#{solicitacaoBean.init}" />
+		<f:viewAction action="#{solicitacaoBean.carregarDados}" />
 	</f:metadata>
 
 	<ui:define name="title_page">Solicitação Serviço</ui:define>
@@ -15,8 +15,9 @@
 	<ui:define name="conteudo">
 		<p:panel id="panelSolicitacao" header="Abrir solicitação" style="height:550px"
 			menuTitle="Solicitar">
-
+			
 			<h:form id="formSolicitacao">
+			<p:growl showSummary="false" showDetail="true"/>
 				<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid"
 					style="margin-top:10px; height:450px;" id="painelSolicita"  >
 					
@@ -64,44 +65,15 @@
 						placeholder="Descrição da ação a executar" required="true" requiredMessage="Este campo é obrigatorio" id="descricao"/>
 						<p:message for="descricao"/>
 					</h:panelGroup>
-					<p:outputLabel value="" />
 					<f:facet name="footer">
 						<p:commandButton value="Cancelar" style="float:right"
 							action="/index.xhtml?faces-redirect=true" />
 						<p:commandButton value="Solicitar" style="float:right"
 							action="#{solicitacaoBean.salvar}" update="@form">
-							<f:setPropertyActionListener
-								value="#{segurancaBean.colaboradorLogado.setor}"
-								target="#{solicitacaoBean.solicitacao.setor}" />
 						</p:commandButton>
 					</f:facet>
 				</p:panelGrid>
 			</h:form>
-			<p:outputPanel autoUpdate="true" id="tabelaDeSolicitacao">
-				<p:dataTable var="solicitacao"
-					value="#{solicitacaoBean.solicitacoesAbertas}" id="tbSolicitacaoAberta">
-
-					<p:column headerText="Tipo Trabalho">
-						<p:outputLabel value="#{solicitacao.tipoTrabalho}" />
-					</p:column>
-
-					<p:column headerText="Equipamento">
-						<p:outputLabel value="#{solicitacao.equipamento}" />
-					</p:column>
-
-					<p:column headerText="Componente">
-						<p:outputLabel value="#{solicitacao.componente}" />
-					</p:column>
-
-					<p:column headerText="Data de Criação">
-						<p:outputLabel value="#{solicitacao.dataCriacao}">
-							<f:convertDateTime pattern="dd/MM/yyyy" type="both"
-								locale="pt_BR" />
-						</p:outputLabel>
-					</p:column>
-
-				</p:dataTable>
-			</p:outputPanel>
 		</p:panel>
 	</ui:define>
 </ui:composition>

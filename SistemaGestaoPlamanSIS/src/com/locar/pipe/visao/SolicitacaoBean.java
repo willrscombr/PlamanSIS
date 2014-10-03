@@ -3,15 +3,20 @@ package com.locar.pipe.visao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
 import com.locar.pipe.enuns.TipoTrabalho;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.service.GestaoSolicitacao;
+import com.locar.pipe.service.SolicitacaoException;
+import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
 @ViewScoped
@@ -52,28 +57,30 @@ public class SolicitacaoBean implements Serializable {
 	//--------Metodos de Servico do manangerbean-------------------
 	
 	public void salvar(){
-		solicitacaoService.salvarSolicitacao(solicitacao);
+		try {
+			solicitacaoService.salvarSolicitacao(solicitacao);
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Solicitação foi enviada ao setor, "+ solicitacao.getSetor().getNome());
+			solicitacao = new SolicitacaoServico();
+		} catch (SolicitacaoException e) {
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_WARN, e.getMessage());
+		}
 	}
-	
-	
-	//------Metodos para as Views de do setor planejamento-----------------
-	public void carregarDados(){
+
+	// ------Metodos para as Views de do setor planejamento-----------------
+	public void carregarDados() {
 		colaboradorLogado = solicitacaoService.colaboradorLogado();
 		solicitacoesAbertas = solicitacaoService.solicitacoesAbertas();
 		solicitacoes = solicitacaoService.todasSolicitacoes();
 		departamentos = solicitacaoService.todosDepartamento();
-		ultimasOrdens = solicitacaoService.ultimasOrdem();
+		ultimasOrdens = solicitacaoService.ordensInicio();
 		qntOrdemoAberta = solicitacaoService.ordensAbertas();
-		qntSolicitacaoAberta = solicitacaoService.solicitacoesAberta();
+		qntSolicitacaoAberta = solicitacaoService.totalSolicitaçãoAberta();
 	}
-	
-	public TipoTrabalho[] tiposTrabalho(){
+
+	public TipoTrabalho[] tiposTrabalho() {
 		return TipoTrabalho.values();
 	}
-	
 
-	
-	
 	// ----------------------Getters and Setters------------------------------
 	public SolicitacaoServico getSolicitacao() {
 		return solicitacao;

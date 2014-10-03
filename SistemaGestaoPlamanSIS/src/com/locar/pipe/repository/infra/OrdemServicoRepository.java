@@ -100,12 +100,26 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<OrdemServico> listarUltimasCinco(Departamento setor) {
+	public List<OrdemServico> listarUltimasCinco() {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServico.class);
 		crit.setMaxResults(5);
-		crit.addOrder(Order.desc("id"));
-		crit.add(Restrictions.eq("setor", setor));
+		crit.addOrder(Order.desc("dataCriacao"));
+		return crit.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<OrdemServico> listarPorStatus(Departamento setor, Status status) {
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(OrdemServico.class);
+		
+		if(setor != null){
+			crit.add(Restrictions.eq("setor", setor));
+		}
+		crit.add(Restrictions.eq("status", status));
+		crit.addOrder(Order.desc("dataCriacao"));
+		
 		return crit.list();
 	}
 }

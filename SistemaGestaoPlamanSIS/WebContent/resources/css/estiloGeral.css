@@ -173,38 +173,42 @@ html, body {
 }
 
 #info1{
-	margin-left:5px;
-	width: 600px;
+	margin-left:18px;
+	width: 550px;
 	height: 300px;
+	float: left;
 }
 
 #info2{
-	position:absolute;
-	left:40.5%;
-	top:16.6%;
-	width: 300px;
+	float:left;
+	width: 400px;
 	height: 300px;
+	margin-left: 10px;
 }
 
 #info3{
-	position:absolute;
-	left:62%;
-	top:16.6%;
-	width: 600px;
+	float:left;
+	width: 550px;
 	height: 300px;
+	margin-left: 10px;
 }
 
 .txtLabel{
-	
+	width: 200px;
+	background-color: #dddddc;
 }
 
 .txtValor{
 	font-weight: normal;
 	font-size: 14px;
+	width: 400px;
 }
 
 .tabelaDeItens{
 	position: absolute;
 	top: 5%;
 	left: 20%;
+}
+.linhatabela{
+	background-color: #FFFFFF;
 }

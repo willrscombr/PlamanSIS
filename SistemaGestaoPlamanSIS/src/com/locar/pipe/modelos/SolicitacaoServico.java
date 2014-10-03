@@ -28,7 +28,7 @@ public class SolicitacaoServico  implements Serializable{
 	private String equipamento;
 	private String componente;
 	@Column(name="descricao_acao")
-	private String DescricaoAcao;
+	private String descricaoAcao;
 	@Column(name="status_solict")
 	private Status status;
 	@Column(name="data_criacao")
@@ -60,10 +60,10 @@ public class SolicitacaoServico  implements Serializable{
 		this.componente = componente;
 	}
 	public String getDescricaoAcao() {
-		return DescricaoAcao;
+		return descricaoAcao;
 	}
 	public void setDescricaoAcao(String descricaoAcao) {
-		DescricaoAcao = descricaoAcao;
+		this.descricaoAcao = descricaoAcao;
 	}
 	public Departamento getSetor() {
 		return setor;

@@ -1,6 +1,9 @@
 package com.locar.pipe.service;
 
+import java.util.Calendar;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
 
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.modelos.Colaborador;
@@ -21,7 +24,7 @@ public class GestaoSolicitacao {
 	private DepartamentosDB dominioDepartamento;
 	private SolicitacoesDB dominioSolicitacao;
 
-	//-------------- Construtor------------------------
+	// -------------- Construtor------------------------
 	public GestaoSolicitacao() {
 		dominioOrdem = new OrdemServicoRepository();
 		dominioDepartamento = new DepartamentoRepository();
@@ -29,8 +32,22 @@ public class GestaoSolicitacao {
 
 	}
 
-	
-	//-------------Metodos Auxiliares para o ManangerBean SolicitacaoBean---------------------
+	public void salvarSolicitacao(SolicitacaoServico solicitacao)
+			throws SolicitacaoException {
+		
+		solicitacao.setDataCriacao(Calendar.getInstance().getTime());
+		solicitacao.setStatus(Status.ABERTO);
+		solicitacao.setSolicitante(colaboradorLogado());
+		
+		if (jaExisteSolicitacao(solicitacao)) {
+			throw new SolicitacaoException(
+					"Já existe uma solicitação igual a essa no sistema");
+		}
+		dominioSolicitacao.save(solicitacao);
+	}
+
+	// -------------Metodos Auxiliares para o ManangerBean
+	// SolicitacaoBean---------------------
 	public Colaborador colaboradorLogado() {
 		return SegurancaBean.colaboradorLogado;
 	}
@@ -41,31 +58,49 @@ public class GestaoSolicitacao {
 	}
 
 	public List<SolicitacaoServico> todasSolicitacoes() {
-		return dominioSolicitacao.listarTodas();
+		return dominioSolicitacao.getAll();
 	}
 
 	public List<Departamento> todosDepartamento() {
 		return dominioDepartamento.listarSetor();
 	}
 
-	public List<OrdemServico> ultimasOrdem() {
-		return dominioOrdem.listarUltimasCinco(colaboradorLogado().getSetor());
+	public List<OrdemServico> ordensInicio() {
+		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("planejamento")){
+			return dominioOrdem.listarUltimasCinco();
+		}
+		
+		return dominioOrdem.listarPorStatus(colaboradorLogado().getSetor(), Status.PENDENTE);
 	}
-
 
 	public long ordensAbertas() {
-		return dominioOrdem.qntDeOrdemPorSetorStatus(colaboradorLogado().getSetor(), Status.ABERTO);
+		return dominioOrdem.qntDeOrdemPorSetorStatus(colaboradorLogado()
+				.getSetor(), Status.ABERTO);
 	}
 
-
-	public long solicitacoesAberta() {
-		return dominioSolicitacao.qntPorSetorStatus(colaboradorLogado().getSetor(), Status.ABERTO);
-	}
-
-
-	public void salvarSolicitacao(SolicitacaoServico solicitacao) {
-				
+	public long qntSolicitacoesPorSetor(Departamento setor) {
+		return dominioSolicitacao.qntPorSetor(setor);
 	}
 	
+	public long qntSolicitacoesPorStatus(Status status) {
+		return dominioSolicitacao.qntPorStatus(status);
+	}
 
+	private boolean jaExisteSolicitacao(SolicitacaoServico solicitacao) {
+		SolicitacaoServico solicita = dominioSolicitacao.jaExiste(solicitacao);
+		if (solicita != null) {
+			System.out.println("Solicitacao nao é");
+		}
+		return solicita != null && !solicita.equals(solicitacao);
+
+	}
+
+	public long totalSolicitaçãoAberta(){
+		
+		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("supervisao")){
+			return solicitacoesAbertas().size();
+		}
+		
+		return qntSolicitacoesPorStatus(Status.ABERTO);
+	}
 }

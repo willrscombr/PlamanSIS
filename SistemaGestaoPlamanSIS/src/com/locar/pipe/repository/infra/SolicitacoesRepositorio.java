@@ -17,27 +17,27 @@ import com.locar.pipe.util.HibernateUtil;
 public class SolicitacoesRepositorio implements SolicitacoesDB{
 
 	@Override
-	public void salvarSolicitcao(SolicitacaoServico solicitacao) {
+	public void save(SolicitacaoServico solicitacao) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		session.merge(solicitacao);
 	}
 
 	@Override
-	public void excluirSolicitacao(SolicitacaoServico solicitacao) {
+	public void delete(SolicitacaoServico solicitacao) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		session.delete(solicitacao);		
 	}
 
 	@SuppressWarnings("unused")
 	@Override
-	public void editarSolicitacao(SolicitacaoServico solicitacao) {
+	public void update(SolicitacaoServico solicitacao) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
-		SolicitacaoServico editar = this.bucarSolicitacao(solicitacao.getId());
+		SolicitacaoServico editar = this.findById(solicitacao.getId());
 		editar = solicitacao;
 	}
 
 	@Override
-	public SolicitacaoServico bucarSolicitacao(long id) {
+	public SolicitacaoServico findById(long id) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		SolicitacaoServico solicita = null;
 		solicita = (SolicitacaoServico) session.get(SolicitacaoServico.class, id);
@@ -46,7 +46,7 @@ public class SolicitacoesRepositorio implements SolicitacoesDB{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SolicitacaoServico> listarTodas() {
+	public List<SolicitacaoServico> getAll() {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
 		crit.addOrder(Order.asc("dataCriacao"));
@@ -64,15 +64,43 @@ public class SolicitacoesRepositorio implements SolicitacoesDB{
 	}
 
 	@Override
-	public long qntPorSetorStatus(Departamento setor,Status status) {
+	public long qntPorSetor(Departamento setor) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
 		
 		crit.setProjection(Projections.rowCount());
 		crit.add(Restrictions.eq("setor", setor));
+		
+		return (Long) crit.uniqueResult();
+	}
+
+	@Override
+	public long qntPorStatus(Status status) {
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		
+		crit.setProjection(Projections.rowCount());
 		crit.add(Restrictions.eq("status", status));
 		
 		return (Long) crit.uniqueResult();
 	}
 
+	@Override
+	public SolicitacaoServico jaExiste(SolicitacaoServico solicitacao) {
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		SolicitacaoServico retorno = null;
+		
+		retorno = (SolicitacaoServico) session.createCriteria(SolicitacaoServico.class)
+				.add(Restrictions.eq("setor", solicitacao.getSetor()))
+				.add(Restrictions.eq("status", solicitacao.getStatus()))
+				.add(Restrictions.ilike("equipamento", solicitacao.getEquipamento()))
+				.add(Restrictions.ilike("componente", solicitacao.getComponente()))
+				.add(Restrictions.ilike("descricaoAcao", solicitacao.getDescricaoAcao()))
+				.add(Restrictions.eq("solicitante",solicitacao.getSolicitante()))
+				.uniqueResult();
+		if(retorno == null){
+			System.out.println("Nao EXISTE");
+		}
+		return retorno;
+	}
 }

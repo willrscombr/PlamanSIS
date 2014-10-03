@@ -37,18 +37,18 @@ public class DepartamentoBean implements Serializable {
 	public void salvarCentroDeTrabalho() {		
 		departamento.salvar(centro);
 		centro = new Departamento();
-		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento Salvo!");
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Departamento Salvo!");
 	}
 	
 	public void editarCentroDeTrabalho(){
 		departamento.editar(setorSelecionado);
-		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento Editado!");
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Departamento Editado!");
 		this.init();
 	}
 
 	public void deletarCentroDeTrabalho(){
 		departamento.excluir(setorSelecionado);
-		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Sucesso", "Departamento excluido!");
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Departamento excluido!");
 		init();
 	}
 	// --------------GETTERS AND SETTERS--------------

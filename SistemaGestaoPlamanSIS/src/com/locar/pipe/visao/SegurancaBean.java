@@ -42,8 +42,7 @@ public class SegurancaBean implements Serializable {
 
 			return "index?faces-redirect=true";
 		} catch (ServletException e) {
-			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Erro",
-					"Login ou senha nao confere");
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Login ou senha nao confere");
 			return null;
 		}
 	}

@@ -8,12 +8,14 @@ import com.locar.pipe.modelos.SolicitacaoServico;
 
 public interface SolicitacoesDB {
 
-	void salvarSolicitcao(SolicitacaoServico solicitacao);
-	void excluirSolicitacao(SolicitacaoServico solicitacao);
-	void editarSolicitacao(SolicitacaoServico solicitacao);
-	SolicitacaoServico bucarSolicitacao(long id);
-	List<SolicitacaoServico> listarTodas();
-	long qntPorSetorStatus(Departamento setor, Status status);
+	void save(SolicitacaoServico solicitacao);
+	void delete(SolicitacaoServico solicitacao);
+	void update(SolicitacaoServico solicitacao);
+	SolicitacaoServico findById(long id);
+	List<SolicitacaoServico> getAll();
+	long qntPorSetor(Departamento setor);
+	long qntPorStatus(Status status);
 	List<SolicitacaoServico> listarPorStatusSetor(Departamento setor,Status status);
+	SolicitacaoServico jaExiste(SolicitacaoServico solicitacao);
 	
 }
