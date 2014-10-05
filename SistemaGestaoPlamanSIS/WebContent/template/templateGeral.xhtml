@@ -40,8 +40,8 @@
 									<p:commandButton type="button" value="Departamento"
 										rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 
-									<p:menuButton value="Solicitações" rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}">
-										<p:menuitem value="Abrir Solicitação"
+									<p:menuButton value="Solicitações">
+										<p:menuitem value="Abrir Solicitação"  rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}"
 											outcome="/solicitacaoServico/gerarSolicitacao" />
 										<p:menuitem value="Solicitações Feitas"  outcome="/solicitacaoServico/solicitacoes"/>
 									</p:menuButton>
@@ -50,7 +50,7 @@
 										<p:menuitem value="Ordem Preventiva"
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 										<p:menuitem value="Ordem Corretiva"
-											rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}" />
+											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 										<p:menuitem value="Listar Ordens" />
 									</p:menuButton>
 									
@@ -65,11 +65,11 @@
 									<div id="helloUser">
 
 										<span class="txtBenvindo"> <h:outputLabel
-												value="Bem vindo, " />
+												value="Logado como, " />
 										</span>
+										
 										<span class="usuarioLogado"> <h:outputLabel
-												value="#{segurancaBean.colaboradorLogado.nome} 
-											#{segurancaBean.colaboradorLogado.sobrenome} "
+												value="#{segurancaBean.colaboradorLogado.nome}!"
 												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
 										</span><span class="setorUsuario">#{segurancaBean.colaboradorLogado.setor.nome}</span>

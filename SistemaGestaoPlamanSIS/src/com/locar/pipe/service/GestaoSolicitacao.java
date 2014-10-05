@@ -1,11 +1,13 @@
 package com.locar.pipe.service;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.context.FacesContext;
 
 import com.locar.pipe.enuns.Status;
+import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
@@ -18,8 +20,9 @@ import com.locar.pipe.repository.infra.OrdemServicoRepository;
 import com.locar.pipe.repository.infra.SolicitacoesRepositorio;
 import com.locar.pipe.visao.SegurancaBean;
 
-public class GestaoSolicitacao {
-
+public class GestaoSolicitacao implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private OrdemServicoDB dominioOrdem;
 	private DepartamentosDB dominioDepartamento;
 	private SolicitacoesDB dominioSolicitacao;
@@ -53,12 +56,17 @@ public class GestaoSolicitacao {
 	}
 
 	public List<SolicitacaoServico> solicitacoesAbertas() {
-		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado()
-				.getSetor(), Status.ABERTO);
+		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado().getSetor(), 
+				Status.ABERTO);
 	}
-
+	
 	public List<SolicitacaoServico> todasSolicitacoes() {
-		return dominioSolicitacao.getAll();
+		
+		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("planejamento")){
+			return dominioSolicitacao.getAll();
+		}
+		
+		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado().getSetor(), null);
 	}
 
 	public List<Departamento> todosDepartamento() {
@@ -95,12 +103,21 @@ public class GestaoSolicitacao {
 
 	}
 
-	public long totalSolicitaçãoAberta(){
-		
+	public long totalSolicitaçãoAberta(){		
 		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("supervisao")){
 			return solicitacoesAbertas().size();
 		}
 		
 		return qntSolicitacoesPorStatus(Status.ABERTO);
+	}
+	
+	
+	//--------------METODOS DE PESQUISA DO BEAN SOLICITACAO------------------
+	public List<SolicitacaoServico> pesquisarPorFiltro(FiltrosSolicitacoes filtro){
+		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("supervisao")){
+			filtro.setSetor(colaboradorLogado().getSetor());
+			return dominioSolicitacao.pesquisarPorFiltros(filtro);
+		}
+		return dominioSolicitacao.pesquisarPorFiltros(filtro);
 	}
 }

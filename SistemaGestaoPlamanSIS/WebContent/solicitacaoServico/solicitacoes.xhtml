@@ -1,13 +1,110 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/template/templateGeral.xhtml"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-	
-			<ui:define name="nomePagina">Solicitacao de Serviço</ui:define>
-			<ui:define name="tituloTela">Solicitação de Serviço</ui:define>
-			<ui:define name="conteudo">
-				
-			</ui:define>
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewAction action="#{solicitacaoBean.carregarDados()}" />
+	</f:metadata>
+
+	<ui:define name="title_page">Solicitações</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="frmSolicita">
+
+			<p:inputText placeholder="Equipamento" rendered="#{not solicitacaoBean.pesquisaAvancada}"
+				value="#{solicitacaoBean.filtros.equipamento}"
+				style="margin-top:20px; margin-bottom:10px; margin-left:10px; margin-right:10px;"
+				valueChangeListener="#{solicitacaoBean.chamaPesquisa}">
+				<f:ajax event="keyup" render=":frmSolicita:panelSolicitacoes" />
+			</p:inputText>
+
+			<p:selectBooleanButton offLabel="Mais filtros" style="margin-top:20px; margin-left:10px;margin-bottom:10px;"
+				onLabel="Menos filtros" value="#{solicitacaoBean.pesquisaAvancada}">
+				<p:ajax update="frmSolicita" />
+			</p:selectBooleanButton>
+			<div style="width: 600xp; background-color: #cccccc">
+				<p:panel>
+					<p:panelGrid columns="4" styleClass="filtrosPesquisa" id="avancada"
+						rendered="#{solicitacaoBean.pesquisaAvancada}">
+						<p:outputLabel value="Componente" for="filtroComponente" />
+						<p:inputText value="#{solicitacaoBean.filtros.componente}"
+							id="filtroComponente"  size="13"/>
+
+						<p:outputLabel value="Status" for="filtroStatus" />
+						<p:selectOneMenu value="#{solicitacaoBean.filtros.status}"
+							id="filtroStatus" style="width:165px">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{solicitacaoBean.todosStatus()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Setor" for="filtroSetor" />
+						<p:selectOneMenu value="#{solicitacaoBean.filtros.setor}"
+							id="filtroSetor" style="width:165px;">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{solicitacaoBean.departamentos}"
+								var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Tipo" for="filtroTipo" />
+						<p:selectOneMenu value="#{solicitacaoBean.filtros.tipoTrabalho}"
+							id="filtroTipo" style="width:165px;">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+						
+							<p:commandButton action="#{solicitacaoBean.pesquisar}"
+								value="pesquisar" update="panelSolicitacoes, avancada" style="float:right;" />
+					</p:panelGrid>
+				</p:panel>
+			</div>
+			<p:panel id="panelSolicitacoes">
+				<p:dataTable value="#{solicitacaoBean.solicitacoes}"
+					var="solicitacao">
+					<p:column headerText="ID" style="width:35px; text-align:center">
+									SS#{solicitacao.id}
+								</p:column>
+
+					<p:column headerText="EQUIPAMENTO"
+						style="width:160px; text-align:center;">
+						<span class="txtValor">#{solicitacao.equipamento}</span>
+					</p:column>
+
+					<p:column headerText="COMPONENTE"
+						style="width:180px; text-align:center">
+						<span class="txtValor">#{solicitacao.componente}</span>
+					</p:column>
+
+					<p:column headerText="DESCRIÇÃO">
+						<span class="txtValor">#{solicitacao.descricaoAcao}</span>
+					</p:column>
+
+
+					<p:column headerText="SETOR"
+						rendered="#{facesContext.externalContext.isUserInRole('planejamento')}"
+						style="width:100px;">
+						<span class="txtValor">#{solicitacao.setor.nome}</span>
+					</p:column>
+
+
+					<p:column headerText="GERADO EM"
+						style="width:135px; text-align:center">
+						<p:outputLabel value="#{solicitacao.dataCriacao}">
+							<f:convertDateTime pattern="dd/MM/yyy" />
+						</p:outputLabel>
+					</p:column>
+
+					<p:column headerText="STATUS" style="width:80px; text-align:center"
+						styleClass="#{solicitacao.status}">
+									#{solicitacao.status}
+								</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
 </ui:composition>

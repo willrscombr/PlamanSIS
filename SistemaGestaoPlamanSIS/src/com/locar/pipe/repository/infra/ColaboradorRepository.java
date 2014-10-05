@@ -66,7 +66,7 @@ public class ColaboradorRepository implements
 		Colaborador colabPorNome = null;
 		Session session = (Session) HibernateUtil
 				.getAttributeRequest("session");
-
+		System.out.println("Chegou aqui");
 		colabPorNome = (Colaborador) session.createCriteria(Colaborador.class)
 				.add(Restrictions.eq("nome", nome)).uniqueResult();
 

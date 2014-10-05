@@ -3,7 +3,7 @@
 <Context>
 	<Realm className="org.apache.catalina.realm.JDBCRealm" 
 	driverName="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/plamandb"
-	connectionName="root" connectionPassword="1234"
+	connectionName="root" connectionPassword="kayrossxp"
 	userTable="tb_usuario" userNameCol="nome_usuario" userCredCol="senha"
 	userRoleTable="tb_usuario_permissao" roleNameCol="nome_permissao"/>
 </Context>

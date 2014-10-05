@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	version="3.0">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>SistemaGestaoPlamanSIS</display-name>
+	<context-param>
+		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>start</param-value>
+	</context-param>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -13,37 +20,6 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-	<context-param>
-		<param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
-		<param-value>true</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>home</param-value>
-	</context-param>
-
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/login.xhtml</form-login-page>
-			<form-error-page>/login.xhtml</form-error-page>
-		</form-login-config>
-	</login-config>
-
-	<security-role>
-		<role-name>liberado</role-name>
-	</security-role>
-
-	<security-role>
-		<role-name>planejamento</role-name>
-	</security-role>
-
-	<security-role>
-		<role-name>supervisao</role-name>
-	</security-role>
-
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Sistema Inicial</web-resource-name>
@@ -55,7 +31,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Ordem</web-resource-name>
@@ -66,7 +41,6 @@
 			<role-name>supervisao</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Ordem</web-resource-name>
@@ -77,7 +51,6 @@
 			<role-name>supervisao</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Departamento</web-resource-name>
@@ -88,7 +61,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Departamento</web-resource-name>
@@ -99,7 +71,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Departamento</web-resource-name>
@@ -110,7 +81,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
@@ -121,7 +91,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
@@ -132,7 +101,6 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Colaboradores</web-resource-name>
@@ -143,27 +111,42 @@
 			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
-
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia solicitacoes</web-resource-name>
 			<url-pattern>/solicitacaoServico/gerarSolicitacao.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>planejamento</role-name>
+			<role-name>supervisao</role-name>
 			<role-name>liberado</role-name>
 		</auth-constraint>
 	</security-constraint>
 
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>Gerencia solicitacoes</web-resource-name>
-			<url-pattern>/solicitacaoServico/listarSolicitacoes.xhtml</url-pattern>
+			<web-resource-name>Gerenciar Solicitacao</web-resource-name>
+			<url-pattern>/solicitacaoServico/solicitacoes.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
+			<role-name>supervisao</role-name>
 			<role-name>planejamento</role-name>
 			<role-name>liberado</role-name>
 		</auth-constraint>
 	</security-constraint>
-
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/login.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+	<security-role>
+		<role-name>liberado</role-name>
+	</security-role>
+	<security-role>
+		<role-name>planejamento</role-name>
+	</security-role>
+	<security-role>
+		<role-name>supervisao</role-name>
+	</security-role>
 </web-app>

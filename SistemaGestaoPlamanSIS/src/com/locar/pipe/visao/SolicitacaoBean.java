@@ -8,8 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 
+import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoTrabalho;
+import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
@@ -33,6 +36,9 @@ public class SolicitacaoBean implements Serializable {
 	private List<OrdemServico> ultimasOrdens;
 	private SolicitacaoServico solicitacao;
 	private OrdemServico ordemSelecionada;
+	
+	private FiltrosSolicitacoes filtros;
+	private boolean pesquisaAvancada;
 
 	
 	
@@ -50,6 +56,7 @@ public class SolicitacaoBean implements Serializable {
 		ultimasOrdens = new ArrayList<OrdemServico>();
 		solicitacao = new SolicitacaoServico();
 		ordemSelecionada = new OrdemServico();
+		filtros = new FiltrosSolicitacoes();
 		
 		this.carregarDados();
 	}
@@ -70,7 +77,7 @@ public class SolicitacaoBean implements Serializable {
 	public void carregarDados() {
 		colaboradorLogado = solicitacaoService.colaboradorLogado();
 		solicitacoesAbertas = solicitacaoService.solicitacoesAbertas();
-		solicitacoes = solicitacaoService.todasSolicitacoes();
+		solicitacoes = solicitacaoService.pesquisarPorFiltro(filtros);
 		departamentos = solicitacaoService.todosDepartamento();
 		ultimasOrdens = solicitacaoService.ordensInicio();
 		qntOrdemoAberta = solicitacaoService.ordensAbertas();
@@ -80,7 +87,28 @@ public class SolicitacaoBean implements Serializable {
 	public TipoTrabalho[] tiposTrabalho() {
 		return TipoTrabalho.values();
 	}
-
+	
+	public void chamaPesquisa(ValueChangeEvent event){
+		filtros.setEquipamento(event.getNewValue().toString());
+		this.pesquisar();
+	}
+	public void pesquisar(){
+		solicitacoes = solicitacaoService.pesquisarPorFiltro(filtros);
+		filtros = new FiltrosSolicitacoes();
+	}
+	
+	public void mudarPesquisa(ValueChangeEvent event){
+		if(pesquisaAvancada){
+			pesquisaAvancada = false;
+		}else{
+			pesquisaAvancada = true;
+		}
+		
+	}
+	
+	public Status[] todosStatus(){
+		return Status.values();
+	}
 	// ----------------------Getters and Setters------------------------------
 	public SolicitacaoServico getSolicitacao() {
 		return solicitacao;
@@ -124,6 +152,22 @@ public class SolicitacaoBean implements Serializable {
 
 	public List<OrdemServico> getUltimasOrdens() {
 		return ultimasOrdens;
+	}
+
+	public FiltrosSolicitacoes getFiltros() {
+		return filtros;
+	}
+
+	public void setFiltros(FiltrosSolicitacoes filtros) {
+		this.filtros = filtros;
+	}
+
+	public boolean isPesquisaAvancada() {
+		return pesquisaAvancada;
+	}
+
+	public void setPesquisaAvancada(boolean pesquisaAvancada) {
+		this.pesquisaAvancada = pesquisaAvancada;
 	}
 
 }
