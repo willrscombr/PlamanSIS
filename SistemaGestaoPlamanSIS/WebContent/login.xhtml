@@ -19,38 +19,34 @@
 	<ui:define name="topo"></ui:define>
 
 	<ui:define name="conteudo">
-		<div class="estilo_login">
-			<div id="iconetopo">
-				<div id="topo">
-					<p:graphicImage value="/images/LogoPlamanSubititle.png" />
-				</div>
+
+		<h:form id="frmLogin">
+			<div id="centralizarTelaLogin">
+				<p:messages showDetail="true" showSummary="false" />
+				<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid"
+					style="width:400px">
+					<f:facet name="header" >
+							<div style="height: 30px;">
+								<p:graphicImage value="/images/LogoPlamanSubititle.png" width="120px" style="margin-top:5px;margin-left:5px;; float:left;" />
+							</div>
+					</f:facet>
+					<p:outputLabel value="Login: " />
+					<p:inputText value="#{segurancaBean.login}" required="true"
+						requiredMessage="preencha o campo login" />
+
+					<p:outputLabel value="Senha: " />
+					<p:inputText type="password" value="#{segurancaBean.senha}"
+						required="true" requiredMessage="preencha o campo senha" />
+
+
+					<f:facet name="footer">
+						<p:commandButton action="#{segurancaBean.logar}" value="Entrar"
+							style="float:right	" update="@form" />
+					</f:facet>
+				</p:panelGrid>
 			</div>
-			<hr />
-			<div id="txtLogin">
-				<h2>FAÇA SEU LOGIN</h2>
-			</div>
-			<h:form id="frmLogin">
-				<div id="centralizarTelaLogin">
-					<p:messages showDetail="true" showSummary="false"/>
-					<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid">
-							
-						<p:outputLabel value="Login: " />
-						<p:inputText value="#{segurancaBean.login}" required="true" requiredMessage="preencha o campo login"/>
+		</h:form>
 
-						<p:outputLabel value="Senha: " />
-						<p:inputText type="password" value="#{segurancaBean.senha}" required="true" requiredMessage="preencha o campo senha"/>
-
-
-						<f:facet name="footer">
-						<p:commandButton action="#{segurancaBean.logar}" value="Entrar" style="float:right	" update="@form"/>
-						</f:facet>
-						
-						
-					</p:panelGrid>
-				</div>
-			</h:form>
-
-		</div>
 	</ui:define>
 
 </ui:composition>

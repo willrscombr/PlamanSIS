@@ -27,7 +27,7 @@ html, body {
 
 #topo {
 	height: 50px;
-	background-color:rgb(70,163,202);
+	background-color:rgb(156,149,134);
 	padding-bottom: 30px;
 }
 
@@ -37,7 +37,7 @@ html, body {
 
 #rodape {
 	position: absolute;
-	background-color:rgb(70,163,202);
+	background-color:rgb(156,149,134);
 	bottom: 0;
 	width: 100%;
 	height: 80px;
@@ -54,7 +54,7 @@ html, body {
 .estilo_login {
 	width: 700px;
 	height: 500px;
-	background-color: #dddddd;
+	background-color:rgb(254,240,197);
 	position: absolute;
 	top: 15%;
 	left: 28%;
@@ -69,8 +69,8 @@ html, body {
 
 #centralizarTelaLogin {
 	position: absolute;
-	top: 45%;
-	left: 25%;
+	top: 30%;
+	left: 35%;
 }
 
 .labelGrid {

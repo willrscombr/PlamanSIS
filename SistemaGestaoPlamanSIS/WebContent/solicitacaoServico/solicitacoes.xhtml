@@ -14,25 +14,28 @@
 
 	<ui:define name="conteudo">
 		<h:form id="frmSolicita">
-
-			<p:inputText placeholder="Equipamento" rendered="#{not solicitacaoBean.pesquisaAvancada}"
-				value="#{solicitacaoBean.filtros.equipamento}"
-				style="margin-top:20px; margin-bottom:10px; margin-left:10px; margin-right:10px;"
-				valueChangeListener="#{solicitacaoBean.chamaPesquisa}">
-				<f:ajax event="keyup" render=":frmSolicita:panelSolicitacoes" />
-			</p:inputText>
-
-			<p:selectBooleanButton offLabel="Mais filtros" style="margin-top:20px; margin-left:10px;margin-bottom:10px;"
-				onLabel="Menos filtros" value="#{solicitacaoBean.pesquisaAvancada}">
-				<p:ajax update="frmSolicita" />
-			</p:selectBooleanButton>
 			<div style="width: 600xp; background-color: #cccccc">
 				<p:panel>
+					<p:inputText placeholder="Equipamento"
+						rendered="#{not solicitacaoBean.pesquisaAvancada}"
+						value="#{solicitacaoBean.filtros.equipamento}"
+						style="margin-right:10px;"
+						valueChangeListener="#{solicitacaoBean.chamaPesquisa}">
+						<f:ajax event="keyup" render=":frmSolicita:panelSolicitacoes" />
+					</p:inputText>
+
+					<p:selectBooleanButton offLabel="Mais filtros"
+						style="margin-bottom:2px;"
+						onLabel="Menos filtros"
+						value="#{solicitacaoBean.pesquisaAvancada}">
+						<p:ajax update="frmSolicita" />
+					</p:selectBooleanButton>
+
 					<p:panelGrid columns="4" styleClass="filtrosPesquisa" id="avancada"
 						rendered="#{solicitacaoBean.pesquisaAvancada}">
 						<p:outputLabel value="Componente" for="filtroComponente" />
 						<p:inputText value="#{solicitacaoBean.filtros.componente}"
-							id="filtroComponente"  size="13"/>
+							id="filtroComponente" size="13" />
 
 						<p:outputLabel value="Status" for="filtroStatus" />
 						<p:selectOneMenu value="#{solicitacaoBean.filtros.status}"
@@ -57,9 +60,10 @@
 							<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
 								var="item" itemLabel="#{item}" itemValue="#{item}" />
 						</p:selectOneMenu>
-						
-							<p:commandButton action="#{solicitacaoBean.pesquisar}"
-								value="pesquisar" update="panelSolicitacoes, avancada" style="float:right;" />
+
+						<p:commandButton action="#{solicitacaoBean.pesquisar}"
+							value="pesquisar" update="panelSolicitacoes, avancada"
+							style="float:right;" />
 					</p:panelGrid>
 				</p:panel>
 			</div>
