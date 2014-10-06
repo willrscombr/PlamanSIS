@@ -1,12 +1,13 @@
 package com.locar.pipe.modelos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -28,9 +29,8 @@ public class Colaborador implements Serializable{
 	//Classe para Mapeamento
 	@ManyToOne
 	private Departamento setor;
-	@ManyToOne
-	@JoinColumn(name="id_ordem")
-	private OrdemServico ordemServico;
+	@ManyToMany
+	private List<OrdemServico> ordemServico;
 	
 	
 	
@@ -74,16 +74,17 @@ public class Colaborador implements Serializable{
 		this.setor = setor;
 	}
 	
-	public OrdemServico getOrdemServico() {
+	public List<OrdemServico> getOrdemServico() {
 		return ordemServico;
 	}
-	public void setOrdensServico(OrdemServico ordemServico) {
+	public void setOrdemServico(List<OrdemServico> ordemServico) {
 		this.ordemServico = ordemServico;
 	}
 	
 	
 	//----------Equals and HAshCode------------------
 	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

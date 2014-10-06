@@ -34,11 +34,12 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Gerencia Ordem</web-resource-name>
-			<url-pattern>/ordemServico/ordemServicoIndex.xhtml</url-pattern>
+			<url-pattern>/ordemServico/listarordem.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>liberado</role-name>
 			<role-name>supervisao</role-name>
+			<role-name>planejamento</role-name>
 		</auth-constraint>
 	</security-constraint>
 	<security-constraint>

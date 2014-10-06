@@ -41,9 +41,11 @@
 										rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 
 									<p:menuButton value="Solicitações">
-										<p:menuitem value="Abrir Solicitação"  rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}"
+										<p:menuitem value="Abrir Solicitação"
+											rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}"
 											outcome="/solicitacaoServico/gerarSolicitacao" />
-										<p:menuitem value="Solicitações Feitas"  outcome="/solicitacaoServico/solicitacoes"/>
+										<p:menuitem value="Solicitações Feitas"
+											outcome="/solicitacaoServico/solicitacoes" />
 									</p:menuButton>
 
 									<p:menuButton value="Ordem de Serviço">
@@ -51,10 +53,11 @@
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 										<p:menuitem value="Ordem Corretiva"
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
-										<p:menuitem value="Listar Ordens" />
+										<p:menuitem value="Listar Ordens" outcome="/ordem/listarordem"/>
 									</p:menuButton>
-									
-									<p:menuButton value="Material" rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}">
+
+									<p:menuButton value="Material"
+										rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}">
 										<p:menuitem value="Lista de materiais"
 											outcome="/solicitacaoServico/gerarSolicitacao" />
 										<p:menuitem value="Pendências" />
@@ -62,23 +65,21 @@
 								</f:facet>
 
 								<f:facet name="right">
+									<div class="logout">
+										<p:commandLink value="sair" action="#{segurancaBean.logout}" />
+									</div>
+
 									<div id="helloUser">
 
 										<span class="txtBenvindo"> <h:outputLabel
 												value="Logado como, " />
-										</span>
-										
-										<span class="usuarioLogado"> <h:outputLabel
+										</span> <span class="usuarioLogado"> <h:outputLabel
 												value="#{segurancaBean.colaboradorLogado.nome}!"
 												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
 										</span><span class="setorUsuario">#{segurancaBean.colaboradorLogado.setor.nome}</span>
-									
 
-									</div>
 
-									<div class="logout">
-										<p:commandLink value="sair" action="#{segurancaBean.logout}" />
 									</div>
 								</f:facet>
 							</p:toolbar>

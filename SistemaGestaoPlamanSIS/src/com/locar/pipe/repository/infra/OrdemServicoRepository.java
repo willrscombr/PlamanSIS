@@ -5,14 +5,17 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
+import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.repository.OrdemServicoDB;
 import com.locar.pipe.util.HibernateUtil;
 
@@ -83,7 +86,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 				.getAttributeRequest("session");
 
 		return session.createCriteria(OrdemServico.class)
-				.add(Restrictions.eq("tipo", TipoOrdem.CORRETIVA)).list();
+				.add(Restrictions.eq("tipoOrdem", TipoOrdem.CORRETIVA)).list();
 	}
 
 	@Override
@@ -104,7 +107,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServico.class);
 		crit.setMaxResults(5);
-		crit.addOrder(Order.desc("dataCriacao"));
+		crit.addOrder(Order.desc("id"));
 		return crit.list();
 	}
 
@@ -120,6 +123,56 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 		crit.add(Restrictions.eq("status", status));
 		crit.addOrder(Order.desc("dataCriacao"));
 		
+		return crit.list();
+	}
+
+	@Override
+	public boolean jaExiste(OrdemServico ordem) {
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(OrdemServico.class);
+		
+		OrdemServico ord = null;
+		
+		ord = (OrdemServico) crit.add(Restrictions.ilike("equipamento", ordem.getEquipamento()))
+				.add(Restrictions.ilike("componente", ordem.getComponente()))
+				.add(Restrictions.ilike("descricaoAcao", ordem.getDescricaoAcao()))
+				.add(Restrictions.eq("setor", ordem.getSetor()))
+				.add(Restrictions.eq("status", ordem.getStatus()))
+				.add(Restrictions.eq("dataCriacao", ordem.getDataCriacao()))
+				.add(Restrictions.eq("tipoTrabalho", ordem.getTipoTrabalho()))
+				.add(Restrictions.eq("tipoOrdem", ordem.getTipoOrdem())).uniqueResult();
+		
+		return ord == null ? false : true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<OrdemServico> pesquisarPorFiltros(FiltrosOrdens filtro) {
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(OrdemServico.class);
+		
+		if(filtro != null){
+			if(filtro.getSetor() != null){
+				crit.add(Restrictions.eq("setor", filtro.getSetor()));
+			}
+			
+			if(!filtro.getEquipamento().isEmpty() && filtro.getEquipamento() != null ){
+				crit.add(Restrictions.ilike("equipamento", filtro.getEquipamento(),MatchMode.ANYWHERE));
+			}
+			if(!filtro.getComponente().isEmpty()){
+				crit.add(Restrictions.ilike("componente", filtro.getComponente(),MatchMode.ANYWHERE));
+			}
+			
+			if(filtro.getStatus() != null){
+				crit.add(Restrictions.eq("status", filtro.getStatus()));
+			}
+			
+			if(filtro.getTipoTrabalho() != null){
+				crit.add(Restrictions.eq("tipoTrabalho", filtro.getTipoTrabalho()));
+			}
+		}
+		
+		crit.addOrder(Order.desc("dataCriacao"));
 		return crit.list();
 	}
 }

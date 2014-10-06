@@ -32,7 +32,7 @@ html, body {
 }
 
 #conteudo {
-	padding-bottom: 50px;
+	padding-bottom: 80px;
 }
 
 #rodape {
@@ -89,9 +89,6 @@ html, body {
 }
 
 .txtBenvindo {
-	position: absolute;
-	left: 80.5%;
-	top: 12%;
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
@@ -99,13 +96,19 @@ html, body {
 
 .usuarioLogado {
 	color: #FFF000;
-	position: absolute;
-	left: 87%;
-	top: 12%;
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
 	text-transform: capitalize;
+}
+
+.logout{
+	float: right;
+}
+
+#helloUser{
+	float: right;
+	width: 210px;
 }
 
 .txtSetor {
@@ -130,14 +133,11 @@ html, body {
 .logout a {
 	box-shadow: 0px 2px 5px #bbbbbb;
 	text-decoration: none;
-	position: absolute;
-	left: 95.5%;
-	top: 11%;
 	background-color: #000000;
 	color: white;
 	font-weight: normal;
 	border-radius: 5px;
-	padding: 1px 10px 1px 10px;
+	padding: 0px 10px 0px 10px;
 }
 
 .logout a:HOVER {
@@ -215,6 +215,9 @@ html, body {
 .ABERTO {
 	background-color:green;
 	color: white;
+	padding-right: 35px;
+	text-align: center;
+
 }
 
 .PROGRAMADO {
@@ -224,6 +227,8 @@ html, body {
 
 .IMPRESSO {
 	background-color:orange;
+	padding-right: 17px;
+	color: white;
 }
 
 .CANCELADO {

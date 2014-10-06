@@ -169,9 +169,12 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 				crit.add(Restrictions.eq("tipoTrabalho", filtro.getTipoTrabalho()));
 			}
 		}
+		
+		crit.addOrder(Order.desc("dataCriacao"));
 		return crit.list();		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SolicitacaoServico> pesquisarPorFiltrosSupervisor(
 			FiltrosSolicitacoes filtro) {
@@ -200,8 +203,18 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 			}
 		}
 		
-		
+		crit.addOrder(Order.desc("dataCriacao"));
 		return crit.list();
+	}
+
+	@Override
+	public void trocaStatus(long id,Status status) {
+				
+		SolicitacaoServico soli = new SolicitacaoServico();
+		soli = this.findById(id);
+		soli.setStatus(status);
+		
+		
 	}
 	
 	

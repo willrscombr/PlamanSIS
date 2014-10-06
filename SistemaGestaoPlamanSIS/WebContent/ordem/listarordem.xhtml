@@ -10,35 +10,35 @@
 		<f:viewAction action="#{solicitacaoBean.carregarDados()}" />
 	</f:metadata>
 
-	<ui:define name="title_page">Solicitações</ui:define>
+	<ui:define name="title_page">Ordens de Serviço</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="frmSolicita">
+		<h:form id="frmOrdem">
 			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
 			<div style="width: 600xp; background-color: #cccccc">
 				<p:panel>
-					<p:inputText placeholder="Equipamento"
-						rendered="#{not solicitacaoBean.pesquisaAvancada}"
-						value="#{solicitacaoBean.filtros.equipamento}"
+					<p:inputText placeholder="Numero"
+						rendered="#{not ordemServicoBean.pesquisaAvancada}"
+						value="#{ordemServicoBean.filtros.id}"
 						style="margin-right:10px;"
-						valueChangeListener="#{solicitacaoBean.chamaPesquisa}">
-						<f:ajax event="keyup" render=":frmSolicita:panelSolicitacoes" />
+						valueChangeListener="#{ordemServicoBean.chamaPesquisa}">
+						<f:ajax event="keyup" render=":frmOrdem:panelOrdens" />
 					</p:inputText>
 
 					<p:selectBooleanButton offLabel="Mais filtros"
 						style="margin-bottom:2px;" onLabel="Menos filtros"
-						value="#{solicitacaoBean.pesquisaAvancada}">
-						<p:ajax update="frmSolicita" />
+						value="#{ordemServicoBean.pesquisaAvancada}">
+						<p:ajax update="frmOrdem" />
 					</p:selectBooleanButton>
 
 					<p:panelGrid columns="4" styleClass="filtrosPesquisa" id="avancada"
-						rendered="#{solicitacaoBean.pesquisaAvancada}">
+						rendered="#{ordemServicoBean.pesquisaAvancada}">
 						<p:outputLabel value="Componente" for="filtroComponente" />
-						<p:inputText value="#{solicitacaoBean.filtros.componente}"
+						<p:inputText value="#{ordemServicoBean.filtros.componente}"
 							id="filtroComponente" size="13" />
 
 						<p:outputLabel value="Status" for="filtroStatus" />
-						<p:selectOneMenu value="#{solicitacaoBean.filtros.status}"
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.status}"
 							id="filtroStatus" style="width:165px">
 							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
 							<f:selectItems value="#{solicitacaoBean.todosStatus()}"
@@ -67,7 +67,7 @@
 					</p:panelGrid>
 				</p:panel>
 			</div>
-			<p:panel id="panelSolicitacoes">
+			<p:panel id="panelOrdens">
 				<p:dataTable value="#{solicitacaoBean.solicitacoes}"
 					var="solicitacao" id="tabelaSolicita">
 					<p:column headerText="ID" style="width:35px; text-align:center">

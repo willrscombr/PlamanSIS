@@ -14,11 +14,12 @@
 				<p:panel>
 					<div id="info1">
 						<p:panel header="Informações do Setor" style="height:280px">
-							<p:panel style="background-color:#FFFFFF">
+							<p:panel style="background-color:#FFFFFF" rendered="#{solicitacaoBean.qntSolicitacaoAberta != 0}">
 								<span class="txtValor">Existem <span
 									style="color: blue; font-weight: bold">#{solicitacaoBean.qntSolicitacaoAberta}</span>
 									Solicitações em aberto
 								</span>
+								<p:link outcome="/solicitacaoServico/solicitacoes.xhtml" value="ver solicitações" style="float:right"/>
 							</p:panel>
 							<!-- APENAS APARECE PARA SUPERVISOR -->
 							<p:panel style="background-color:#FFFFFF"
@@ -52,34 +53,41 @@
 				</p:panel>
 
 				<div id="tabelaUltimas">
-					<p:panel
-						header="#{facesContext.externalContext.isUserInRole('planejamento')?'Ultimas Ordens Criadas':'Lista de Ordens com Pendencia'}">
+					<p:panel header="#{facesContext.externalContext.isUserInRole('planejamento')?'Ultimas Ordens Criadas':'Lista de Ordens com Pendencia'}"
+					style="min-height:50px;">
 						<p:dataTable value="#{solicitacaoBean.ultimasOrdens}" var="item"
 							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
 							rowStyleClass="linhatabela">
-							<p:column>
-      							Numero: <span class="txtValor">OSN#{item.id}</span>
+							<p:column style="width:200px">
+      							Numero: <span class="txtValor">#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
+							</p:column>
+							<p:column >
+      							Equipamento parado: <span class="txtValor">#{item.equipamentoParado ? 'SIM' : 'NAO'}</span>
 							</p:column>
 							<p:column style="width:300px">
       							Tipo de trabalho: <span class="txtValor">#{item.tipoTrabalho}</span>
 							</p:column>
-							<p:column>
-      							Status: <span class="txtValor">#{item.status}</span>
+						
+							<p:column style="width:250px" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
+      							Departamento: <span class="txtValor">#{item.setor.nome}</span>
+							</p:column>
+							<p:column style="width:200px">
+      							Status: <span class="#{item.status}">#{item.status}</span>
 							</p:column>
 
-							<p:column>
+							<p:column style="width:170px">
       							Criada Em: <h:outputLabel value="#{item.dataCriacao}"
 									styleClass="txtValor">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputLabel>
 							</p:column>
 
-							<p:column style="width:50px">
-								<p:commandButton oncomplete="PF('dlg').show()"
-									update=":form:modalOrdem" image="/images/binoculoPreview.png">
+							<p:column style="width:20px">
+								<p:commandLink oncomplete="PF('dlg').show()" update=":form:modalOrdem">
+									<p:graphicImage url="/images/binoculoPreview.png"/>
 									<f:setPropertyActionListener value="#{item}"
 										target="#{solicitacaoBean.ordemSelecionada}" />
-								</p:commandButton>
+								</p:commandLink>
 							</p:column>
 						</p:dataTable>
 

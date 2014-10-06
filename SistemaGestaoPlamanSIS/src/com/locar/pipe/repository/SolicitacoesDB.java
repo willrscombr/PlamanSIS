@@ -19,7 +19,7 @@ public interface SolicitacoesDB extends Serializable {
 	long qntPorStatus(Status status);
 	List<SolicitacaoServico> listarPorStatusSetor(Departamento setor,Status status);
 	SolicitacaoServico jaExiste(SolicitacaoServico solicitacao);
-	
+	void trocaStatus(long id,Status status);
 	//pesquisas especias-----------------------
 	List<SolicitacaoServico> listarPorNomeEquipamento(String query);
 	List<SolicitacaoServico> pesquisarPorFiltros(FiltrosSolicitacoes filtro);

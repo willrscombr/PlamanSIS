@@ -7,41 +7,57 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 
 import com.locar.pipe.enuns.Status;
+import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServico;
 import com.locar.pipe.modelos.SolicitacaoServico;
+import com.locar.pipe.repository.ColaboradorDB;
 import com.locar.pipe.repository.DepartamentosDB;
 import com.locar.pipe.repository.OrdemServicoDB;
 import com.locar.pipe.repository.SolicitacoesDB;
+import com.locar.pipe.repository.infra.ColaboradorRepository;
 import com.locar.pipe.repository.infra.DepartamentoRepository;
 import com.locar.pipe.repository.infra.OrdemServicoRepository;
 import com.locar.pipe.repository.infra.SolicitacoesRepositorio;
 import com.locar.pipe.visao.SegurancaBean;
+import com.locar.pipe.visao.SolicitacaoBean;
 
-public class GestaoSolicitacao implements Serializable{
+public class GestaoPlaman implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private OrdemServicoDB dominioOrdem;
 	private DepartamentosDB dominioDepartamento;
 	private SolicitacoesDB dominioSolicitacao;
+	private ColaboradorDB dominioColaborador;
 
 	// -------------- Construtor------------------------
-	public GestaoSolicitacao() {
+	public GestaoPlaman() {
+		dominioColaborador = new ColaboradorRepository();
 		dominioOrdem = new OrdemServicoRepository();
 		dominioDepartamento = new DepartamentoRepository();
 		dominioSolicitacao = new SolicitacoesRepositorio();
 
 	}
 
+	// -------- METODOS UTIL--------------
+	public Colaborador colaboradorLogado() {
+		return SegurancaBean.colaboradorLogado;
+	}
+
+	public List<Departamento> todosDepartamento() {
+		return dominioDepartamento.listarSetor();
+	}
+
+	// ------ VIEW SOLICITAÇÃO BEAN ---------------------------------
 	public void salvarSolicitacao(SolicitacaoServico solicitacao)
 			throws SolicitacaoException {
-		
+
 		solicitacao.setDataCriacao(Calendar.getInstance().getTime());
 		solicitacao.setStatus(Status.ABERTO);
 		solicitacao.setSolicitante(colaboradorLogado());
-		
+
 		if (jaExisteSolicitacao(solicitacao)) {
 			throw new SolicitacaoException(
 					"Já existe uma solicitação igual a essa no sistema");
@@ -49,39 +65,33 @@ public class GestaoSolicitacao implements Serializable{
 		dominioSolicitacao.save(solicitacao);
 	}
 
-	// -------------Metodos Auxiliares para o ManangerBean
-	// SolicitacaoBean---------------------
-	public Colaborador colaboradorLogado() {
-		return SegurancaBean.colaboradorLogado;
+	public List<SolicitacaoServico> solicitacoesAbertas() {
+		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado()
+				.getSetor(), Status.ABERTO);
 	}
 
-	public List<SolicitacaoServico> solicitacoesAbertas() {
-		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado().getSetor(), 
-				Status.ABERTO);
-	}
-	
 	public List<SolicitacaoServico> todasSolicitacoes() {
-		
-		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("planejamento")){
+
+		if (FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole("planejamento")) {
 			return dominioSolicitacao.getAll();
 		}
-		
-		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado().getSetor(), null);
+
+		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado()
+				.getSetor(), null);
 	}
 
-	public List<Departamento> todosDepartamento() {
-		return dominioDepartamento.listarSetor();
-	}
-
-	public List<OrdemServico> ordensInicio() {
-		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("planejamento")){
+	public List<OrdemServico> listarUltimasOrdem() {
+		if (FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole("planejamento")) {
 			return dominioOrdem.listarUltimasCinco();
 		}
-		
-		return dominioOrdem.listarPorStatus(colaboradorLogado().getSetor(), Status.PENDENTE);
+
+		return dominioOrdem.listarPorStatus(colaboradorLogado().getSetor(),
+				Status.PENDENTE);
 	}
 
-	public long ordensAbertas() {
+	public long quantidadeOrdensAbertas() {
 		return dominioOrdem.qntDeOrdemPorSetorStatus(colaboradorLogado()
 				.getSetor(), Status.ABERTO);
 	}
@@ -89,7 +99,7 @@ public class GestaoSolicitacao implements Serializable{
 	public long qntSolicitacoesPorSetor(Departamento setor) {
 		return dominioSolicitacao.qntPorSetor(setor);
 	}
-	
+
 	public long qntSolicitacoesPorStatus(Status status) {
 		return dominioSolicitacao.qntPorStatus(status);
 	}
@@ -103,21 +113,52 @@ public class GestaoSolicitacao implements Serializable{
 
 	}
 
-	public long totalSolicitaçãoAberta(){		
-		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("supervisao")){
+	public long totalSolicitaçãoAberta() {
+		if (FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole("supervisao")) {
 			return solicitacoesAbertas().size();
 		}
-		
+
 		return qntSolicitacoesPorStatus(Status.ABERTO);
 	}
-	
-	
-	//--------------METODOS DE PESQUISA DO BEAN SOLICITACAO------------------
-	public List<SolicitacaoServico> pesquisarPorFiltro(FiltrosSolicitacoes filtro){
-		if(FacesContext.getCurrentInstance().getExternalContext().isUserInRole("supervisao")){
+
+	public List<SolicitacaoServico> pesquisarPorFiltro(
+			FiltrosSolicitacoes filtro) {
+		if (FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole("supervisao")) {
 			filtro.setSetor(colaboradorLogado().getSetor());
 			return dominioSolicitacao.pesquisarPorFiltros(filtro);
 		}
 		return dominioSolicitacao.pesquisarPorFiltros(filtro);
+	}
+
+	// ------ VIEW ORDEM SERVIÇO BEAN ---------------------------------
+	public void salvarOrdemServico(OrdemServico ordem, boolean impresso)
+			throws OrdemServicoException {
+
+		if (impresso) {
+			ordem.setStatus(Status.IMPRESSO);
+		} else {
+			ordem.setStatus(Status.ABERTO);
+		}
+		ordem.setDataCriacao(Calendar.getInstance().getTime());
+		if (dominioOrdem.jaExiste(ordem)) {
+			throw new OrdemServicoException(
+					"Ja existe uma Ordem de serviço com dados iguais a este");
+		}else{
+			dominioOrdem.salvar(ordem);
+			dominioSolicitacao.trocaStatus(ordem.getId_solicitacao(), Status.FECHADO);
+		}
+	}
+	
+	public List<OrdemServico> pesquisarPorFiltro(FiltrosOrdens filtro) {
+		boolean ehSupervisor = FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole("supervisao");
+		
+		if (ehSupervisor) {
+			filtro.setSetor(colaboradorLogado().getSetor());
+			return dominioOrdem.pesquisarPorFiltros(filtro);
+		}
+		return dominioOrdem.pesquisarPorFiltros(filtro);
 	}
 }

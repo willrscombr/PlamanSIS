@@ -10,6 +10,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,7 +41,7 @@ public class OrdemServico implements Serializable {
 	private String equipamento;
 	private String componente;
 	@Column(name="descricao_acao")
-	private String DescricaoAcao;
+	private String descricaoAcao;
 	@Column(name="descricao_solucao")
 	private String DescricaoSolucao;
 	@OneToMany(mappedBy="ordemServico")
@@ -54,7 +57,8 @@ public class OrdemServico implements Serializable {
 	private ModoCorretivo modoCorretivo;
 	@Column(name = "ciclo_preventivo")
 	private int cicloPreventivo;
-	@OneToMany(mappedBy="ordemServico")
+	@ManyToMany
+	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_ordem"), inverseJoinColumns = @JoinColumn(name="id_colaborador"))
 	private List<Colaborador> colaboradores;
 	private long id_solicitacao;
 	@Column(name="tipo_encerramento")
@@ -176,11 +180,11 @@ public class OrdemServico implements Serializable {
 	}
 
 	public String getDescricaoAcao() {
-		return DescricaoAcao;
+		return descricaoAcao;
 	}
 
 	public void setDescricaoAcao(String descricaoAcao) {
-		DescricaoAcao = descricaoAcao;
+		this.descricaoAcao = descricaoAcao;
 	}
 	
 	public String getDescricaoSolucao() {
