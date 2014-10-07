@@ -167,6 +167,10 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 				crit.add(Restrictions.eq("status", filtro.getStatus()));
 			}
 			
+			if(filtro.getId() != 0){
+				crit.add(Restrictions.eq("id", filtro.getId()));
+			}
+			
 			if(filtro.getTipoTrabalho() != null){
 				crit.add(Restrictions.eq("tipoTrabalho", filtro.getTipoTrabalho()));
 			}

@@ -191,15 +191,13 @@ html, body {
 }
 
 .txtLabel {
-	width: 200px;
-	background-color: #dddddc;
+	font-weight: bold;
 }
 
 .txtValor {
 	font-weight: normal;
-	font-size: 14px;
-	width: 400px;
-	text-transform: capitalize;
+	font-size: 15px;
+
 }
 
 .tabelaDeItens {
@@ -215,7 +213,6 @@ html, body {
 .ABERTO {
 	background-color:green;
 	color: white;
-	padding-right: 35px;
 	text-align: center;
 
 }
@@ -227,7 +224,6 @@ html, body {
 
 .IMPRESSO {
 	background-color:orange;
-	padding-right: 17px;
 	color: white;
 }
 

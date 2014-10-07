@@ -3,13 +3,11 @@ package com.locar.pipe.visao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ValueChangeEvent;
-
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
@@ -20,8 +18,6 @@ import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.OrdemServico;
 import com.locar.pipe.modelos.SolicitacaoServico;
-import com.locar.pipe.repository.infra.DepartamentoRepository;
-import com.locar.pipe.repository.infra.OrdemServicoRepository;
 import com.locar.pipe.service.GestaoPlaman;
 import com.locar.pipe.service.OrdemServicoException;
 import com.locar.pipe.util.MensagensUtil;
@@ -47,13 +43,17 @@ public class OrdemServicoBean implements Serializable {
 	public void init() {
 		this.osService = new GestaoPlaman();
 		this.solicitacao = new SolicitacaoServico();
+		this.filtros = new FiltrosOrdens();
 		this.ordensDeServico = new ArrayList<OrdemServico>();
 		this.ordemSelecionada = new OrdemServico();
 		this.ordemServico = new OrdemServico();
 		this.departamentos = new ArrayList<Departamento>();
 		this.filtroColaborador = new ArrayList<Colaborador>();
+		this.departamentos = osService.todosDepartamento();
+		this.ordensDeServico = osService.pesquisarPorFiltro(filtros);
 	}
 
+	
 	// ------------Metodos da View---------------
 
 	public void salvar() {
@@ -78,16 +78,20 @@ public class OrdemServicoBean implements Serializable {
 		return "editarOsn?faces-redirect=true";
 	}
 
-	public void chamaPesquisa(ValueChangeEvent event){
-		txtPesquisa  = txtPesquisa.replace("OSN", "");
-		txtPesquisa  = txtPesquisa.replace("OSP", "");
+	public void chamaPesquisa(){
+		txtPesquisa = txtPesquisa.toLowerCase();
+		txtPesquisa  = txtPesquisa.replace("osn", "");
+		txtPesquisa  = txtPesquisa.replace("osp", "");
 		long id = 0;
+		
 		try {
-			id = Long.parseLong(txtPesquisa);
-		} catch (Exception e) {
-			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Digite o numero da Ordem ou APENAS as siglas OSP/OSN");
+			id = osService.stringToValue(txtPesquisa);
+			filtros.setId(id);
+			pesquisar();
+		} catch (OrdemServicoException e) {
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
 		}
-		filtros.setId(id);
+		txtPesquisa = "";
 	}
 	
 	public void pesquisar(){
@@ -124,6 +128,9 @@ public class OrdemServicoBean implements Serializable {
 		this.ordemServico.setId_solicitacao(solicitacao.getId());
 	}
 
+	
+	
+	
 	// ----------GETTERS and SETTERS------------
 
 	public List<OrdemServico> getOrdensDeServico() {
@@ -200,6 +207,10 @@ public class OrdemServicoBean implements Serializable {
 
 	public void setFiltros(FiltrosOrdens filtros) {
 		this.filtros = filtros;
+	}
+
+	public GestaoPlaman getOsService() {
+		return osService;
 	}
 
 

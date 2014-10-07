@@ -14,19 +14,17 @@
 
 	<ui:define name="conteudo">
 		<h:form id="frmOrdem">
-			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false" />
 			<div style="width: 600xp; background-color: #cccccc">
 				<p:panel>
-					<p:inputText placeholder="Numero"
-						rendered="#{not ordemServicoBean.pesquisaAvancada}"
-						value="#{ordemServicoBean.filtros.id}"
-						style="margin-right:10px;"
-						valueChangeListener="#{ordemServicoBean.chamaPesquisa}">
-						<f:ajax event="keyup" render=":frmOrdem:panelOrdens" />
+					<p:inputText placeholder="apenas o numero" value="#{ordemServicoBean.txtPesquisa}" 
+						rendered="#{not ordemServicoBean.pesquisaAvancada}" style="margin-right:10px;" id="txtPesquisa">
 					</p:inputText>
+					 
+					<p:commandButton rendered="#{not ordemServicoBean.pesquisaAvancada}" value="Pesquisar" action="#{ordemServicoBean.chamaPesquisa}" update="tabelaDeOrdem, painelOrdem, txtPesquisa "/>
 
-					<p:selectBooleanButton offLabel="Mais filtros"
-						style="margin-bottom:2px;" onLabel="Menos filtros"
+					<p:selectBooleanButton offLabel="(+)Filtros"
+						style="margin-bottom:5px;" onLabel="(-)Filtros"
 						value="#{ordemServicoBean.pesquisaAvancada}">
 						<p:ajax update="frmOrdem" />
 					</p:selectBooleanButton>
@@ -41,141 +39,80 @@
 						<p:selectOneMenu value="#{ordemServicoBean.filtros.status}"
 							id="filtroStatus" style="width:165px">
 							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
-							<f:selectItems value="#{solicitacaoBean.todosStatus()}"
+							<f:selectItems value="#{ordemServicoBean.statusOrdem()}"
 								var="item" itemLabel="#{item}" itemValue="#{item}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Setor" for="filtroSetor" />
-						<p:selectOneMenu value="#{solicitacaoBean.filtros.setor}"
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.setor}"
 							id="filtroSetor" style="width:165px;">
 							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
-							<f:selectItems value="#{solicitacaoBean.departamentos}"
+							<f:selectItems value="#{ordemServicoBean.departamentos}"
 								var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel value="Tipo" for="filtroTipo" />
-						<p:selectOneMenu value="#{solicitacaoBean.filtros.tipoTrabalho}"
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.tipoTrabalho}"
 							id="filtroTipo" style="width:165px;">
 							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
-							<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
+							<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
 								var="item" itemLabel="#{item}" itemValue="#{item}" />
 						</p:selectOneMenu>
-
-						<p:commandButton action="#{solicitacaoBean.pesquisar}"
-							value="pesquisar" update="panelSolicitacoes, avancada"
-							style="float:right;" />
 					</p:panelGrid>
+					<p:commandButton action="#{ordemServicoBean.pesquisar}" style="margin-top:5px"
+							value="pesquisar" rendered="#{ordemServicoBean.pesquisaAvancada}"/>
+				</p:panel>
+
+				<p:panel id="painelOrdem">
+					<p:dataTable value="#{ordemServicoBean.ordensDeServico}" var="ordem" rows="10" paginator="true" id="tabelaDeOrdem">
+					
+						<p:column headerText="ID" style="width:50px;text-align:center" >
+						 <span class="txtLabel">#{ordem.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{ordem.id}</span>
+						</p:column>
+
+						<p:column headerText="Equipamento" style="width:100px;text-align:center">
+							<span class="txtValor">#{ordem.equipamento}</span>
+						</p:column>
+
+						<p:column headerText="Componente" style="width:150px;text-align:center">
+						<span class="txtValor">#{ordem.componente}</span>
+						</p:column>
+						
+						<p:column headerText="Descrição">
+						<span class="txtValor">#{ordem.descricaoAcao}</span>
+						</p:column>
+
+						<p:column headerText="Setor" style="width:100px;text-align:center"
+							rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
+						<span class="txtValor">#{ordem.setor.nome}</span>
+						</p:column>
+
+						<p:column headerText="Tipo Trabalho" style="width:120px;text-align:center">
+						<span class="txtValor">#{ordem.tipoTrabalho}</span>
+						</p:column>
+
+						<p:column headerText="Data Criação" style="width:120px;text-align:center">
+						 <h:outputText styleClass="txtValor" value="#{ordem.dataCriacao}">
+						 	<f:convertDateTime pattern="dd/MM/yyyy"/>
+						 </h:outputText>
+						</p:column>
+
+						<p:column headerText="Status" style="width:95px;text-align:center" styleClass="#{ordem.status}">
+							<span class="txtValor">#{ordem.status}</span>
+						</p:column>
+						<p:column style="width:60px;">
+							<p:commandLink>
+								<p:graphicImage url="/images/lupaview.png" title="ver detalhes"/>
+							</p:commandLink>
+							<p:spacer  width="15px"/>
+							<p:commandLink>
+								<p:graphicImage url="/images/imprimir.png" title="ver detalhes" rendered="#{ordem.status == 'ABERTO'}"/>
+							</p:commandLink>
+							
+						</p:column>
+					</p:dataTable>
 				</p:panel>
 			</div>
-			<p:panel id="panelOrdens">
-				<p:dataTable value="#{solicitacaoBean.solicitacoes}"
-					var="solicitacao" id="tabelaSolicita">
-					<p:column headerText="ID" style="width:35px; text-align:center">
-									SS#{solicitacao.id}
-								</p:column>
-
-					<p:column headerText="EQUIPAMENTO"
-						style="width:160px; text-align:center;">
-						<span class="txtValor">#{solicitacao.equipamento}</span>
-					</p:column>
-
-					<p:column headerText="COMPONENTE"
-						style="width:120px; text-align:center">
-						<span class="txtValor">#{solicitacao.componente}</span>
-					</p:column>
-
-					<p:column headerText="DESCRIÇÃO">
-						<span class="txtValor">#{solicitacao.descricaoAcao}</span>
-					</p:column>
-
-
-					<p:column headerText="SETOR"
-						rendered="#{facesContext.externalContext.isUserInRole('planejamento')}"
-						style="width:68px;">
-						<span class="txtValor">#{solicitacao.setor.nome}</span>
-					</p:column>
-
-
-					<p:column headerText="GERADO EM"
-						style="width:120px; text-align:center">
-						<p:outputLabel value="#{solicitacao.dataCriacao}">
-							<f:convertDateTime pattern="dd/MM/yyy" />
-						</p:outputLabel>
-					</p:column>
-
-					<p:column headerText="STATUS" style="width:80px; text-align:center"
-						styleClass="#{solicitacao.status}">
-									#{solicitacao.status}
-								</p:column>
-
-					<p:column style="width:10px;text-align:center">
-						<p:commandLink update=":frmSolicita:modelOrdem"	oncomplete="PF('novaOrdem').show()" >
-							<p:graphicImage url="/images/mais.png"	rendered="#{solicitacao.status == 'ABERTO'}" />
-							<f:setPropertyActionListener value="#{solicitacao}" target="#{ordemServicoBean.solicitacao}" />
-							<f:actionListener binding="#{ordemServicoBean.solicitacaoToOrdem()}"/>
-						</p:commandLink>
-					</p:column>
-				</p:dataTable>
-
-				<p:dialog widgetVar="novaOrdem" id="modelOrdem" width="600px"
-					height="500px" modal="true" header="Nova Ordem">
-
-					<p:panelGrid columns="2" id="gridNovaOrdem" style="width:550px">
-						<p:outputLabel value="Tipo de Ordem" />
-						<p:selectOneRadio
-							value="#{ordemServicoBean.ordemServico.tipoOrdem}">
-							<f:selectItems value="#{ordemServicoBean.tipoDeOrdem()}"
-								var="tipo" itemValue="#{tipo}" />
-							<p:ajax update="gridNovaOrdem" />
-						</p:selectOneRadio>
-
-						<p:outputLabel id="lbModoOrdem" value="Modo Corretivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'CORRETIVA'}" />
-						<p:selectOneMenu id="vlModoOrdem"
-							value="#{ordemServicoBean.ordemServico.modoCorretivo}"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'CORRETIVA'}">
-							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-							<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
-								var="item" itemValue="#{item}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel id="lbCicloOrdem" value="Ciclo Preventivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'PREVENTIVA'}" />
-						<p:inputText placeholder="Minutos"
-							value="#{ordemServicoBean.ordemServico.cicloPreventiva}"
-							id="vlCicloPreventivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'PREVENTIVA'}" size="5"/>
-						
-						<p:outputLabel value="Tipo de Trabalho"/>
-						<p:selectOneMenu value="#{ordemServicoBean.ordemServico.tipoTrabalho}">
-							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-							<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
-								var="item" itemValue="#{item}" />
-						</p:selectOneMenu>
-						
-						<p:outputLabel value="Departamento"/>
-						<p:selectOneMenu value="#{ordemServicoBean.ordemServico.setor}">
-							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-							<f:selectItems value="#{ordemServicoBean.departamentos}"
-								var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
-						</p:selectOneMenu>
-						
-						<p:outputLabel value="Equipamento"/>
-						<p:inputText value="#{ordemServicoBean.ordemServico.equipamento}"/>
-						
-						<p:outputLabel value="Componente"/>
-						<p:inputText value="#{ordemServicoBean.ordemServico.componente}"/>
-						
-						<p:outputLabel value="Descrição"/>
-						<p:inputTextarea value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40" rows="5"/>
-					</p:panelGrid>
-					
-					<f:facet name="footer">
-						<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar" update="panelSolicitacoes, tabelaSolicita" />
-						<p:commandButton value="Imprimir" action="#{ordemServicoBean.imprimir}" update="panelSolicitacoes, tabelaSolicita" />
-					</f:facet>
-				</p:dialog>
-			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>
