@@ -6,30 +6,36 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.repository.infra.ColaboradorRepository;
 import com.locar.pipe.repository.infra.DepartamentoRepository;
+import com.locar.pipe.service.GestaoPlaman;
 
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class ColaboradorBean implements Serializable {
-
 	private static final long serialVersionUID = 1L;
+	
+	private Colaborador colaboradorLogado;
 	private Colaborador colaborador;
 	private Colaborador colaboradorSelecionado;
 	private List<Departamento> departamentos;
 	public static List<Colaborador> colaboradores;
 	private ColaboradorRepository registro;
 	private DepartamentoRepository setor;
+	private GestaoPlaman colaboradorService;
 
 	//Metodos Funcionais
 	@PostConstruct
 	public void init(){
+		colaboradorService = new GestaoPlaman();
+		colaboradorLogado = new Colaborador();
 		colaborador = new Colaborador();
 		colaboradores = new ArrayList<Colaborador>();
 		departamentos = new ArrayList<Departamento>();
@@ -37,6 +43,7 @@ public class ColaboradorBean implements Serializable {
 		setor = new DepartamentoRepository();
 		colaboradores = registro.listarTodos();
 		departamentos = setor.listarSetor();
+		colaboradorLogado = colaboradorService.colaboradorLogado();
 	}
 
 	public void atualizarListas(){
@@ -99,6 +106,14 @@ public class ColaboradorBean implements Serializable {
 
 	public List<Departamento> getDepartamentos() {
 		return departamentos;
+	}
+
+	public Colaborador getColaboradorLogado() {
+		return colaboradorLogado;
+	}
+
+	public void setColaboradorLogado(Colaborador colaboradorLogado) {
+		this.colaboradorLogado = colaboradorLogado;
 	}
 
 }

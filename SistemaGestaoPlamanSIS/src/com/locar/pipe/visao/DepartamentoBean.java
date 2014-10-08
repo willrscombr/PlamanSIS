@@ -6,15 +6,16 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.repository.infra.DepartamentoRepository;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class DepartamentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;

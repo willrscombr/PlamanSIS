@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.repository.infra.ColaboradorRepository;
+import com.locar.pipe.service.GestaoPlaman;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
@@ -21,25 +21,20 @@ public class SegurancaBean implements Serializable {
 
 	private String login;
 	private String senha;
-	public static Colaborador colaboradorLogado;
-
+	private Colaborador colaboradorLogado;
+	private GestaoPlaman gestao;
 	
 	@PostConstruct
 	public void init(){
 		colaboradorLogado = new Colaborador();
+		gestao = new GestaoPlaman();
 	}
 	
 	
 	public String logar() {
 		try {
 			this.getRequest().login(login, senha);
-
-			if (this.getRequest().getUserPrincipal() != null) {
-				ColaboradorRepository dao = new ColaboradorRepository();
-				SegurancaBean.setColaboradorLogado(dao.buscarPorNome(login));
-				this.getRequest().setAttribute("colaboradorLogado", colaboradorLogado);
-			}
-
+			colaboradorLogado = gestao.colaboradorLogado();
 			return "index?faces-redirect=true";
 		} catch (ServletException e) {
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Login ou senha nao confere");
@@ -80,12 +75,14 @@ public class SegurancaBean implements Serializable {
 		this.senha = senha;
 	}
 
+
 	public Colaborador getColaboradorLogado() {
 		return colaboradorLogado;
 	}
 
 
-	public static void setColaboradorLogado(Colaborador colaboradorLogado) {
-		SegurancaBean.colaboradorLogado = colaboradorLogado;
+	public void setColaboradorLogado(Colaborador colaboradorLogado) {
+		this.colaboradorLogado = colaboradorLogado;
 	}
+
 }

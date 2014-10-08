@@ -16,7 +16,7 @@
 		<h:form id="frmSolicita">
 			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
 			<div style="width: 600xp; background-color: #cccccc">
-				<p:panel>
+				<p:panel id="painelFiltros">
 					<p:inputText placeholder="Equipamento"
 						rendered="#{not solicitacaoBean.pesquisaAvancada}"
 						value="#{solicitacaoBean.filtros.equipamento}"
@@ -69,7 +69,7 @@
 			</div>
 			<p:panel id="panelSolicitacoes">
 				<p:dataTable value="#{solicitacaoBean.solicitacoes}"
-					var="solicitacao" id="tabelaSolicita">
+					var="solicitacao" id="tabelaSolicita" >
 					<p:column headerText="ID" style="width:35px; text-align:center">
 									SS#{solicitacao.id}
 								</p:column>
@@ -91,7 +91,7 @@
 
 					<p:column headerText="SETOR"
 						rendered="#{facesContext.externalContext.isUserInRole('planejamento')}"
-						style="width:68px;">
+						style="width:80px;">
 						<span class="txtValor">#{solicitacao.setor.nome}</span>
 					</p:column>
 
@@ -171,7 +171,7 @@
 					</p:panelGrid>
 					
 					<f:facet name="footer">
-						<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar" update="panelSolicitacoes, tabelaSolicita" />
+						<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar" update="frmSolicita" />
 						<p:commandButton value="Imprimir" action="#{ordemServicoBean.imprimir}" update="panelSolicitacoes, tabelaSolicita" />
 					</f:facet>
 				</p:dialog>

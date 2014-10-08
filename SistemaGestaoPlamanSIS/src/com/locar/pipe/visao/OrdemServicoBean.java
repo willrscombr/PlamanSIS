@@ -3,11 +3,13 @@ package com.locar.pipe.visao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
@@ -23,7 +25,7 @@ import com.locar.pipe.service.OrdemServicoException;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class OrdemServicoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -62,6 +64,7 @@ public class OrdemServicoBean implements Serializable {
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Ordem "
 					+ ordemServico.getTipoOrdem() + " criada com sucesso");
 			ordemServico = new OrdemServico();
+			ordensDeServico = osService.pesquisarPorFiltro(filtros);
 		} catch (OrdemServicoException e) {
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_WARN,
 					e.getMessage());

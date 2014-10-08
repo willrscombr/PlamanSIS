@@ -7,8 +7,6 @@ import java.util.List;
 import javax.faces.context.FacesContext;
 
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.enuns.TipoOrdem;
-import com.locar.pipe.enuns.TipoTrabalho;
 import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
@@ -23,17 +21,14 @@ import com.locar.pipe.repository.infra.ColaboradorRepository;
 import com.locar.pipe.repository.infra.DepartamentoRepository;
 import com.locar.pipe.repository.infra.OrdemServicoRepository;
 import com.locar.pipe.repository.infra.SolicitacoesRepositorio;
-import com.locar.pipe.util.MensagensUtil;
-import com.locar.pipe.visao.SegurancaBean;
-import com.locar.pipe.visao.SolicitacaoBean;
 
 public class GestaoPlaman implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private ColaboradorDB dominioColaborador;
 	private OrdemServicoDB dominioOrdem;
 	private DepartamentosDB dominioDepartamento;
 	private SolicitacoesDB dominioSolicitacao;
-	private ColaboradorDB dominioColaborador;
 
 	// -------------- Construtor------------------------
 	public GestaoPlaman() {
@@ -46,7 +41,9 @@ public class GestaoPlaman implements Serializable {
 
 	// -------- METODOS UTIL--------------
 	public Colaborador colaboradorLogado() {
-		return SegurancaBean.colaboradorLogado;
+		Colaborador colaborador  = new Colaborador();
+		colaborador = dominioColaborador.buscarPorNome(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
+		return colaborador;
 	}
 
 	public List<Departamento> todosDepartamento() {
@@ -101,8 +98,9 @@ public class GestaoPlaman implements Serializable {
 	}
 
 	public List<SolicitacaoServico> solicitacoesAbertas() {
-		return dominioSolicitacao.listarPorStatusSetor(colaboradorLogado()
-				.getSetor(), Status.ABERTO);
+		Colaborador col = colaboradorLogado();
+		System.out.println("SETOR DO COLABORADOR LOGADO: "+col.getSetor().getNome());
+		return dominioSolicitacao.listarPorStatusSetor(col.getSetor(), Status.ABERTO);
 	}
 
 	public List<SolicitacaoServico> todasSolicitacoes() {
