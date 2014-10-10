@@ -62,7 +62,7 @@
 							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
 							rowStyleClass="linhatabela">
 							<p:column style="width:200px">
-      							Numero: <span class="txtValor">#{item.id}</span>
+      							<span class="#{item.tipoOrdem}">#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
 							</p:column>
 							<p:column >
       							Em Funcionamento: <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NAO'}</span>
@@ -96,7 +96,7 @@
 
 						<p:dialog
 							header="Detalhes Ordem"
-							widgetVar="dlg" modal="true" height="550px" width="650px"
+							widgetVar="dlg" modal="true" height="550px" width="750px"
 							id="modalOrdem">
 							<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
 								>
@@ -120,7 +120,7 @@
 								<h:outputText
 									value="#{solicitacaoBean.ordemSelecionada.componente}" />
 
-								<p:outputLabel value="Equipamento parado: " />
+								<p:outputLabel value="Em funcionamento: " />
 								<h:outputText
 									value="#{solicitacaoBean.ordemSelecionada.emFuncionamento ? 'SIM' : 'NÃO'}" />
 

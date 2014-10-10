@@ -85,6 +85,9 @@ public class GestaoPlaman implements Serializable {
 		return texto;
 	}
 
+	public List<Colaborador> todosColaboradores(){
+		return dominioColaborador.listarTodos();
+	}
 	// ------ VIEW SOLICITAÇÃO BEAN ---------------------------------
 	public void salvarSolicitacao(SolicitacaoServico solicitacao)
 			throws SolicitacaoException {
@@ -182,7 +185,7 @@ public class GestaoPlaman implements Serializable {
 		
 		if(ordem.getId_solicitacao() != 0){
 			ordem.setModoCorretivo(ModoCorretivo.PROGRAMADA);
-			dominioSolicitacao.trocaStatus(ordem.getId(), Status.FECHADO);
+			dominioSolicitacao.trocaStatus(ordem.getId_solicitacao(), Status.ATENDIDO);
 		}
 		
 		if (dominioOrdem.jaExiste(ordem)) {
@@ -221,4 +224,6 @@ public class GestaoPlaman implements Serializable {
 
 		return id;
 	}
+
+	
 }

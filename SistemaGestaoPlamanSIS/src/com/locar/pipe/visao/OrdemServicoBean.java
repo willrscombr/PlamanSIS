@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
@@ -39,6 +40,7 @@ public class OrdemServicoBean implements Serializable {
 	private String txtPesquisa;
 	private boolean impresso;
 	private boolean pesquisaAvancada;
+	private boolean programarOs;
 
 	@PostConstruct
 	public void init() {
@@ -56,19 +58,23 @@ public class OrdemServicoBean implements Serializable {
 
 	// ------------Metodos da View---------------
 
-	public void salvar() {
+	public String salvar() {
 		try {
-
+			ordemServico.setTipoOrdem(TipoOrdem.CORRETIVA);//toda ordem criada atraves de solicitação são corretivas
 			osService.salvarOrdemServicoCorretiva(ordemServico, impresso);
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO,
 					"Ordem de serviço gerada com sucesso");
 			ordemServico = new OrdemServicoCorretiva();
-			ordensDeServico = osService.pesquisarPorFiltro(filtros);
-
+			
+			return "/ordem/listarordem.xhtml?faces-redirect=true";
 		} catch (OrdemServicoException e) {
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_WARN,
 					e.getMessage());
+		}finally{
+			ordensDeServico = osService.pesquisarPorFiltro(filtros);
 		}
+		
+		return "";
 	}
 
 	public void imprimir() {
@@ -129,9 +135,16 @@ public class OrdemServicoBean implements Serializable {
 	public TipoDePesquisa[] tipoPesquisa() {
 		return TipoDePesquisa.values();
 	}
+	
+	public void programarExecutor(ValueChangeEvent event){
+		if(programarOs){
+			programarOs = false;
+		}else{
+			programarOs = true;
+		}
+	}
 
 	public void solicitacaoToOrdem() {
-		System.out.println("ESTA NO ADPTER");
 		this.ordemServico.setEquipamento(solicitacao.getEquipamento());
 		this.ordemServico.setComponente(solicitacao.getComponente());
 		this.ordemServico.setDescricaoAcao(solicitacao.getDescricaoAcao());
@@ -141,6 +154,10 @@ public class OrdemServicoBean implements Serializable {
 		this.ordemServico.setEmFuncionamento(solicitacao.isEmFuncionamento());
 	}
 
+	public void carregarDados(){
+		this.ordensDeServico = osService.pesquisarPorFiltro(filtros);
+		this.filtroColaborador = osService.todosColaboradores();
+	}
 	// ----------GETTERS and SETTERS------------
 
 	public List<OrdemServicoCorretiva> getOrdensDeServico() {
@@ -221,6 +238,14 @@ public class OrdemServicoBean implements Serializable {
 
 	public GestaoPlaman getOsService() {
 		return osService;
+	}
+
+	public boolean isProgramarOs() {
+		return programarOs;
+	}
+
+	public void setProgramarOs(boolean programarOs) {
+		this.programarOs = programarOs;
 	}
 
 }

@@ -201,6 +201,7 @@ html, body {
 
 .txtLabel {
 	font-weight: bold;
+	width:200px;
 }
 
 .txtValor {
@@ -252,8 +253,9 @@ html, body {
 	background-color:red;
 }
 
-.FECHADO {
-	background-color:silver;
+.ATENDIDO {
+	background-color:teal;
+	color: white;
 }
 
 .filtrosPesquisa{

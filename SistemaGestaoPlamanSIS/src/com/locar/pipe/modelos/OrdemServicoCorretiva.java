@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
+import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
@@ -33,6 +35,8 @@ public class OrdemServicoCorretiva implements Serializable {
 	private long id;
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	@Enumerated(EnumType.ORDINAL)
+	private TipoOrdem tipoOrdem;
 	@ManyToOne
 	private Departamento setor;
 	private String equipamento;
@@ -52,7 +56,7 @@ public class OrdemServicoCorretiva implements Serializable {
 	private TipoTrabalho tipoTrabalho;
 	@Column(name = "modo_corretivo") @Enumerated(EnumType.STRING)
 	private ModoCorretivo modoCorretivo;
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_colaborador"), inverseJoinColumns = @JoinColumn(name="id_ordem"))
 	private List<Colaborador> colaboradores;
 	private long id_solicitacao;
@@ -260,5 +264,13 @@ public class OrdemServicoCorretiva implements Serializable {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	public TipoOrdem getTipoOrdem() {
+		return tipoOrdem;
+	}
+
+	public void setTipoOrdem(TipoOrdem tipoOrdem) {
+		this.tipoOrdem = tipoOrdem;
 	}
 }

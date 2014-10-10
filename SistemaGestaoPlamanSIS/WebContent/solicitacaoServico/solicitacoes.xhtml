@@ -13,8 +13,8 @@
 	<ui:define name="title_page">Solicitações</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="frmSolicita">
-			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+		<h:form id="frmSolicita" prependId="false">
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false" />
 			<div style="width: 600xp; background-color: #cccccc">
 				<p:panel id="painelFiltros">
 					<p:inputText placeholder="Equipamento"
@@ -22,7 +22,7 @@
 						value="#{solicitacaoBean.filtros.equipamento}"
 						style="margin-right:10px;"
 						valueChangeListener="#{solicitacaoBean.chamaPesquisa}">
-						<f:ajax event="keyup" render=":frmSolicita:panelSolicitacoes" />
+						<f:ajax event="keyup" render=":frmTabela" />
 					</p:inputText>
 
 					<p:selectBooleanButton offLabel="Mais filtros"
@@ -62,13 +62,16 @@
 						</p:selectOneMenu>
 
 						<p:commandButton action="#{solicitacaoBean.pesquisar}"
-							value="pesquisar" update="panelSolicitacoes, avancada" />
+							value="pesquisar" update=":frmTabela" />
 					</p:panelGrid>
 				</p:panel>
 			</div>
-			<p:panel id="panelSolicitacoes">
+		</h:form>
+
+		<p:panel id="panelSolicitacoes">
+			<h:form id="frmTabela">
 				<p:dataTable value="#{solicitacaoBean.solicitacoes}"
-					var="solicitacao" id="tabelaSolicita" >
+					var="solicitacao" id="tabelaSolicita">
 					<p:column headerText="ID" style="width:35px; text-align:center">
 									SS#{solicitacao.id}
 								</p:column>
@@ -108,59 +111,107 @@
 								</p:column>
 
 					<p:column style="width:10px;text-align:center">
-						<p:commandLink update=":frmSolicita:modelOrdem"	oncomplete="PF('novaOrdem').show()" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
-							<p:graphicImage url="/images/mais.png"	rendered="#{solicitacao.status == 'ABERTO'}" />
-							<f:setPropertyActionListener value="#{solicitacao}" target="#{ordemServicoBean.solicitacao}" />
-							<f:actionListener binding="#{ordemServicoBean.solicitacaoToOrdem()}"/>
+						<p:commandLink update=":frmCadastraOrdem:modelOrdem"
+							oncomplete="PF('novaOrdem').show()"
+							rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
+							
+							<p:graphicImage url="/images/mais.png" rendered="#{solicitacao.status == 'ABERTO'}" />		
+									
+							<f:setPropertyActionListener value="#{solicitacao}"
+								target="#{ordemServicoBean.solicitacao}" />
+							<f:actionListener
+								binding="#{ordemServicoBean.solicitacaoToOrdem()}" />
 						</p:commandLink>
 					</p:column>
 				</p:dataTable>
-
-				<p:dialog widgetVar="novaOrdem" id="modelOrdem" width="600px"
+			</h:form>
+			<h:form id="frmCadastraOrdem">
+				<p:dialog widgetVar="novaOrdem" id="modelOrdem" width="600px" closeOnEscape="true" hideEffect="explode" 
 					height="500px" modal="true" header="Nova Ordem">
 
 					<p:panelGrid columns="2" id="gridNovaOrdem" style="width:550px">
-						
-						<p:outputLabel value="Tipo de Trabalho"/>
-						<p:selectOneMenu value="#{ordemServicoBean.ordemServico.tipoTrabalho}">
+
+						<p:outputLabel value="Tipo de Trabalho" />
+						<h:panelGroup>
+						<p:message for="tipotrabalho"/>
+						<p:selectOneMenu id="tipotrabalho"
+							value="#{ordemServicoBean.ordemServico.tipoTrabalho}" required="true" requiredMessage="Escolha o tipo de trabalho">
 							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
 								var="item" itemValue="#{item}" />
 						</p:selectOneMenu>
+						</h:panelGroup>
 						
-						<p:outputLabel value="Departamento"/>
-						<p:selectOneMenu value="#{ordemServicoBean.ordemServico.setor}">
+						<p:outputLabel value="Modo Corretivo" />
+						
+						<h:panelGroup>
+						<p:message for="modocorretivo"/>
+						<p:selectOneMenu id="modocorretivo"
+							value="#{ordemServicoBean.ordemServico.modoCorretivo}" required="true" requiredMessage="Escolha o Modo corretivo">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
+								var="item" itemValue="#{item}" />
+						</p:selectOneMenu>
+						</h:panelGroup>
+						
+						
+						<p:outputLabel value="Centro de Trabalho" />
+						
+						<h:panelGroup>
+						<p:message for="setor"/>
+						<p:selectOneMenu id="setor" value="#{ordemServicoBean.ordemServico.setor}" required="true" requiredMessage="Escolha o centro de trabalho">
 							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems value="#{ordemServicoBean.departamentos}"
 								var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
 						</p:selectOneMenu>
+						</h:panelGroup>
 						
-						<p:outputLabel value="Equipamento"/>
-						<p:inputText value="#{ordemServicoBean.ordemServico.equipamento}"/>
+						<p:outputLabel value="Equipamento" />
 						
-						<p:outputLabel value="Componente"/>
-						<p:inputText value="#{ordemServicoBean.ordemServico.componente}"/>
+						<h:panelGroup>
+						<p:message for="equipamento"/>
+						<p:inputText id="equipamento" value="#{ordemServicoBean.ordemServico.equipamento}" required="true" requiredMessage="Preencha o campo Equipamento"/>
+						</h:panelGroup>
 						
-						<p:outputLabel value="Descrição"/>
-						<p:inputTextarea value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40" rows="5"/>
+						<p:outputLabel value="Componente" />
+						
+						<h:panelGroup>
+						<p:message for="componente"/>
+						<p:inputText id="componente" value="#{ordemServicoBean.ordemServico.componente}" required="true" requiredMessage="Preencha o campo Componente"/>
+						</h:panelGroup>
+						
+						<p:outputLabel value="Descrição" />
+						
+						<h:panelGroup>
+						<p:message for="descricao"/>
+						<p:inputTextarea id="descricao"
+							value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40"
+							rows="5" required="true" requiredMessage="Informe a ação no campo descrição"/>
+						</h:panelGroup>
 					</p:panelGrid>
-					
-					<h:panelGroup >
-						
-						<p:selectBooleanCheckbox id="emFuncionamento" style="margin-top:15px;text-align:center"
-							value="#{ordemServicoBean.ordemServico.emFuncionamento}" required="true" requiredMessage="Responda a pergunta"/>
-							<p:spacer width="3px"/>
+
+					<h:panelGroup>
+
+						<p:selectBooleanCheckbox id="emFuncionamento"
+							style="margin-top:15px;text-align:center"
+							value="#{ordemServicoBean.ordemServico.emFuncionamento}"
+							required="true" requiredMessage="Responda a pergunta" />
+						<p:spacer width="3px" />
 						<p:outputLabel value="O equipamento esta em funcionamento?" />
 						<p:message for="emFuncionamento" />
 					</h:panelGroup>
-					
-					
+
+
 					<f:facet name="footer">
-						<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar" update="frmSolicita" />
-						<p:commandButton value="Imprimir" action="#{ordemServicoBean.imprimir}" update="panelSolicitacoes, tabelaSolicita" />
+						<p:commandButton action="#{ordemServicoBean.salvar}" id="btnSalvarOrdem"
+							value="Salvar" update=":frmTabela, frmCadastraOrdem"
+							actionListener="#{solicitacaoBean.carregarDados()}"/>
+						<p:commandButton value="Imprimir" id="btnImprimirOrdem"
+							action="#{ordemServicoBean.imprimir}"
+							update=":frmTabela" />
 					</f:facet>
 				</p:dialog>
-			</p:panel>
-		</h:form>
+			</h:form>
+		</p:panel>
 	</ui:define>
 </ui:composition>

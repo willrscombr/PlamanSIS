@@ -2,9 +2,9 @@ package com.locar.pipe.enuns;
 
 public enum Status {
 
-	ABERTO("aberto"), PROGRAMADO("programado"), IMPRESSO("impresso"), CANCELADO(
+	ABERTO("aberto"), PROGRAMADO("programado"), IMPRESSO("impresso"),ANDAMENTO("andamento"), CANCELADO(
 			"cancelado"), ATRASO("atraso"), ENCERRADO("encerrado"), PENDENTE(
-			"pendente"),FECHADO("fechado");
+			"pendente"),ATENDIDO("atendido");
 
 	
 	String status;

@@ -10,44 +10,71 @@
 	<ui:define name="conteudo">
 		<h:form id="frmNovaOrdem">
 			<p:panel id="panelSolicitacoes">
-				<p:messages autoUpdate="true" />
-				<p:growl globalOnly="true"/>
+				<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
 				<p:panelGrid columns="2" id="gridNovaOrdem" style="width:550px">
 
 					<p:outputLabel id="lbModoOrdem" value="Modo Corretivo: " />
+					
+					<h:panelGroup>
 					<p:selectOneMenu id="vlModoOrdem" required="true" requiredMessage="Selecione um modo"
 						value="#{ordemServicoBean.ordemServico.modoCorretivo}">
 						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 						<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
 							var="item" itemValue="#{item}" />
 					</p:selectOneMenu>
+					</h:panelGroup>
 
 					<p:outputLabel value="Tipo de Trabalho: " />
+					
+					<h:panelGroup>
 					<p:selectOneMenu  required="true" requiredMessage="Selecione um tipo de trabalho"
 						value="#{ordemServicoBean.ordemServico.tipoTrabalho}" >
 						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 						<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
 							var="item" itemValue="#{item}" />
 					</p:selectOneMenu>
+					</h:panelGroup>
 
 					<p:outputLabel value="Centro de Trabalho: " />
+					
+					<h:panelGroup>
 					<p:selectOneMenu value="#{ordemServicoBean.ordemServico.setor}"  required="true" requiredMessage="Selecione um centro de trabalho ">
 						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 						<f:selectItems value="#{ordemServicoBean.departamentos}"
 							var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
 					</p:selectOneMenu>
+					</h:panelGroup>
 
 					<p:outputLabel value="Equipamento: " />
+					
+					<h:panelGroup>
 					<p:inputText value="#{ordemServicoBean.ordemServico.equipamento}" required="true" requiredMessage="Preencha o campo equipamento"/>
+					</h:panelGroup>
 
 					<p:outputLabel value="Componente: " />
+					
+					<h:panelGroup>
 					<p:inputText value="#{ordemServicoBean.ordemServico.componente}" required="true" requiredMessage="Preencha o campo componente"/>
-
+					</h:panelGroup>
+						
 					<p:outputLabel value="Descrição: " />
+					
+					<h:panelGroup>
 					<p:inputTextarea required="true"
 						value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40"
-						rows="5" placeholder="Detalhe o que deve ser executado">
-						</p:inputTextarea>
+						rows="5" placeholder="Detalhe o que deve ser executado" requiredMessage="Preencha com o detalhe da ação"/>
+					</h:panelGroup>		
+						
+					<p:outputLabel value="" />
+					<h:panelGroup>
+						
+						<p:selectBooleanCheckbox id="emFuncionamento" style="text-align:center"
+							value="#{solicitacaoBean.solicitacao.emFuncionamento}" />
+							<p:spacer width="3px"/>
+						<p:outputLabel value="O equipamento esta em funcionamento?" />
+						<p:message for="emFuncionamento" />
+					</h:panelGroup>
+					
 				</p:panelGrid>
 
 				<f:facet name="footer">
