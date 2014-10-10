@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template/templateGeral.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title_page">Nova Ordem Corretiva</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="frmNovaOrdem">
+			<p:panel id="panelSolicitacoes">
+				<p:messages autoUpdate="true" />
+				<p:growl globalOnly="true"/>
+				<p:panelGrid columns="2" id="gridNovaOrdem" style="width:550px">
+
+					<p:outputLabel id="lbModoOrdem" value="Modo Corretivo: " />
+					<p:selectOneMenu id="vlModoOrdem" required="true" requiredMessage="Selecione um modo"
+						value="#{ordemServicoBean.ordemServico.modoCorretivo}">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+						<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
+							var="item" itemValue="#{item}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Tipo de Trabalho: " />
+					<p:selectOneMenu  required="true" requiredMessage="Selecione um tipo de trabalho"
+						value="#{ordemServicoBean.ordemServico.tipoTrabalho}" >
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+						<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
+							var="item" itemValue="#{item}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Centro de Trabalho: " />
+					<p:selectOneMenu value="#{ordemServicoBean.ordemServico.setor}"  required="true" requiredMessage="Selecione um centro de trabalho ">
+						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+						<f:selectItems value="#{ordemServicoBean.departamentos}"
+							var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Equipamento: " />
+					<p:inputText value="#{ordemServicoBean.ordemServico.equipamento}" required="true" requiredMessage="Preencha o campo equipamento"/>
+
+					<p:outputLabel value="Componente: " />
+					<p:inputText value="#{ordemServicoBean.ordemServico.componente}" required="true" requiredMessage="Preencha o campo componente"/>
+
+					<p:outputLabel value="Descrição: " />
+					<p:inputTextarea required="true"
+						value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40"
+						rows="5" placeholder="Detalhe o que deve ser executado">
+						</p:inputTextarea>
+				</p:panelGrid>
+
+				<f:facet name="footer">
+					<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar"
+						update="frmNovaOrdem" />
+					<p:commandButton value="Imprimir"
+						action="#{ordemServicoBean.imprimir}" update="panelSolicitacoes" />
+				</f:facet>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

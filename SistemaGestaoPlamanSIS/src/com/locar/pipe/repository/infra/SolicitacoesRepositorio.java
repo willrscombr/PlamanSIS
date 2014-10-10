@@ -212,8 +212,8 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 				
 		SolicitacaoServico soli = new SolicitacaoServico();
 		soli = this.findById(id);
-		soli.setStatus(status);
-		
+		System.out.println("Solicitacao: "+soli.getDescricaoAcao());
+		soli.setStatus(status);		
 		
 	}
 	

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 
@@ -16,7 +15,7 @@ import com.locar.pipe.enuns.TipoTrabalho;
 import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
-import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.service.GestaoPlaman;
 import com.locar.pipe.service.SolicitacaoException;
@@ -34,9 +33,9 @@ public class SolicitacaoBean implements Serializable {
 	private List<SolicitacaoServico> solicitacoesAbertas;
 	private List<SolicitacaoServico> solicitacoes;
 	private List<Departamento> departamentos;
-	private List<OrdemServico> ultimasOrdens;
+	private List<OrdemServicoCorretiva> ultimasOrdens;
 	private SolicitacaoServico solicitacao;
-	private OrdemServico ordemSelecionada;
+	private OrdemServicoCorretiva ordemSelecionada;
 	
 	private FiltrosSolicitacoes filtros;
 	private boolean pesquisaAvancada;
@@ -54,9 +53,9 @@ public class SolicitacaoBean implements Serializable {
 		solicitacoesAbertas = new ArrayList<SolicitacaoServico>();
 		solicitacoes = new ArrayList<SolicitacaoServico>();
 		departamentos = new ArrayList<Departamento>();
-		ultimasOrdens = new ArrayList<OrdemServico>();
+		ultimasOrdens = new ArrayList<OrdemServicoCorretiva>();
 		solicitacao = new SolicitacaoServico();
-		ordemSelecionada = new OrdemServico();
+		ordemSelecionada = new OrdemServicoCorretiva();
 		filtros = new FiltrosSolicitacoes();
 		
 		this.carregarDados();
@@ -76,7 +75,6 @@ public class SolicitacaoBean implements Serializable {
 
 	// ------Metodos para as Views de do setor planejamento-----------------
 	public void carregarDados() {
-		filtros.setStatus(Status.ABERTO);
 		colaboradorLogado = solicitacaoService.colaboradorLogado();
 		solicitacoesAbertas = solicitacaoService.solicitacoesAbertas();
 		solicitacoes = solicitacaoService.pesquisarPorFiltro(filtros);
@@ -111,11 +109,11 @@ public class SolicitacaoBean implements Serializable {
 		this.solicitacao = solicitacao;
 	}
 
-	public OrdemServico getOrdemSelecionada() {
+	public OrdemServicoCorretiva getOrdemSelecionada() {
 		return ordemSelecionada;
 	}
 
-	public void setOrdemSelecionada(OrdemServico ordemSelecionada) {
+	public void setOrdemSelecionada(OrdemServicoCorretiva ordemSelecionada) {
 		this.ordemSelecionada = ordemSelecionada;
 	}
 
@@ -143,7 +141,7 @@ public class SolicitacaoBean implements Serializable {
 		return departamentos;
 	}
 
-	public List<OrdemServico> getUltimasOrdens() {
+	public List<OrdemServicoCorretiva> getUltimasOrdens() {
 		return ultimasOrdens;
 	}
 

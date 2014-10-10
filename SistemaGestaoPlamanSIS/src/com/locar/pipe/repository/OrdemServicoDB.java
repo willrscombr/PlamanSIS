@@ -6,21 +6,21 @@ import java.util.List;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.modelos.Departamento;
-import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.modelos.OrdemServicoCorretiva;
 
 public interface OrdemServicoDB extends Serializable {
 
-	void salvar(OrdemServico ordemCorretiva);
-	void excluir(OrdemServico ordemCorretiva);
-	void editar(OrdemServico ordemCorretiva);
+	void salvar(OrdemServicoCorretiva ordemCorretiva);
+	void excluir(OrdemServicoCorretiva ordemCorretiva);
+	void editar(OrdemServicoCorretiva ordemCorretiva);
 	long qntDeOrdemPorSetorStatus(Departamento setor,Status status);
-	List<OrdemServico> listarTodas();
-	List<OrdemServico> listarTodasCorretiva();
-	List<OrdemServico> listarTodasPreventivas();
-	List<OrdemServico> listarUltimasCinco();
-	List<OrdemServico> listarPorStatus(Departamento setor,Status status);
-	List<OrdemServico> pesquisarPorFiltros(FiltrosOrdens filtro);
-	OrdemServico buscarPorId(long id);
-	boolean jaExiste(OrdemServico ordem);
+	List<OrdemServicoCorretiva> listarTodas();
+	List<OrdemServicoCorretiva> listarTodasCorretiva();
+	List<OrdemServicoCorretiva> listarTodasPreventivas();
+	List<OrdemServicoCorretiva> listarUltimasCinco();
+	List<OrdemServicoCorretiva> listarPorStatus(Departamento setor,Status status);
+	List<OrdemServicoCorretiva> pesquisarPorFiltros(FiltrosOrdens filtro);
+	OrdemServicoCorretiva buscarPorId(long id);
+	boolean jaExiste(OrdemServicoCorretiva ordem);
 	
 }

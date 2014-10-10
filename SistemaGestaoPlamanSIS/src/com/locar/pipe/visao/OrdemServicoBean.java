@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import com.locar.pipe.enuns.ModoCorretivo;
@@ -18,7 +17,7 @@ import com.locar.pipe.enuns.TipoTrabalho;
 import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
-import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.service.GestaoPlaman;
 import com.locar.pipe.service.OrdemServicoException;
@@ -33,10 +32,10 @@ public class OrdemServicoBean implements Serializable {
 	private FiltrosOrdens filtros;
 	private List<Departamento> departamentos;
 	private List<Colaborador> filtroColaborador;
-	private List<OrdemServico> ordensDeServico;
-	private OrdemServico ordemServico;
+	private List<OrdemServicoCorretiva> ordensDeServico;
+	private OrdemServicoCorretiva ordemServico;
 	private SolicitacaoServico solicitacao;
-	private OrdemServico ordemSelecionada;
+	private OrdemServicoCorretiva ordemSelecionada;
 	private String txtPesquisa;
 	private boolean impresso;
 	private boolean pesquisaAvancada;
@@ -46,61 +45,71 @@ public class OrdemServicoBean implements Serializable {
 		this.osService = new GestaoPlaman();
 		this.solicitacao = new SolicitacaoServico();
 		this.filtros = new FiltrosOrdens();
-		this.ordensDeServico = new ArrayList<OrdemServico>();
-		this.ordemSelecionada = new OrdemServico();
-		this.ordemServico = new OrdemServico();
+		this.ordensDeServico = new ArrayList<OrdemServicoCorretiva>();
+		this.ordemSelecionada = new OrdemServicoCorretiva();
+		this.ordemServico = new OrdemServicoCorretiva();
 		this.departamentos = new ArrayList<Departamento>();
 		this.filtroColaborador = new ArrayList<Colaborador>();
 		this.departamentos = osService.todosDepartamento();
 		this.ordensDeServico = osService.pesquisarPorFiltro(filtros);
 	}
 
-	
 	// ------------Metodos da View---------------
 
 	public void salvar() {
 		try {
-			osService.salvarOrdemServico(ordemServico, impresso);
-			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Ordem "
-					+ ordemServico.getTipoOrdem() + " criada com sucesso");
-			ordemServico = new OrdemServico();
+
+			osService.salvarOrdemServicoCorretiva(ordemServico, impresso);
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO,
+					"Ordem de serviço gerada com sucesso");
+			ordemServico = new OrdemServicoCorretiva();
 			ordensDeServico = osService.pesquisarPorFiltro(filtros);
+
 		} catch (OrdemServicoException e) {
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_WARN,
 					e.getMessage());
 		}
 	}
 
-	public void imprimir(){
+	public void imprimir() {
 		impresso = true;
 		this.salvar();
 	}
-	
+
 	public String editar() {
 
 		return "editarOsn?faces-redirect=true";
 	}
 
-	public void chamaPesquisa(){
+	public void chamaPesquisa() {
+		System.out.println("CHAMOU O CHAMAPESQUISA " + filtros.getTipoOrdem());
 		txtPesquisa = txtPesquisa.toLowerCase();
-		txtPesquisa  = txtPesquisa.replace("osn", "");
-		txtPesquisa  = txtPesquisa.replace("osp", "");
+		txtPesquisa = txtPesquisa.replace("osn", "");
+		txtPesquisa = txtPesquisa.replace("osp", "");
 		long id = 0;
-		
+
 		try {
 			id = osService.stringToValue(txtPesquisa);
 			filtros.setId(id);
 			pesquisar();
 		} catch (OrdemServicoException e) {
-			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR,
+					e.getMessage());
 		}
 		txtPesquisa = "";
 	}
-	
-	public void pesquisar(){
-	  ordensDeServico =  osService.pesquisarPorFiltro(filtros);
+
+	public void pesquisar() {
+		System.out.println("VALOR: " + filtros.getTipoOrdem());
+		ordensDeServico = osService.pesquisarPorFiltro(filtros);
+		filtros = new FiltrosOrdens();
 	}
-	
+
+	public void atualizarPesquisar() {
+		System.out.println("VALOR: " + filtros.getTipoOrdem());
+		pesquisaAvancada = false;
+	}
+
 	public TipoOrdem[] tipoDeOrdem() {
 		return TipoOrdem.values();
 	}
@@ -122,25 +131,23 @@ public class OrdemServicoBean implements Serializable {
 	}
 
 	public void solicitacaoToOrdem() {
-
+		System.out.println("ESTA NO ADPTER");
 		this.ordemServico.setEquipamento(solicitacao.getEquipamento());
 		this.ordemServico.setComponente(solicitacao.getComponente());
 		this.ordemServico.setDescricaoAcao(solicitacao.getDescricaoAcao());
 		this.ordemServico.setTipoTrabalho(solicitacao.getTipoTrabalho());
 		this.ordemServico.setSetor(solicitacao.getSetor());
 		this.ordemServico.setId_solicitacao(solicitacao.getId());
+		this.ordemServico.setEmFuncionamento(solicitacao.isEmFuncionamento());
 	}
 
-	
-	
-	
 	// ----------GETTERS and SETTERS------------
 
-	public List<OrdemServico> getOrdensDeServico() {
+	public List<OrdemServicoCorretiva> getOrdensDeServico() {
 		return ordensDeServico;
 	}
 
-	public void setOrdensDeServico(List<OrdemServico> ordensDeServico) {
+	public void setOrdensDeServico(List<OrdemServicoCorretiva> ordensDeServico) {
 		this.ordensDeServico = ordensDeServico;
 	}
 
@@ -152,19 +159,19 @@ public class OrdemServicoBean implements Serializable {
 		this.solicitacao = solicitacao;
 	}
 
-	public OrdemServico getOrdemServico() {
+	public OrdemServicoCorretiva getOrdemServico() {
 		return ordemServico;
 	}
 
-	public void setOrdemServico(OrdemServico ordemServico) {
+	public void setOrdemServico(OrdemServicoCorretiva ordemServico) {
 		this.ordemServico = ordemServico;
 	}
 
-	public OrdemServico getOrdemSelecionada() {
+	public OrdemServicoCorretiva getOrdemSelecionada() {
 		return ordemSelecionada;
 	}
 
-	public void setOrdemSelecionada(OrdemServico ordemSelecionada) {
+	public void setOrdemSelecionada(OrdemServicoCorretiva ordemSelecionada) {
 		this.ordemSelecionada = ordemSelecionada;
 	}
 
@@ -215,6 +222,5 @@ public class OrdemServicoBean implements Serializable {
 	public GestaoPlaman getOsService() {
 		return osService;
 	}
-
 
 }

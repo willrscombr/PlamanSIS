@@ -62,10 +62,10 @@
 							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
 							rowStyleClass="linhatabela">
 							<p:column style="width:200px">
-      							Numero: <span class="txtValor">#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
+      							Numero: <span class="txtValor">#{item.id}</span>
 							</p:column>
 							<p:column >
-      							Equipamento parado: <span class="txtValor">#{item.equipamentoParado ? 'SIM' : 'NAO'}</span>
+      							Em Funcionamento: <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NAO'}</span>
 							</p:column>
 							<p:column style="width:300px">
       							Tipo de trabalho: <span class="txtValor">#{item.tipoTrabalho}</span>
@@ -95,25 +95,13 @@
 						</p:dataTable>
 
 						<p:dialog
-							header="Detalhes Ordem #{solicitacaoBean.ordemSelecionada.tipoOrdem}"
+							header="Detalhes Ordem"
 							widgetVar="dlg" modal="true" height="550px" width="650px"
 							id="modalOrdem">
 							<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
 								>
 								<p:outputLabel value="Ordem: " />
-								<h:outputText value="#{solicitacaoBean.ordemSelecionada.tipoOrdem}"/>
-
-								<p:outputLabel value="Ciclo da Ordem: "
-									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva != 0}" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.cicloPreventiva}"
-									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva != 0}" />
-
-								<p:outputLabel value="Modo Corretivo: "
-									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva == 0}" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.modoCorretivo}"
-									rendered="#{solicitacaoBean.ordemSelecionada.cicloPreventiva == 0}" />
+								<h:outputText value="Algum Tipo"/>
 
 								<p:outputLabel value="Status: " />
 								<h:outputText value="#{solicitacaoBean.ordemSelecionada.status}" />
@@ -134,7 +122,7 @@
 
 								<p:outputLabel value="Equipamento parado: " />
 								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.equipamentoParado ? 'SIM' : 'NÃO'}" />
+									value="#{solicitacaoBean.ordemSelecionada.emFuncionamento ? 'SIM' : 'NÃO'}" />
 
 								<p:outputLabel value="Departamento: " />
 								<h:outputText

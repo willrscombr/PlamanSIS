@@ -114,6 +114,17 @@
 	</security-constraint>
 	<security-constraint>
 		<web-resource-collection>
+			<web-resource-name>Gerencia Colaboradores</web-resource-name>
+			<url-pattern>/colaborador/novaOrdem.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>liberado</role-name>
+			<role-name>planejamento</role-name>
+			<role-name>supervisao</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
 			<web-resource-name>Gerencia solicitacoes</web-resource-name>
 			<url-pattern>/solicitacaoServico/gerarSolicitacao.xhtml</url-pattern>
 		</web-resource-collection>

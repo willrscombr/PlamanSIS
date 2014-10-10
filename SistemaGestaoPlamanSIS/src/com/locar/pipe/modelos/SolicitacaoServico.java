@@ -27,6 +27,8 @@ public class SolicitacaoServico  implements Serializable{
 	private Departamento setor;
 	private String equipamento;
 	private String componente;
+	@Column(name="em_funcionamento")
+	private boolean emFuncionamento;
 	@Column(name="descricao_acao")
 	private String descricaoAcao;
 	@Column(name="status_solict")
@@ -116,6 +118,12 @@ public class SolicitacaoServico  implements Serializable{
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	public boolean isEmFuncionamento() {
+		return emFuncionamento;
+	}
+	public void setEmFuncionamento(boolean emFuncionamento) {
+		this.emFuncionamento = emFuncionamento;
 	}
 	
 	

@@ -27,7 +27,7 @@ public class Material implements Serializable{
 	private int quantidade;
 	@ManyToOne
 	@JoinColumn(name="ordem_id")
-	private OrdemServico ordemServico;
+	private OrdemServicoCorretiva ordemServico;
 	@OneToOne
 	private Colaborador solicitante;
 	
@@ -58,10 +58,10 @@ public class Material implements Serializable{
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
-	public OrdemServico getOrdemServico() {
+	public OrdemServicoCorretiva getOrdemServico() {
 		return ordemServico;
 	}
-	public void setOrdemServico(OrdemServico ordemServico) {
+	public void setOrdemServico(OrdemServicoCorretiva ordemServico) {
 		this.ordemServico = ordemServico;
 	}
 	public Colaborador getSolicitante() {

@@ -21,19 +21,16 @@ import javax.persistence.TemporalType;
 
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
-import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoTrabalho;
 
 @Entity
-@Table(name = "tb_ordem_servico")
-public class OrdemServico implements Serializable {
+@Table(name = "tb_ordem_servico_corretiva")
+public class OrdemServicoCorretiva implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
 	@Column(name = "id_ordem_servico") @Id @GeneratedValue
 	private long id;
-	@Enumerated(EnumType.STRING)
-	private TipoOrdem tipoOrdem;
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	@ManyToOne
@@ -48,22 +45,20 @@ public class OrdemServico implements Serializable {
 	private List<Material> materiaisPendentes;
 	@Column(name="pendencia_material")
 	private boolean pendenciaMaterial;
-	@Column(name="equipamento_parado")
-	private boolean equipamentoParado;
+	@Column(name="em_funcionamento")
+	private boolean emFuncionamento;
 	private String observacao;
 	@Enumerated(EnumType.STRING) @Column(name = "tipo_trabalho")
 	private TipoTrabalho tipoTrabalho;
 	@Column(name = "modo_corretivo") @Enumerated(EnumType.STRING)
 	private ModoCorretivo modoCorretivo;
-	@Column(name = "ciclo_preventivo")
-	private int cicloPreventivo;
 	@ManyToMany
-	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_ordem"), inverseJoinColumns = @JoinColumn(name="id_colaborador"))
+	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_colaborador"), inverseJoinColumns = @JoinColumn(name="id_ordem"))
 	private List<Colaborador> colaboradores;
 	private long id_solicitacao;
 	@Column(name="tipo_encerramento")
 	private boolean tipoEncerramento;
-	@Temporal(TemporalType.DATE) @Column(name = "data_criacao")
+	@Temporal(TemporalType.TIMESTAMP) @Column(name = "data_criacao")
 	private Date dataCriacao;
 	@Temporal(TemporalType.DATE) @Column(name = "data_inicio")
 	private Date dataInicio;
@@ -81,14 +76,6 @@ public class OrdemServico implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public int getCicloPreventivo() {
-		return cicloPreventivo;
-	}
-
-	public void setCicloPreventivo(int cicloPreventiva) {
-		this.cicloPreventivo = cicloPreventiva;
 	}
 	
 	public boolean isTipoEncerramento() {
@@ -203,13 +190,6 @@ public class OrdemServico implements Serializable {
 		this.materiaisPendentes = materiaisPendentes;
 	}
 
-	public void setTipoOrdem(TipoOrdem tipoOrdem) {
-		this.tipoOrdem = tipoOrdem;
-	}
-	public TipoOrdem isTipoOrdem() {
-		return tipoOrdem;
-	}
-
 	public boolean isPendenciaMaterial() {
 		return pendenciaMaterial;
 	}
@@ -226,15 +206,7 @@ public class OrdemServico implements Serializable {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-
-	public int getCicloPreventiva() {
-		return cicloPreventivo;
-	}
-
-	public void setCicloPreventiva(int cicloPreventiva) {
-		this.cicloPreventivo = cicloPreventiva;
-	}
-
+	
 	public List<Colaborador> getColaboradores() {
 		return colaboradores;
 	}
@@ -250,12 +222,12 @@ public class OrdemServico implements Serializable {
 	public void setId_solicitacao(long id_solicitacao) {
 		this.id_solicitacao = id_solicitacao;
 	}
-	public boolean isEquipamentoParado() {
-		return equipamentoParado;
+	public boolean isEmFuncionamento() {
+		return emFuncionamento;
 	}
 
-	public void setEquipamentoParado(boolean equipamentoParado) {
-		this.equipamentoParado = equipamentoParado;
+	public void setEmFuncionamento(boolean emFuncionamento) {
+		this.emFuncionamento = emFuncionamento;
 	}
 
 	public Date getDataInicio() {
@@ -266,9 +238,6 @@ public class OrdemServico implements Serializable {
 		this.dataInicio = dataInicio;
 	}
 
-	public TipoOrdem getTipoOrdem() {
-		return tipoOrdem;
-	}
 
 	//------Equals and HashCode---------------
 	@Override
@@ -287,7 +256,7 @@ public class OrdemServico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrdemServico other = (OrdemServico) obj;
+		OrdemServicoCorretiva other = (OrdemServicoCorretiva) obj;
 		if (id != other.id)
 			return false;
 		return true;

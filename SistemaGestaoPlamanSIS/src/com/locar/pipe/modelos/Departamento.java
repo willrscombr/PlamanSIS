@@ -27,7 +27,7 @@ public class Departamento implements Serializable {
 	private List<Colaborador> colaboradores;
 	
 	@OneToMany(mappedBy="setor")
-	private List<OrdemServico> ordems;
+	private List<OrdemServicoCorretiva> ordems;
 	
 	@OneToMany(mappedBy="setor")
 	private List<SolicitacaoServico> solicitacoes;
@@ -86,11 +86,11 @@ public class Departamento implements Serializable {
 		this.colaboradores = colaboradores;
 	}
 
-	public List<OrdemServico> getOrdems() {
+	public List<OrdemServicoCorretiva> getOrdems() {
 		return ordems;
 	}
 
-	public void setOrdems(List<OrdemServico> ordems) {
+	public void setOrdems(List<OrdemServicoCorretiva> ordems) {
 		this.ordems = ordems;
 	}
 

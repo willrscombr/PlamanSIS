@@ -6,12 +6,13 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
+import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.filtros.FiltrosOrdens;
 import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
-import com.locar.pipe.modelos.OrdemServico;
+import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.repository.ColaboradorDB;
 import com.locar.pipe.repository.DepartamentosDB;
@@ -41,8 +42,10 @@ public class GestaoPlaman implements Serializable {
 
 	// -------- METODOS UTIL--------------
 	public Colaborador colaboradorLogado() {
-		Colaborador colaborador  = new Colaborador();
-		colaborador = dominioColaborador.buscarPorNome(FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName());
+		Colaborador colaborador = new Colaborador();
+		colaborador = dominioColaborador.buscarPorNome(FacesContext
+				.getCurrentInstance().getExternalContext().getUserPrincipal()
+				.getName());
 		return colaborador;
 	}
 
@@ -99,8 +102,10 @@ public class GestaoPlaman implements Serializable {
 
 	public List<SolicitacaoServico> solicitacoesAbertas() {
 		Colaborador col = colaboradorLogado();
-		System.out.println("SETOR DO COLABORADOR LOGADO: "+col.getSetor().getNome());
-		return dominioSolicitacao.listarPorStatusSetor(col.getSetor(), Status.ABERTO);
+		System.out.println("SETOR DO COLABORADOR LOGADO: "
+				+ col.getSetor().getNome());
+		return dominioSolicitacao.listarPorStatusSetor(col.getSetor(),
+				Status.ABERTO);
 	}
 
 	public List<SolicitacaoServico> todasSolicitacoes() {
@@ -114,7 +119,7 @@ public class GestaoPlaman implements Serializable {
 				.getSetor(), null);
 	}
 
-	public List<OrdemServico> listarUltimasOrdem() {
+	public List<OrdemServicoCorretiva> listarUltimasOrdem() {
 		if (FacesContext.getCurrentInstance().getExternalContext()
 				.isUserInRole("planejamento")) {
 			return dominioOrdem.listarUltimasCinco();
@@ -166,7 +171,7 @@ public class GestaoPlaman implements Serializable {
 	}
 
 	// ------ VIEW ORDEM SERVIÇO BEAN ---------------------------------
-	public void salvarOrdemServico(OrdemServico ordem, boolean impresso)
+	public void salvarOrdemServicoCorretiva(OrdemServicoCorretiva ordem, boolean impresso)
 			throws OrdemServicoException {
 
 		if (impresso) {
@@ -174,25 +179,23 @@ public class GestaoPlaman implements Serializable {
 		} else {
 			ordem.setStatus(Status.ABERTO);
 		}
-		ordem.setDataCriacao(Calendar.getInstance().getTime());
+		
+		if(ordem.getId_solicitacao() != 0){
+			ordem.setModoCorretivo(ModoCorretivo.PROGRAMADA);
+			dominioSolicitacao.trocaStatus(ordem.getId(), Status.FECHADO);
+		}
+		
 		if (dominioOrdem.jaExiste(ordem)) {
 			throw new OrdemServicoException(
 					"Ja existe uma Ordem de serviço com dados iguais a este");
 		} else {
+			ordem.setDataCriacao(Calendar.getInstance().getTime());
 			dominioOrdem.salvar(ordem);
-			dominioSolicitacao.trocaStatus(ordem.getId_solicitacao(),
-					Status.FECHADO);
+			
 		}
 	}
 
-	public List<OrdemServico> pesquisarPorFiltro(FiltrosOrdens filtro) {
-		boolean ehSupervisor = FacesContext.getCurrentInstance()
-				.getExternalContext().isUserInRole("supervisao");
-
-		if (ehSupervisor) {
-			filtro.setSetor(colaboradorLogado().getSetor());
-			return dominioOrdem.pesquisarPorFiltros(filtro);
-		}
+	public List<OrdemServicoCorretiva> pesquisarPorFiltro(FiltrosOrdens filtro) {
 		return dominioOrdem.pesquisarPorFiltros(filtro);
 	}
 
@@ -202,19 +205,20 @@ public class GestaoPlaman implements Serializable {
 			return id;
 		} else {
 			pesquisa = this.cortaLetras(pesquisa);
-			
+
 			try {
 				if (!pesquisa.isEmpty()) {
 					id = Long.parseLong(pesquisa);
-				}else{
-					throw new OrdemServicoException("Você não pode digitar isso");
+				} else {
+					throw new OrdemServicoException(
+							"Você não pode digitar isso");
 				}
 			} catch (Exception e) {
 				throw new OrdemServicoException(
 						"Voce deve digitar o numero da Ordem");
 			}
 		}
-		
+
 		return id;
 	}
 }

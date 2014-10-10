@@ -13,58 +13,78 @@
 	<ui:define name="title_page">Solicitação Serviço</ui:define>
 
 	<ui:define name="conteudo">
-		<p:panel id="panelSolicitacao" header="Abrir solicitação" style="height:550px"
-			menuTitle="Solicitar">
-			
+		<p:panel id="panelSolicitacao" header="Abrir solicitação"
+			style="height:550px" menuTitle="Solicitar">
+
 			<h:form id="formSolicitacao">
-			<p:growl showSummary="false" showDetail="true"/>
+				<p:growl showSummary="false" showDetail="true" />
 				<p:panelGrid columns="2" columnClasses="labelGrid, inputGrid"
-					style="margin-top:10px; height:450px;" id="painelSolicita"  >
-					
+					style="margin-top:10px; height:450px;" id="painelSolicita">
+
 					<p:outputLabel value="Tipo de Trabalho: " />
 					<h:panelGroup>
-					<p:message for="tipoTrabalho"/>
-					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.tipoTrabalho}" required="true" requiredMessage="Escolha um tipo de trabalho" id="tipoTrabalho">
-						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-						<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
-							var="item" itemLabel="#{item}" itemValue="#{item}"  />
-					</p:selectOneMenu>
-					
+						<p:message for="tipoTrabalho" />
+						<p:selectOneMenu
+							value="#{solicitacaoBean.solicitacao.tipoTrabalho}"
+							required="true" requiredMessage="Escolha um tipo de trabalho"
+							id="tipoTrabalho">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItems value="#{solicitacaoBean.tiposTrabalho()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
 					</h:panelGroup>
-					
+
 					<p:outputLabel value="Departamento: " />
 					<h:panelGroup>
-					<p:message for="departamento"/>
-					<p:selectOneMenu value="#{solicitacaoBean.solicitacao.setor}" required="true" requiredMessage="Escolha um tipo de trabalho" id="departamento">
-						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-						<f:selectItems value="#{solicitacaoBean.departamentos}"
-							var="item" itemLabel="#{item.sigla}" itemValue="#{item}" itemDescription="#{item.nome}"/>
-					</p:selectOneMenu>
-					
+						<p:message for="departamento" />
+						<p:selectOneMenu value="#{solicitacaoBean.solicitacao.setor}"
+							required="true" requiredMessage="Escolha um tipo de trabalho"
+							id="departamento">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+							<f:selectItems value="#{solicitacaoBean.departamentos}"
+								var="item" itemLabel="#{item.sigla}" itemValue="#{item}"
+								itemDescription="#{item.nome}" />
+						</p:selectOneMenu>
+
 					</h:panelGroup>
 
 					<p:outputLabel value="Equipamento: " />
 					<h:panelGroup>
-					<p:inputText value="#{solicitacaoBean.solicitacao.equipamento}"
-						placeholder="Equipamento.." required="true" requiredMessage="Este campo é obrigatorio" id="equipamento"/>
-						<p:message for="equipamento"/>
+						<p:inputText value="#{solicitacaoBean.solicitacao.equipamento}"
+							placeholder="Equipamento.." required="true"
+							requiredMessage="Este campo é obrigatorio" id="equipamento" />
+						<p:message for="equipamento" />
 					</h:panelGroup>
 
 					<p:outputLabel value="Componente: " />
 					<h:panelGroup>
-					<p:inputText value="#{solicitacaoBean.solicitacao.componente}" required="true" requiredMessage="Este campo é obrigatorio"
-						placeholder="Componente do equipamento" size="25" id="componente"/>
-						<p:message for="componente"/>
+						<p:inputText value="#{solicitacaoBean.solicitacao.componente}"
+							required="true" requiredMessage="Este campo é obrigatorio"
+							placeholder="Componente do equipamento" size="25" id="componente" />
+						<p:message for="componente" />
 					</h:panelGroup>
 
 					<p:outputLabel value="Descrição" />
 					<h:panelGroup>
-					<p:inputTextarea
-						value="#{solicitacaoBean.solicitacao.descricaoAcao}"
-						autoResize="true" cols="40" rows="5"
-						placeholder="Descrição da ação a executar" required="true" requiredMessage="Este campo é obrigatorio" id="descricao"/>
-						<p:message for="descricao"/>
+						<p:inputTextarea
+							value="#{solicitacaoBean.solicitacao.descricaoAcao}"
+							autoResize="true" cols="40" rows="5"
+							placeholder="Descrição da ação a executar" required="true"
+							requiredMessage="Este campo é obrigatorio" id="descricao" />
+						<p:message for="descricao" />
 					</h:panelGroup>
+					
+					<p:outputLabel value="" />
+					<h:panelGroup>
+						
+						<p:selectBooleanCheckbox id="emFuncionamento" style="text-align:center"
+							value="#{solicitacaoBean.solicitacao.emFuncionamento}" required="true" requiredMessage="Responda a pergunta"/>
+							<p:spacer width="3px"/>
+						<p:outputLabel value="O equipamento esta em funcionamento?" />
+						<p:message for="emFuncionamento" />
+					</h:panelGroup>
+					
 					<f:facet name="footer">
 						<p:commandButton value="Cancelar" style="float:right"
 							action="/index.xhtml?faces-redirect=true" />

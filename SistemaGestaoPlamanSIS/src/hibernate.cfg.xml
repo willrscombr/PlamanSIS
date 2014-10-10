@@ -3,7 +3,7 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://192.168.0.4:3306/plamandb</property>
+		<property name="hibernate.connection.url">jdbc:mysql://192.168.60.172:3306/plamandb</property>
 		<property name="hibernate.connection.username">plaman</property>
 		<property name="hibernate.connection.password">kayrossxp</property>
 
@@ -14,7 +14,7 @@
 
 		<mapping class="com.locar.pipe.modelos.Departamento" />
 		<mapping class="com.locar.pipe.modelos.Colaborador" />
-		<mapping class="com.locar.pipe.modelos.OrdemServico" />
+		<mapping class="com.locar.pipe.modelos.OrdemServicoCorretiva" />
 		<mapping class="com.locar.pipe.modelos.SolicitacaoServico" />
 		<mapping class="com.locar.pipe.modelos.Material"/>
 	</session-factory>

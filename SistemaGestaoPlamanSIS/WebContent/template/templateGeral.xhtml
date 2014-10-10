@@ -51,8 +51,7 @@
 									<p:menuButton value="Ordem de Serviço">
 										<p:menuitem value="Ordem Preventiva"
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
-										<p:menuitem value="Ordem Corretiva"
-											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
+										<p:menuitem value="Ordem Corretiva" outcome="/ordem/novaOrdem"/>
 										<p:menuitem value="Listar Ordens" outcome="/ordem/listarordem"/>
 									</p:menuButton>
 

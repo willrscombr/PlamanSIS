@@ -1,8 +1,10 @@
 package com.locar.pipe.filtros;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.locar.pipe.enuns.Status;
+import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoTrabalho;
 import com.locar.pipe.modelos.Departamento;
 
@@ -14,7 +16,11 @@ public class FiltrosOrdens implements Serializable {
 	private String componente;
 	private Status status;
 	private TipoTrabalho tipoTrabalho;
+	private TipoOrdem tipoOrdem;
+	private Date dataInicio;
+	private Date dataFinal;
 	private Departamento setor;
+	private int ciclo;
 
 	
 	public FiltrosOrdens() {
@@ -60,5 +66,37 @@ public class FiltrosOrdens implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public TipoOrdem getTipoOrdem() {
+		return tipoOrdem;
+	}
+
+	public void setTipoOrdem(TipoOrdem tipoOrdem) {
+		this.tipoOrdem = tipoOrdem;
+	}
+
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
+	}
+
+	public int getCiclo() {
+		return ciclo;
+	}
+
+	public void setCiclo(int ciclo) {
+		this.ciclo = ciclo;
 	}	
 }

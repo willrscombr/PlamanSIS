@@ -62,8 +62,7 @@
 						</p:selectOneMenu>
 
 						<p:commandButton action="#{solicitacaoBean.pesquisar}"
-							value="pesquisar" update="panelSolicitacoes, avancada"
-							style="float:right;" />
+							value="pesquisar" update="panelSolicitacoes, avancada" />
 					</p:panelGrid>
 				</p:panel>
 			</div>
@@ -109,7 +108,7 @@
 								</p:column>
 
 					<p:column style="width:10px;text-align:center">
-						<p:commandLink update=":frmSolicita:modelOrdem"	oncomplete="PF('novaOrdem').show()" >
+						<p:commandLink update=":frmSolicita:modelOrdem"	oncomplete="PF('novaOrdem').show()" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
 							<p:graphicImage url="/images/mais.png"	rendered="#{solicitacao.status == 'ABERTO'}" />
 							<f:setPropertyActionListener value="#{solicitacao}" target="#{ordemServicoBean.solicitacao}" />
 							<f:actionListener binding="#{ordemServicoBean.solicitacaoToOrdem()}"/>
@@ -121,30 +120,6 @@
 					height="500px" modal="true" header="Nova Ordem">
 
 					<p:panelGrid columns="2" id="gridNovaOrdem" style="width:550px">
-						<p:outputLabel value="Tipo de Ordem" />
-						<p:selectOneRadio
-							value="#{ordemServicoBean.ordemServico.tipoOrdem}">
-							<f:selectItems value="#{ordemServicoBean.tipoDeOrdem()}"
-								var="tipo" itemValue="#{tipo}" />
-							<p:ajax update="gridNovaOrdem" />
-						</p:selectOneRadio>
-
-						<p:outputLabel id="lbModoOrdem" value="Modo Corretivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'CORRETIVA'}" />
-						<p:selectOneMenu id="vlModoOrdem"
-							value="#{ordemServicoBean.ordemServico.modoCorretivo}"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'CORRETIVA'}">
-							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-							<f:selectItems value="#{ordemServicoBean.modosCorretivo()}"
-								var="item" itemValue="#{item}" />
-						</p:selectOneMenu>
-
-						<p:outputLabel id="lbCicloOrdem" value="Ciclo Preventivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'PREVENTIVA'}" />
-						<p:inputText placeholder="Minutos"
-							value="#{ordemServicoBean.ordemServico.cicloPreventiva}"
-							id="vlCicloPreventivo"
-							rendered="#{ordemServicoBean.ordemServico.tipoOrdem == 'PREVENTIVA'}" size="5"/>
 						
 						<p:outputLabel value="Tipo de Trabalho"/>
 						<p:selectOneMenu value="#{ordemServicoBean.ordemServico.tipoTrabalho}">
@@ -169,6 +144,16 @@
 						<p:outputLabel value="Descrição"/>
 						<p:inputTextarea value="#{ordemServicoBean.ordemServico.descricaoAcao}" cols="40" rows="5"/>
 					</p:panelGrid>
+					
+					<h:panelGroup >
+						
+						<p:selectBooleanCheckbox id="emFuncionamento" style="margin-top:15px;text-align:center"
+							value="#{ordemServicoBean.ordemServico.emFuncionamento}" required="true" requiredMessage="Responda a pergunta"/>
+							<p:spacer width="3px"/>
+						<p:outputLabel value="O equipamento esta em funcionamento?" />
+						<p:message for="emFuncionamento" />
+					</h:panelGroup>
+					
 					
 					<f:facet name="footer">
 						<p:commandButton action="#{ordemServicoBean.salvar}" value="Salvar" update="frmSolicita" />

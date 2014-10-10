@@ -30,7 +30,7 @@ public class Colaborador implements Serializable{
 	@ManyToOne
 	private Departamento setor;
 	@ManyToMany
-	private List<OrdemServico> ordemServico;
+	private List<OrdemServicoCorretiva> ordemServico;
 	
 	
 	
@@ -74,10 +74,10 @@ public class Colaborador implements Serializable{
 		this.setor = setor;
 	}
 	
-	public List<OrdemServico> getOrdemServico() {
+	public List<OrdemServicoCorretiva> getOrdemServico() {
 		return ordemServico;
 	}
-	public void setOrdemServico(List<OrdemServico> ordemServico) {
+	public void setOrdemServico(List<OrdemServicoCorretiva> ordemServico) {
 		this.ordemServico = ordemServico;
 	}
 	
