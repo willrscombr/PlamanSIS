@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.filtros.FiltrosOrdens;
+import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.repository.OrdemServicoDB;
@@ -41,7 +42,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 	public void editar(OrdemServicoCorretiva ordemCorretiva) {
 		Session session = (Session) HibernateUtil
 				.getAttributeRequest("session");
-		session.update(ordemCorretiva);
+		session.merge(ordemCorretiva);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,6 +50,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 	public List<OrdemServicoCorretiva> listarTodasCorretiva() {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServicoCorretiva.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		crit.add(Restrictions.eq("tipoOrdem",TipoOrdem.CORRETIVA));
 		
 		return crit.list();
@@ -83,7 +85,6 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 	public List<OrdemServicoCorretiva> listarTodas() {
 		Session session = (Session) HibernateUtil
 				.getAttributeRequest("session");
-
 		return session.createCriteria(OrdemServicoCorretiva.class)
 				.add(Restrictions.eq("tipoOrdem", TipoOrdem.CORRETIVA)).list();
 	}
@@ -106,7 +107,16 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServicoCorretiva.class);
 		crit.setMaxResults(5);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		crit.addOrder(Order.desc("id"));
+		List<OrdemServicoCorretiva> ultimasOrdens = new ArrayList<OrdemServicoCorretiva>();
+		ultimasOrdens = crit.list();
+		
+		for(OrdemServicoCorretiva ord : ultimasOrdens){
+			System.out.println("ID "+ord.getId());
+			System.out.println("EQUIPAMENTO "+ord.getEquipamento());
+		}
+		
 		return crit.list();
 	}
 
@@ -115,7 +125,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 	public List<OrdemServicoCorretiva> listarPorStatus(Departamento setor, Status status) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServicoCorretiva.class);
-		
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		if(setor != null){
 			crit.add(Restrictions.eq("setor", setor));
 		}
@@ -148,7 +158,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 	public List<OrdemServicoCorretiva> pesquisarPorFiltros(FiltrosOrdens filtro) {
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(OrdemServicoCorretiva.class);
-		
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		if(filtro != null){
 			if(filtro.getSetor() != null){
 				crit.add(Restrictions.eq("setor", filtro.getSetor()));
@@ -197,4 +207,7 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 		crit.addOrder(Order.desc("dataCriacao"));
 		return crit.list();
 	}
+
+	
+
 }

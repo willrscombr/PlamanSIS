@@ -15,6 +15,7 @@
 		<div>
 			<h:form id="form">
 				<p:panel>
+					<center>
 					<div id="info1">
 						<p:panel header="Informações do Setor" style="height:280px">
 							<p:panel style="background-color:#FFFFFF" rendered="#{solicitacaoBean.qntSolicitacaoAberta != 0}">
@@ -53,6 +54,7 @@
 						</p:panel>
 					</div>
 					<div class="clear"></div>
+					</center>
 				</p:panel>
 
 				<div id="tabelaUltimas">
@@ -62,7 +64,7 @@
 							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
 							rowStyleClass="linhatabela">
 							<p:column style="width:200px">
-      							<span class="#{item.tipoOrdem}">#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
+      							<span>#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
 							</p:column>
 							<p:column >
       							Em Funcionamento: <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NAO'}</span>

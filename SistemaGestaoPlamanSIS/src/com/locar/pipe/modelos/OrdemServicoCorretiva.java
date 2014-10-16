@@ -1,9 +1,11 @@
 	package com.locar.pipe.modelos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,9 +58,9 @@ public class OrdemServicoCorretiva implements Serializable {
 	private TipoTrabalho tipoTrabalho;
 	@Column(name = "modo_corretivo") @Enumerated(EnumType.STRING)
 	private ModoCorretivo modoCorretivo;
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_colaborador"), inverseJoinColumns = @JoinColumn(name="id_ordem"))
-	private List<Colaborador> colaboradores;
+	@ManyToMany (fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_ordem_servico"), inverseJoinColumns = @JoinColumn(name="id_colaborador"))
+	private List<Colaborador> colaboradores = new ArrayList<Colaborador>();
 	private long id_solicitacao;
 	@Column(name="tipo_encerramento")
 	private boolean tipoEncerramento;
@@ -72,6 +74,7 @@ public class OrdemServicoCorretiva implements Serializable {
 	private Date dataFinal;
 	@Temporal(TemporalType.TIME) @Column(name = "hora_final")
 	private Date horaFinal;
+	private int prazoParaOrdem;
 	
 	//GETTERS AND SETTERS--------------------------
 	public long getId() {
@@ -272,5 +275,13 @@ public class OrdemServicoCorretiva implements Serializable {
 
 	public void setTipoOrdem(TipoOrdem tipoOrdem) {
 		this.tipoOrdem = tipoOrdem;
+	}
+
+	public int getPrazoParaOrdem() {
+		return prazoParaOrdem;
+	}
+
+	public void setPrazoParaOrdem(int prazoParaOrdem) {
+		this.prazoParaOrdem = prazoParaOrdem;
 	}
 }

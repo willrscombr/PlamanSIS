@@ -75,6 +75,7 @@ public class SolicitacaoBean implements Serializable {
 
 	// ------Metodos para as Views de do setor planejamento-----------------
 	public void carregarDados() {
+		ultimasOrdens.clear();
 		colaboradorLogado = solicitacaoService.colaboradorLogado();
 		solicitacoesAbertas = solicitacaoService.solicitacoesAbertas();
 		solicitacoes = solicitacaoService.pesquisarPorFiltro(filtros);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -29,7 +30,7 @@ public class Colaborador implements Serializable{
 	//Classe para Mapeamento
 	@ManyToOne
 	private Departamento setor;
-	@ManyToMany
+	@ManyToMany(mappedBy="colaboradores")
 	private List<OrdemServicoCorretiva> ordemServico;
 	
 	

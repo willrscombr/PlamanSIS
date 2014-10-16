@@ -113,6 +113,7 @@ html, body {
 
 .logout{
 	float: right;
+	margin-top: 10px;
 }
 
 #helloUser{
@@ -121,9 +122,7 @@ html, body {
 }
 
 .txtSetor {
-	position: absolute;
-	left: 89.5%;
-	top: 1.5%;
+	
 	font-size: 16px;
 	font-family: arial;
 	font-weight: normal;
@@ -131,9 +130,6 @@ html, body {
 
 .setorUsuario {
 	color: #000dd;
-	position: absolute;
-	left: 92.5%;
-	top: 1.3%;
 	font-size: 18px;
 	font-family: arial;
 	font-weight: normal;
@@ -180,21 +176,21 @@ html, body {
 
 #info1 {
 	margin-left: 18px;
-	width: 550px;
+	width:35%;
 	height: 300px;
 	float: left;
 }
 
 #info2 {
 	float: left;
-	width: 400px;
+	width:20%;
 	height: 300px;
 	margin-left: 10px;
 }
 
 #info3 {
 	float: left;
-	width: 550px;
+	width:35%;
 	height: 300px;
 	margin-left: 10px;
 }

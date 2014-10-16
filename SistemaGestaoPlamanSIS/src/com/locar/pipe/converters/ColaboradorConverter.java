@@ -9,7 +9,7 @@ import javax.faces.convert.FacesConverter;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.repository.infra.ColaboradorRepository;
 
-@FacesConverter(forClass=Colaborador.class)
+@FacesConverter("com.locar.pipe.Colab")
 public class ColaboradorConverter  implements Converter{
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -23,7 +24,7 @@ public class Departamento implements Serializable {
 	private String nome;
 	private String sigla;
 
-	@OneToMany(mappedBy="setor")
+	@OneToMany(mappedBy="setor", fetch=FetchType.EAGER)
 	private List<Colaborador> colaboradores;
 	
 	@OneToMany(mappedBy="setor")

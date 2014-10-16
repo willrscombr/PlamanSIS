@@ -108,7 +108,7 @@
 						var="ordem" rows="5" paginator="true" id="tabelaDeOrdem">
 
 						<p:column headerText="ID" style="width:100px;text-align:center">
-							<span class="txtLabel">#{ordem.id}</span>
+							<span class="txtLabel">#{ordem.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{ordem.id}</span>
 						</p:column>
 
 						<p:column headerText="Equipamento"
@@ -135,26 +135,18 @@
 							<span class="txtValor">#{ordem.tipoTrabalho}</span>
 						</p:column>
 
-						<p:column headerText="Data Criação"
-							style="width:120px;text-align:center">
-							<h:outputText styleClass="txtValor" value="#{ordem.dataCriacao}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
-						</p:column>
-
 						<p:column headerText="Status" style="width:95px;text-align:center"
 							styleClass="#{ordem.status}">
 							<span class="txtValor">#{ordem.status}</span>
 						</p:column>
 						<p:column style="width:60px;">
-							<p:commandLink oncomplete="PF('dlg').show()"
-								update=":frmOrdemDialog">
+							<p:commandLink actionListener="#{ordemServicoBean.programarExecutor}" update=":frmOrdemDialog">
 								<p:graphicImage url="/images/lupaview.png" title="ver detalhes" />
 								<f:setPropertyActionListener value="#{ordem}"
 									target="#{ordemServicoBean.ordemSelecionada}" />
 							</p:commandLink>
 							<p:spacer width="15px" />
-							<p:commandLink>
+							<p:commandLink action="#{ordemServicoBean.gerarOrdem()}" onclick="this.form.target='_blank'">
 								<p:graphicImage url="/images/imprimir.png" title="ver detalhes"
 									rendered="#{ordem.status == 'ABERTO'}" />
 							</p:commandLink>
@@ -165,9 +157,9 @@
 			</h:form>
 		</div>
 		<h:form id="frmOrdemDialog">
-			<p:dialog header="Detalhes Ordem" widgetVar="dlg" modal="true"
-				height="550px" width="750px" id="modalOrdem">
-				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor">
+
+			<p:panel id="detalhes" rendered="#{ordemServicoBean.programarOs}" >
+				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"  style="float:left">
 					<p:outputLabel value="Ordem: " />
 					<h:outputText
 						value="#{ordemServicoBean.ordemSelecionada.tipoOrdem}" />
@@ -203,7 +195,7 @@
 
 				</p:panelGrid>
 
-				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
+				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor" style="float:left"
 					rendered="#{ordemServicoBean.ordemSelecionada.status == 'ENCERRADO'}">
 
 					<p:outputLabel value="Solução" />
@@ -243,35 +235,57 @@
 					<p:outputLabel value="Observação: " />
 					<h:outputText
 						value="#{ordemServicoBean.ordemSelecionada.observacao}" />
-				</p:panelGrid>
-				
-				<p:selectBooleanCheckbox valueChangeListener="#{ordemServicoBean.programarExecutor}">
-					<p:ajax event="change" update=":frmOrdemDialog:programar"/>
-				</p:selectBooleanCheckbox> Deseja escolher os executores desta ordem agora?
-				
-				<p:panel rendered="#{ordemServicoBean.programarOs}" id="programar" >
-					<f:facet name="header">Selecione no minimo um colaborador</f:facet>
-					<p:outputLabel value="Executor" />
-					<p:selectManyMenu
-						value="#{ordemServicoBean.ordemSelecionada.colaboradores}"
-						filter="true" filterMatchMode="contains" showCheckbox="true" scrollHeight="60">
-						<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
-						<f:selectItems value="#{ordemServicoBean.filtroColaborador}"
-							var="colab" itemLabel="#{colab.nome}" itemValue="#{colabs}" />
-					</p:selectManyMenu>
-				</p:panel>
+					</p:panelGrid>
+					
+					<p:panel style="float:left;width:300px;">
+						<span class="txtLabel">Executores</span>
+						<ui:repeat var="colab" value="#{ordemServicoBean.ordemSelecionada.colaboradores}">
+							<li>#{colab.nome}</li>
+						</ui:repeat>
+						
+					</p:panel>
+					
+					<div class="clear"></div>
 				<f:facet name="footer">
-					<p:commandButton value="Programar"
+					<p:commandButton value="Programar" update="modelPrograma" oncomplete="PF('dlg').show()"
 						rendered="#{ordemServicoBean.ordemSelecionada.status == 'ABERTO'}" />
-					<p:commandButton value="Mudar para Andamento"
+					<p:commandButton value="Mudar para Andamento" 
 						rendered="#{ordemServicoBean.ordemSelecionada.status == 'IMPRESSO'}" />
-					<p:commandButton value="Imprimir"
-						rendered="#{ordemServicoBean.ordemSelecionada.status == 'ABERTO'}" />
+					<h:commandButton value="Imprimir" action="#{ordemServicoBean.gerarOrdem()}" onclick="this.form.target='_blank'" 
+						rendered="#{ordemServicoBean.ordemSelecionada.status == 'PROGRAMADO'}" />
 					<p:commandButton value="Encerrrar Tecnicamente"
 						rendered="#{ordemServicoBean.ordemSelecionada.status == 'ANDAMENTO'}"
 						style="background-color:red;" />
 				</f:facet>
-			</p:dialog>
+				
+				<p:dialog widgetVar="dlg" id="modelPrograma" modal="true" closeOnEscape="true" resizable="false">
+					<p:panelGrid columns="2" id="panelprograma">
+						
+						<p:outputLabel value="Executor(s)"/>
+						<p:selectManyMenu value="#{ordemServicoBean.executores}" filterMatchMode="contains" showCheckbox="true" filter="true" scrollHeight="72" converter="com.locar.pipe.Colab">
+							<f:selectItems value="#{ordemServicoBean.filtroColaborador}" var="colaborador" itemLabel="#{colaborador.nome}" itemValue="#{colaborador}"/>
+						</p:selectManyMenu>
+						
+						<p:outputLabel value="Prazo( em horas )"/>
+						<p:spinner value="#{ordemServicoBean.ordemSelecionada.prazoParaOrdem}" stepFactor="1" min="0" />
+						
+						<f:facet name="footer">
+							<p:commandButton value="Salvar" action="#{ordemServicoBean.programa}" update=":frmOrdemDialog, :frmOrdemTabela" oncomplete="PF('dlg').hide()">
+								
+							</p:commandButton>
+							
+							<p:commandButton value="Imprimir">
+								
+							</p:commandButton>
+							
+							<p:commandButton value="Cancelar" resetValues="true" update="modelPrograma" oncomplete="PF('dlg').hide()">
+								
+							</p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+					
+				</p:dialog>
+			</p:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

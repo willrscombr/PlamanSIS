@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.filtros.FiltrosOrdens;
+import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 

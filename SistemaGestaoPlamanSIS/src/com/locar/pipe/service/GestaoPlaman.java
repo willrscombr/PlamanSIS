@@ -225,5 +225,9 @@ public class GestaoPlaman implements Serializable {
 		return id;
 	}
 
+	public void programarOs(OrdemServicoCorretiva os){
+		os.setStatus(Status.PROGRAMADO);
+		dominioOrdem.editar(os);
+	}
 	
 }
