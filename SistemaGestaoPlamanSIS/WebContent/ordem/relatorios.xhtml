@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template/templateGeral.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<f:metadata>
+		<f:viewAction action="#{ordemServicoBean.carregarOrdens()}" />
+	</f:metadata>
+
+	<ui:define name="title_page">Relatiorios</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="frmTabelaRelatorio" prependId="false">
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+			<p:dataTable id="checkboxDT" var="ordem"
+				value="#{ordemServicoBean.ordensDeServico}"
+				selection="#{ordemServicoBean.ordensCorretivasRelatorio}" rowKey="#{ordem.id}"
+				style="margin-bottom:0">
+				<f:facet name="header">
+           			 Checkbox
+        		</f:facet>
+				<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+				<p:column headerText="Id">
+					<h:outputText value="#{ordem.id}" />
+				</p:column>
+				<p:column headerText="Equipamento">
+					<h:outputText value="#{ordem.equipamento}" />
+				</p:column>
+				<p:column headerText="Componente">
+					<h:outputText value="#{ordem.componente}" />
+				</p:column>
+				<p:column headerText="C.Trabalho">
+					<h:outputText value="#{ordem.setor}" />
+				</p:column>
+				<p:column headerText="Status">
+					<h:outputText value="#{ordem.status}" />
+				</p:column>
+				<p:column headerText="Data Criação">
+					<h:outputText value="#{ordem.dataCriacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton process="checkboxDT"
+						icon="ui-icon-search" value="Imprimir" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -254,6 +254,16 @@ html, body {
 	color: white;
 }
 
+.ANDAMENTO {
+	background-color:aqua;
+	color: white;
+}
+
+.CONFIRMADO {
+	background-color:silver;
+	color: white;
+}
+
 .filtrosPesquisa{
 	padding-right: 30px;
 }

@@ -64,17 +64,11 @@ public class OrdemServicoCorretiva implements Serializable {
 	private long id_solicitacao;
 	@Column(name="tipo_encerramento")
 	private boolean tipoEncerramento;
-	@Temporal(TemporalType.TIMESTAMP) @Column(name = "data_criacao")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
-	@Temporal(TemporalType.DATE) @Column(name = "data_inicio")
-	private Date dataInicio;
-	@Temporal(TemporalType.TIME) @Column(name = "hora_inicio")
-	private Date horaInicio;
-	@Temporal(TemporalType.DATE) @Column(name = "data_final")
-	private Date dataFinal;
-	@Temporal(TemporalType.TIME) @Column(name = "hora_final")
-	private Date horaFinal;
 	private int prazoParaOrdem;
+	@OneToMany(mappedBy="ordemCorretiva", cascade=CascadeType.MERGE)
+	private List<ConfirmacaoOrdem> confirmacoes;
 	
 	//GETTERS AND SETTERS--------------------------
 	public long getId() {
@@ -93,30 +87,6 @@ public class OrdemServicoCorretiva implements Serializable {
 		this.tipoEncerramento = tipoEncerramento;
 	}
 
-	public Date getHoraInicio() {
-		return horaInicio;
-	}
-
-	public void setHoraInicio(Date horaInicio) {
-		this.horaInicio = horaInicio;
-	}
-
-	public Date getDataFinal() {
-		return dataFinal;
-	}
-
-	public void setDataFinal(Date dataFinal) {
-		this.dataFinal = dataFinal;
-	}
-
-	public Date getHoraFinal() {
-		return horaFinal;
-	}
-
-	public void setHoraFinal(Date horaFinal) {
-		this.horaFinal = horaFinal;
-	}
-
 	public ModoCorretivo getModoCorretivo() {
 		return modoCorretivo;
 	}
@@ -131,14 +101,6 @@ public class OrdemServicoCorretiva implements Serializable {
 
 	public void setSetor(Departamento setor) {
 		this.setor = setor;
-	}
-
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
 	}
 
 	public Status getStatus() {
@@ -236,15 +198,22 @@ public class OrdemServicoCorretiva implements Serializable {
 	public void setEmFuncionamento(boolean emFuncionamento) {
 		this.emFuncionamento = emFuncionamento;
 	}
-
-	public Date getDataInicio() {
-		return dataInicio;
+	
+	public Date getDataCriacao() {
+		return dataCriacao;
 	}
 
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	
+	public List<ConfirmacaoOrdem> getConfirmacoes() {
+		return confirmacoes;
 	}
 
+	public void setConfirmacoes(List<ConfirmacaoOrdem> confirmacoes) {
+		this.confirmacoes = confirmacoes;
+	}
 
 	//------Equals and HashCode---------------
 	@Override
@@ -284,4 +253,5 @@ public class OrdemServicoCorretiva implements Serializable {
 	public void setPrazoParaOrdem(int prazoParaOrdem) {
 		this.prazoParaOrdem = prazoParaOrdem;
 	}
+
 }

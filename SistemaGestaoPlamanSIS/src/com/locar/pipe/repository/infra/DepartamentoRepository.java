@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.locar.pipe.modelos.Departamento;
@@ -80,12 +82,12 @@ public class DepartamentoRepository implements DepartamentosDB,
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Departamento> listarSetor() {
-		List<Departamento> departamentos = new ArrayList<Departamento>();
-		Session session = (Session) HibernateUtil
-				.getAttributeRequest("session");
-		departamentos = session.createCriteria(Departamento.class).list();
-
-		return departamentos;
+	
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
+		Criteria crit = session.createCriteria(Departamento.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		crit.addOrder(Order.asc("nome"));
+		return crit.list();
 
 	}
 }

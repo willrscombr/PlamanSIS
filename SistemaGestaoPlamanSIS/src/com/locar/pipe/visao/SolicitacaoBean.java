@@ -12,13 +12,13 @@ import javax.faces.event.ValueChangeEvent;
 
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoTrabalho;
+import com.locar.pipe.exceptions.SolicitacaoException;
 import com.locar.pipe.filtros.FiltrosSolicitacoes;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.service.GestaoPlaman;
-import com.locar.pipe.service.SolicitacaoException;
 import com.locar.pipe.util.MensagensUtil;
 
 @ManagedBean
@@ -29,6 +29,7 @@ public class SolicitacaoBean implements Serializable {
 	private GestaoPlaman solicitacaoService; //Repositorio de regras de negocio da solicitacao
 	private long qntSolicitacaoAberta;
 	private long qntOrdemoAberta;
+	private int qntTotalOrdem;
 	private Colaborador colaboradorLogado;
 	private List<SolicitacaoServico> solicitacoesAbertas;
 	private List<SolicitacaoServico> solicitacoes;
@@ -83,6 +84,7 @@ public class SolicitacaoBean implements Serializable {
 		ultimasOrdens = solicitacaoService.listarUltimasOrdem();
 		qntOrdemoAberta = solicitacaoService.quantidadeOrdensAbertas();
 		qntSolicitacaoAberta = solicitacaoService.totalSolicitaçãoAberta();
+		qntTotalOrdem = solicitacaoService.totalDeOrdem();
 	}
 
 	public TipoTrabalho[] tiposTrabalho() {
@@ -160,6 +162,14 @@ public class SolicitacaoBean implements Serializable {
 
 	public void setPesquisaAvancada(boolean pesquisaAvancada) {
 		this.pesquisaAvancada = pesquisaAvancada;
+	}
+
+	public int getQntTotalOrdem() {
+		return qntTotalOrdem;
+	}
+
+	public void setQntTotalOrdem(int qntTotalOrdem) {
+		this.qntTotalOrdem = qntTotalOrdem;
 	}
 
 }

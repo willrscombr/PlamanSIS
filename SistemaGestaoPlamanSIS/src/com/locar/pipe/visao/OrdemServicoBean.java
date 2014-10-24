@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import com.locar.pipe.enuns.ModoCorretivo;
@@ -16,13 +17,16 @@ import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.enuns.TipoDePesquisa;
 import com.locar.pipe.enuns.TipoTrabalho;
+import com.locar.pipe.exceptions.FinalInvalidoException;
+import com.locar.pipe.exceptions.IntervaloException;
+import com.locar.pipe.exceptions.OrdemServicoException;
 import com.locar.pipe.filtros.FiltrosOrdens;
+import com.locar.pipe.modelos.ConfirmacaoOrdem;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.modelos.SolicitacaoServico;
 import com.locar.pipe.service.GestaoPlaman;
-import com.locar.pipe.service.OrdemServicoException;
 import com.locar.pipe.util.MensagensUtil;
 import com.locar.pipe.util.RelatorioUtil;
 
@@ -37,6 +41,8 @@ public class OrdemServicoBean implements Serializable {
 	private List<Colaborador> filtroColaborador;
 	private List<Colaborador> executores;
 	private List<OrdemServicoCorretiva> ordensDeServico;
+	private ConfirmacaoOrdem confirmacao;
+	private List<ConfirmacaoOrdem> confirmacoes;
 	private OrdemServicoCorretiva ordemServico;
 	private SolicitacaoServico solicitacao;
 	private OrdemServicoCorretiva ordemSelecionada;
@@ -45,9 +51,13 @@ public class OrdemServicoBean implements Serializable {
 	private boolean impresso;
 	private boolean pesquisaAvancada;
 	private boolean programarOs;
+	private List<OrdemServicoCorretiva> ordensCorretivasRelatorio;
 
 	@PostConstruct
 	public void init() {
+		this.ordensCorretivasRelatorio = new ArrayList<OrdemServicoCorretiva>();
+		this.confirmacoes = new ArrayList<ConfirmacaoOrdem>();
+		this.confirmacao = new ConfirmacaoOrdem();
 		this.executores = new ArrayList<Colaborador>();
 		this.osService = new GestaoPlaman();
 		this.solicitacao = new SolicitacaoServico();
@@ -87,15 +97,10 @@ public class OrdemServicoBean implements Serializable {
 	}
 
 	public void programa() {
-		if (!executores.isEmpty()) {
-			ordemSelecionada.setColaboradores(executores);
 			osService.programarOs(ordemSelecionada);
 			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Ordem Programada");
 			ordemSelecionada = new OrdemServicoCorretiva();
 			programarOs = false;
-		}else{
-			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Você precisa informar pelo menos 1 colaborador");
-		}
 	}
 
 	public void imprimir() {
@@ -103,21 +108,89 @@ public class OrdemServicoBean implements Serializable {
 		this.salvar();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void gerarOrdem(){
+		try{
 		String osName = "relatorioModeloPlaman";
 		List<OrdemServicoCorretiva> osPrint = new ArrayList<OrdemServicoCorretiva>();
 		osPrint.add(ordemSelecionada);
 		HashMap parametros = new HashMap();
 		RelatorioUtil.imprimeRelatorio(osName, parametros, osPrint);
+		FacesContext.getCurrentInstance().responseComplete();
+		if(ordemSelecionada.getStatus() == Status.PROGRAMADO){
+			osService.alterarOrdem(ordemSelecionada,Status.ANDAMENTO);
+		}
+		} catch(Exception e){
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR,"Ocorreu algum erro no Sistema");
+			e.printStackTrace();
+		}
 	}
 	
-	public String editar() {
-
-		return "editarOsn?faces-redirect=true";
+	public void addNovaLinhaConfirmacao(){
+		confirmacao.setOrdemCorretiva(ordemSelecionada);
+		
+		try {
+			osService.dataHoraPermitida(confirmacao);
+			confirmacoes.add(confirmacao);		
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Foi adicionado uma nova data hora de confirmação ");
+		} catch (IntervaloException e) {
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
+			e.printStackTrace();
+		} catch (FinalInvalidoException e) {
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
+			e.printStackTrace();
+		}
+		
+		confirmacao = new ConfirmacaoOrdem();
+	}
+	
+	public void cancelar(){
+		confirmacao = new ConfirmacaoOrdem();
+		confirmacoes = new ArrayList<ConfirmacaoOrdem>();
+	}
+	
+	public void executarConfirmacao(){
+		System.out.println(confirmacao.getDataInicio());
+		
+		if(confirmacao.getDataInicio() != null && confirmacao.getDataFim() != null && 
+		   confirmacao.getHoraInicio() != null && confirmacao.getHoraFim() != null){
+			
+			System.out.println("Entrou no IF");
+			
+			try {
+				osService.dataHoraPermitida(confirmacao);
+				confirmacoes.add(confirmacao);
+			} catch (IntervaloException e) {
+				MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
+				e.printStackTrace();
+			} catch (FinalInvalidoException e) {
+				MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, e.getMessage());
+				e.printStackTrace();
+			}
+			
+		}
+		
+		if(!confirmacoes.isEmpty()){
+			ordemSelecionada.setConfirmacoes(confirmacoes);
+			osService.alterarOrdem(ordemSelecionada, Status.CONFIRMADO);
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Ordem de serviço "+ordemSelecionada.getId()+" foi confirmada!");
+			confirmacao = new ConfirmacaoOrdem();
+			confirmacoes.clear();
+		}else{
+			MensagensUtil.addMensagem(FacesMessage.SEVERITY_ERROR, "Voce precisa informar pelo menos uma data de confirmação");
+		}
+		
+		
+		
+	}
+	
+	public void carregarOrdens(){
+		carregarDados();
+		ordensDeServico = osService.todasOrdens();
+		MensagensUtil.addMensagem(FacesMessage.SEVERITY_INFO, "Quantidade de ordem: "+ordensDeServico.size());
 	}
 
 	public void chamaPesquisa() {
-		System.out.println("CHAMOU O CHAMAPESQUISA " + filtros.getTipoOrdem());
 		txtPesquisa = txtPesquisa.toLowerCase();
 		txtPesquisa = txtPesquisa.replace("osn", "");
 		txtPesquisa = txtPesquisa.replace("osp", "");
@@ -135,16 +208,18 @@ public class OrdemServicoBean implements Serializable {
 	}
 
 	public void pesquisar() {
-		System.out.println("VALOR: " + filtros.getTipoOrdem());
 		ordensDeServico = osService.pesquisarPorFiltro(filtros);
 		filtros = new FiltrosOrdens();
 	}
 
 	public void atualizarPesquisar() {
-		System.out.println("VALOR: " + filtros.getTipoOrdem());
 		pesquisaAvancada = false;
 	}
 
+	public void popularExecutores(){
+		executores = osService.colaboradoresPorSetor(ordemSelecionada.getSetor());
+	}
+	
 	public TipoOrdem[] tipoDeOrdem() {
 		return TipoOrdem.values();
 	}
@@ -288,6 +363,27 @@ public class OrdemServicoBean implements Serializable {
 
 	public void setExecutores(List<Colaborador> executores) {
 		this.executores = executores;
+	}
+
+	public ConfirmacaoOrdem getConfirmacao() {
+		return confirmacao;
+	}
+
+	public void setConfirmacao(ConfirmacaoOrdem confirmacao) {
+		this.confirmacao = confirmacao;
+	}
+
+	public List<ConfirmacaoOrdem> getConfirmacoes() {
+		return confirmacoes;
+	}
+
+	public List<OrdemServicoCorretiva> getOrdensCorretivasRelatorio() {
+		return ordensCorretivasRelatorio;
+	}
+
+	public void setOrdensCorretivasRelatorio(
+			List<OrdemServicoCorretiva> ordensCorretivasRelatorio) {
+		this.ordensCorretivasRelatorio = ordensCorretivasRelatorio;
 	}
 
 }

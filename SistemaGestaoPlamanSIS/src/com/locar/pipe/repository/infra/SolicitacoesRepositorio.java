@@ -58,6 +58,7 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 		Session session = (Session) HibernateUtil
 				.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		crit.addOrder(Order.desc("dataCriacao"));
 		return crit.list();
 	}
@@ -66,10 +67,12 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 	@Override
 	public List<SolicitacaoServico> listarPorStatusSetor(Departamento setor,
 			Status status) {
-		Session session = (Session) HibernateUtil
-				.getAttributeRequest("session");
+		
+		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		crit.addOrder(Order.desc("dataCriacao"));
+		
 		if (status != null) {
 			crit.add(Restrictions.eq("status", status));
 		}
@@ -135,6 +138,7 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 		
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		crit.addOrder(Order.asc("equipamento"));
 		crit.add(Restrictions.ilike("equipamento", query, MatchMode.ANYWHERE));
 		System.out.println("Valor da QUERY: "+query);
@@ -148,6 +152,7 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 		
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		if(filtro != null){
 			if(filtro.getSetor() != null){
@@ -181,6 +186,7 @@ public class SolicitacoesRepositorio implements SolicitacoesDB {
 
 		Session session = (Session) HibernateUtil.getAttributeRequest("session");
 		Criteria crit = session.createCriteria(SolicitacaoServico.class);
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		if(filtro != null){
 			if(filtro.getSetor() != null){

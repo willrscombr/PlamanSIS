@@ -17,20 +17,20 @@
 				<p:panel>
 					<center>
 					<div id="info1">
-						<p:panel header="Informações do Setor" style="height:280px">
+						<p:panel header="Informações do Setor">
 							<p:panel style="background-color:#FFFFFF" rendered="#{solicitacaoBean.qntSolicitacaoAberta != 0}">
-								<span class="txtValor">Existem <span
+								<span class="txtValor">Há <span
 									style="color: blue; font-weight: bold">#{solicitacaoBean.qntSolicitacaoAberta}</span>
-									Solicitações em aberto
+									#{solicitacaoBean.qntSolicitacaoAberta > 1 ? 'Solicitações em aberto' : 'Solicitação em aberto'}
 								</span>
 								<p:link outcome="/solicitacaoServico/solicitacoes.xhtml" value="ver solicitações" style="float:right"/>
 							</p:panel>
 							<!-- APENAS APARECE PARA SUPERVISOR -->
 							<p:panel style="background-color:#FFFFFF"
 								rendered="#{facesContext.externalContext.isUserInRole('supervisao')}">
-								<span class="txtValor"> Existem <span
+								<span class="txtValor"> Há <span
 									style="color: blue; font-weight: bold">#{solicitacaoBean.qntOrdemoAberta}</span>
-									ordens de serviço aberta para o seu setor
+									#{solicitacaoBean.qntOrdemoAberta > 1 ? 'ordens' : 'ordem'} de serviço aberta para o seu setor
 								</span>
 							</p:panel>
 
@@ -38,7 +38,7 @@
 					</div>
 
 					<div id="info2">
-						<p:panel header="Outras Informações" style="height:280px">
+						<p:panel header="Outras Informações" >
 							<p:panel style="background-color:#FFFFFF">
 								<span class="txtValor">Não há informação</span>
 							</p:panel>
@@ -46,10 +46,20 @@
 					</div>
 
 					<div id="info3">
-						<p:panel header="Relatorio" style="height:280px">
-							<p:panel style="background-color:#FFFFFF">
-								<span class="txtValor">Verificar informação que será
-									necessario por aqui</span>
+						<p:panel header="Relatorio" >
+							<p:panel>
+								<p:panelGrid columns="2">
+									<p:outputLabel styleClass="txtLabel" value="Total de ordens no sistema: "/>
+									<p:outputLabel styleClass="txtLabel" value="#{solicitacaoBean.qntTotalOrdem}"/>
+									<p:outputLabel value="OS ABERTA "/>
+									<p:outputLabel styleClass="txtLabel" value="1"/>
+									<p:outputLabel value="OS ANDAMENTO "/>
+									<p:outputLabel styleClass="txtLabel" value="1"/>
+									<p:outputLabel value="OS CONFIRMADA"/>
+									<p:outputLabel styleClass="txtLabel" value="1"/>
+									<p:outputLabel value="OS ENCERRADA "/>
+									<p:outputLabel styleClass="txtLabel" value="1"/>
+								</p:panelGrid>
 							</p:panel>
 						</p:panel>
 					</div>
@@ -63,25 +73,25 @@
 						<p:dataTable value="#{solicitacaoBean.ultimasOrdens}" var="item"
 							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
 							rowStyleClass="linhatabela">
+							<p:column style="width:100px">
+      							<span class="txtLabel">#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
+							</p:column>
+							<p:column style="width:250px">
+      							<span class="txtLabel">Em Funcionamento:</span> <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NÃO'}</span>
+							</p:column>
 							<p:column style="width:200px">
-      							<span>#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
-							</p:column>
-							<p:column >
-      							Em Funcionamento: <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NAO'}</span>
-							</p:column>
-							<p:column style="width:300px">
-      							Tipo de trabalho: <span class="txtValor">#{item.tipoTrabalho}</span>
+      							<span class="txtLabel">T.trabalho:</span> <span class="txtValor">#{item.tipoTrabalho}</span>
 							</p:column>
 						
 							<p:column style="width:250px" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
-      							Departamento: <span class="txtValor">#{item.setor.nome}</span>
+      							<span class="txtLabel">C.Trabalho:</span> <span class="txtValor">#{item.setor.nome}</span>
 							</p:column>
 							<p:column style="width:200px">
-      							Status: <span class="#{item.status}">#{item.status}</span>
+      							<span class="txtLabel">Status:</span> <span >#{item.status}</span>
 							</p:column>
 
 							<p:column style="width:170px">
-      							Criada Em: <h:outputLabel value="#{item.dataCriacao}"
+      							<span class="txtLabel">Criada Em:</span> <h:outputLabel value="#{item.dataCriacao}"
 									styleClass="txtValor">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputLabel>
@@ -103,7 +113,7 @@
 							<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
 								>
 								<p:outputLabel value="Ordem: " />
-								<h:outputText value="Algum Tipo"/>
+								<h:outputText value="#{solicitacaoBean.ordemSelecionada.tipoOrdem}"/>
 
 								<p:outputLabel value="Status: " />
 								<h:outputText value="#{solicitacaoBean.ordemSelecionada.status}" />
@@ -149,29 +159,7 @@
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 
-								<p:outputLabel value="Iniciado em: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataInicio}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Hora: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.horaInicio}">
-									<f:convertDateTime pattern="hh:mm:ss" />
-								</h:outputText>
-
-								<p:outputLabel value="Finalizado em: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataFinal}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Hora: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.horaFinal}">
-									<f:convertDateTime pattern="hh:mm:ss" />
-								</h:outputText>
+								<p:outputLabel value="DADOS DE CONFIRMAÇÃO ENTRARAM AQUI " />
 
 								<p:outputLabel value="Observação: " />
 								<h:outputText

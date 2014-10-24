@@ -13,7 +13,6 @@ import org.hibernate.criterion.Restrictions;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
 import com.locar.pipe.filtros.FiltrosOrdens;
-import com.locar.pipe.modelos.Colaborador;
 import com.locar.pipe.modelos.Departamento;
 import com.locar.pipe.modelos.OrdemServicoCorretiva;
 import com.locar.pipe.repository.OrdemServicoDB;
@@ -54,19 +53,6 @@ public class OrdemServicoRepository implements OrdemServicoDB {
 		crit.add(Restrictions.eq("tipoOrdem",TipoOrdem.CORRETIVA));
 		
 		return crit.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<OrdemServicoCorretiva> listarTodasPreventivas() {
-		Session session = (Session) HibernateUtil
-				.getAttributeRequest("session");
-
-		List<OrdemServicoCorretiva> preventivas = new ArrayList<OrdemServicoCorretiva>();
-		preventivas = session.createCriteria(OrdemServicoCorretiva.class)
-				.add(Restrictions.eq("tipo", TipoOrdem.PREVENTIVA)).list();
-
-		return preventivas;
 	}
 
 	@Override

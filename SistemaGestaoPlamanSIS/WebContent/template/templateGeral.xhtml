@@ -53,6 +53,7 @@
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 										<p:menuitem value="Ordem Corretiva" outcome="/ordem/novaOrdem"/>
 										<p:menuitem value="Listar Ordens" outcome="/ordem/listarordem"/>
+										<p:menuitem value="Relatorios" outcome="/ordem/relatorios" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}"/>
 									</p:menuButton>
 
 									<p:menuButton value="Material"
@@ -74,11 +75,9 @@
 												value="Logado como, " />
 										</span> <span class="usuarioLogado"> <h:outputLabel
 												value="#{segurancaBean.colaboradorLogado.nome}!"
-												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
+												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" /><br/>
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
 										</span><span class="setorUsuario">#{colaboradorBean.colaboradorLogado.setor.nome}</span>
-
-
 									</div>
 								</f:facet>
 							</p:toolbar>
