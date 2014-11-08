@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"> 
+
+<h:head></h:head> 
+<body> 
+	<ui:composition>
+		<h:form id="frmLog">
+			<p:dialog widgetVar="dlgLog" id="modalLog" header="log de operação">
+				<p:panelGrid columns="4">
+						<p:selectOneMenu value="#{modalLogView.filtro.usuario}">
+							<f:selectItems value="#{modalLogView.usuarios}" var="user" itemLabel="#{user.nomeUsuario}" itemValue="#{user}"/>
+						</p:selectOneMenu>
+						<p:commandButton value="1"/>
+						<p:commandButton value="1"/>
+						<p:commandButton value="1"/>
+					</p:panelGrid>
+				<p:scrollPanel style="height:400px; background-color:#FFFFFF">
+					<ui:repeat var="log" value="#{modalLogView.logs}">
+						<ul>
+							<li>>#{log.textoLog}</li>
+							<li></li>
+						</ul>
+					</ui:repeat>
+				</p:scrollPanel>
+			</p:dialog>
+		</h:form>
+	</ui:composition>
+</body> 
+</html>

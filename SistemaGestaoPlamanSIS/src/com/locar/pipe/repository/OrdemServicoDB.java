@@ -17,7 +17,6 @@ public interface OrdemServicoDB extends Serializable {
 	long qntDeOrdemPorSetorStatus(Departamento setor,Status status);
 	List<OrdemServicoCorretiva> listarTodas();
 	List<OrdemServicoCorretiva> listarTodasCorretiva();
-	List<OrdemServicoCorretiva> listarTodasPreventivas();
 	List<OrdemServicoCorretiva> listarUltimasCinco();
 	List<OrdemServicoCorretiva> listarPorStatus(Departamento setor,Status status);
 	List<OrdemServicoCorretiva> pesquisarPorFiltros(FiltrosOrdens filtro);

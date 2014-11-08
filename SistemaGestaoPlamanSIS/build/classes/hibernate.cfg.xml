@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://10.1.0.2:3306/plamandb</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/plamandb</property>
 		<property name="hibernate.connection.username">plaman</property>
 		<property name="hibernate.connection.password">kayrossxp</property>
 
@@ -17,5 +18,11 @@
 		<mapping class="com.locar.pipe.modelos.OrdemServicoCorretiva" />
 		<mapping class="com.locar.pipe.modelos.SolicitacaoServico" />
 		<mapping class="com.locar.pipe.modelos.Material"/>
+		<mapping class="com.locar.pipe.modelos.ConfirmacaoOrdem"/>
+		<mapping class="com.locar.pipe.modelos.Report"/>
+		<mapping class="com.locar.pipe.service.BackLogApplication"/>
+		<mapping class="com.locar.pipe.modelos.Usuario"/>
+		
 	</session-factory>
+	
 </hibernate-configuration>

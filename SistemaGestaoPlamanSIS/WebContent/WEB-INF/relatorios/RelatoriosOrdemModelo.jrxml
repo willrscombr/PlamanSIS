@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
+<!-- 2014-11-06T16:56:53 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatoriosOrdemModelo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ed2cbd48-a5de-4349-a4ba-c46ffa12f327">
+	<parameter name="logo" class="java.awt.Image"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="colaboradores" class="java.util.List">
+		<fieldDescription><![CDATA[colaboradores]]></fieldDescription>
+	</field>
+	<field name="componente" class="java.lang.String">
+		<fieldDescription><![CDATA[componente]]></fieldDescription>
+	</field>
+	<field name="confirmacoes" class="java.util.List">
+		<fieldDescription><![CDATA[confirmacoes]]></fieldDescription>
+	</field>
+	<field name="dataCriacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataCriacao]]></fieldDescription>
+	</field>
+	<field name="descricaoAcao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricaoAcao]]></fieldDescription>
+	</field>
+	<field name="descricaoSolucao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricaoSolucao]]></fieldDescription>
+	</field>
+	<field name="emFuncionamento" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[emFuncionamento]]></fieldDescription>
+	</field>
+	<field name="equipamento" class="java.lang.String">
+		<fieldDescription><![CDATA[equipamento]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="id_solicitacao" class="java.lang.Long">
+		<fieldDescription><![CDATA[id_solicitacao]]></fieldDescription>
+	</field>
+	<field name="materiaisPendentes" class="java.util.List">
+		<fieldDescription><![CDATA[materiaisPendentes]]></fieldDescription>
+	</field>
+	<field name="modoCorretivo" class="com.locar.pipe.enuns.ModoCorretivo">
+		<fieldDescription><![CDATA[modoCorretivo]]></fieldDescription>
+	</field>
+	<field name="observacao" class="java.lang.String">
+		<fieldDescription><![CDATA[observacao]]></fieldDescription>
+	</field>
+	<field name="pendenciaMaterial" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[pendenciaMaterial]]></fieldDescription>
+	</field>
+	<field name="prazoParaOrdem" class="java.lang.Integer">
+		<fieldDescription><![CDATA[prazoParaOrdem]]></fieldDescription>
+	</field>
+	<field name="setor" class="com.locar.pipe.modelos.Departamento">
+		<fieldDescription><![CDATA[setor]]></fieldDescription>
+	</field>
+	<field name="status" class="com.locar.pipe.enuns.Status">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
+	</field>
+	<field name="tipoEncerramento" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[tipoEncerramento]]></fieldDescription>
+	</field>
+	<field name="tipoOrdem" class="com.locar.pipe.enuns.TipoOrdem">
+		<fieldDescription><![CDATA[tipoOrdem]]></fieldDescription>
+	</field>
+	<field name="tipoTrabalho" class="com.locar.pipe.enuns.TipoTrabalho">
+		<fieldDescription><![CDATA[tipoTrabalho]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement x="280" y="30" width="300" height="30" uuid="342d83ad-1066-4cc5-8610-961406faeb58"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATORIO DE ORDEM]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="31" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="27" backcolor="#000000" uuid="b5fc01ff-ee58-4c12-95d6-1fe5afb6cb5e"/>
+			</rectangle>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="670" y="7" width="132" height="20" forecolor="#FFFFFF" uuid="d5f49141-176d-447d-bed1-baf4abedfdac"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31">
+			<rectangle>
+				<reportElement x="1" y="1" width="801" height="29" forecolor="#000000" backcolor="#9E9E9E" uuid="214d59bf-2169-4291-a806-9903e5a740cb"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="1" width="79" height="29" uuid="36c473b5-9e68-4b76-99b0-2da5537cfeb3"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="1" width="140" height="29" uuid="e4b16b67-b9e0-45d5-86f5-8fd8bb5128e9"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EQUIPAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="1" width="140" height="29" uuid="6d5b7bef-1eeb-4136-bf52-1ceb17d3c8f4"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPONENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="1" width="280" height="29" uuid="2f2db6e0-54af-4d39-8be7-b993c3f119ee"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALHES
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="1" width="92" height="29" uuid="6670bdab-5b9e-4a77-a51f-eef3db606b84"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STATUS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="640" y="1" width="70" height="29" uuid="418d4022-17bf-40bb-80f5-a97ddd497a85"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[C.T]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="360" y="0" width="280" height="30" uuid="df7ca7b0-cb9f-44b3-bd41-417eea01c274"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{descricaoAcao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="0" width="79" height="30" uuid="4bb05548-79b2-4785-b413-7adda72cdc77"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="140" height="30" uuid="955bc6fd-f4af-4532-ad93-68069a418d5b"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{equipamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="140" height="30" uuid="b7ac6e85-0563-4a52-b9fd-a6bce48c3ef0"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{componente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="710" y="0" width="92" height="30" uuid="40b1a3fb-542c-404b-90ff-b79d91526476"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="640" y="0" width="70" height="30" uuid="064f8812-98e7-42e8-aaf6-4f996489aa36"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{setor}.getSigla()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="63" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

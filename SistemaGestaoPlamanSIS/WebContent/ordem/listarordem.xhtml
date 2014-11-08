@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="/template/templateGeral.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -107,8 +108,9 @@
 					<p:dataTable value="#{ordemServicoBean.ordensDeServico}"
 						var="ordem" rows="5" paginator="true" id="tabelaDeOrdem">
 
-						<p:column headerText="ID" style="width:100px;text-align:center">
-							<span class="txtLabel">#{ordem.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{ordem.id}</span>
+						<p:column headerText="ID" style="width:90px;text-align:center">
+							<span class="txtLabel">#{ordem.tipoOrdem == 'CORRETIVA' ?
+								'OSN' : 'OSP'}#{ordem.id}</span>
 						</p:column>
 
 						<p:column headerText="Equipamento"
@@ -130,8 +132,8 @@
 							<span class="txtValor">#{ordem.setor.nome}</span>
 						</p:column>
 
-						<p:column headerText="Tipo Trabalho"
-							style="width:120px;text-align:center">
+						<p:column headerText="T.Trabalho"
+							style="width:90px;text-align:center">
 							<span class="txtValor">#{ordem.tipoTrabalho}</span>
 						</p:column>
 
@@ -140,152 +142,29 @@
 							<span class="txtValor">#{ordem.status}</span>
 						</p:column>
 						<p:column style="width:60px;">
-							<p:commandLink actionListener="#{ordemServicoBean.programarExecutor}" update=":frmOrdemDialog">
+							<p:commandLink
+								actionListener="#{ordemServicoBean.programarExecutor}"
+								update=":frmOrdemDialog" oncomplete="PF('modalDetalhesOrdem').show()">
 								<p:graphicImage url="/images/lupaview.png" title="ver detalhes" />
 								<f:setPropertyActionListener value="#{ordem}"
 									target="#{ordemServicoBean.ordemSelecionada}" />
 							</p:commandLink>
 							<p:spacer width="15px" />
-							<p:commandLink action="#{ordemServicoBean.gerarOrdem()}" onclick="this.form.target='_blank'">
-								<p:graphicImage url="/images/imprimir.png" title="ver detalhes"
-									rendered="#{ordem.status == 'ABERTO'}" />
-							</p:commandLink>
-
+							<h:commandButton action="#{ordemServicoBean.gerarOrdem}"
+								onclick="this.form.target='_blank'" image="/images/imprimir.png"
+								rendered="#{ordem.status != 'ABERTO' and not facesContext.externalContext.isUserInRole('supervisao')}">
+								<f:setPropertyActionListener value="#{ordem}"
+									target="#{ordemServicoBean.ordemSelecionada}" />
+							</h:commandButton>
 						</p:column>
 					</p:dataTable>
 				</p:panel>
 			</h:form>
 		</div>
-		<h:form id="frmOrdemDialog">
+		<div>
+			<ui:include src="/ordem/modalDetalhesOs.xhtml" />
+		</div>
+		
 
-			<p:panel id="detalhes" rendered="#{ordemServicoBean.programarOs}" >
-				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"  style="float:left">
-					<p:outputLabel value="Ordem: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.tipoOrdem}" />
-
-					<p:outputLabel value="Status: " />
-					<h:outputText value="#{ordemServicoBean.ordemSelecionada.status}" />
-
-					<p:outputLabel value="Data de criação:" />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.dataCriacao}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-
-					<p:outputLabel value="Equipamento: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.equipamento}" />
-
-					<p:outputLabel value="Componente: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.componente}" />
-
-					<p:outputLabel value="Em funcionamento: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.emFuncionamento ? 'SIM' : 'NÃO'}" />
-
-					<p:outputLabel value="Departamento: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.setor.nome}" />
-
-					<p:outputLabel value="Ação:" />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.descricaoAcao}" />
-
-				</p:panelGrid>
-
-				<p:panelGrid columns="2" columnClasses="txtLabel, txtValor" style="float:left"
-					rendered="#{ordemServicoBean.ordemSelecionada.status == 'ENCERRADO'}">
-
-					<p:outputLabel value="Solução" />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.descricaoSolucao}" />
-
-					<p:outputLabel value="Data de criação:" />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.dataCriacao}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-
-					<p:outputLabel value="Iniciado em: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.dataInicio}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-
-					<p:outputLabel value="Hora: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.horaInicio}">
-						<f:convertDateTime pattern="hh:mm:ss" />
-					</h:outputText>
-
-					<p:outputLabel value="Finalizado em: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.dataFinal}">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</h:outputText>
-
-					<p:outputLabel value="Hora: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.horaFinal}">
-						<f:convertDateTime pattern="hh:mm:ss" />
-					</h:outputText>
-
-					<p:outputLabel value="Observação: " />
-					<h:outputText
-						value="#{ordemServicoBean.ordemSelecionada.observacao}" />
-					</p:panelGrid>
-					
-					<p:panel style="float:left;width:300px;">
-						<span class="txtLabel">Executores</span>
-						<ui:repeat var="colab" value="#{ordemServicoBean.ordemSelecionada.colaboradores}">
-							<li>#{colab.nome}</li>
-						</ui:repeat>
-						
-					</p:panel>
-					
-					<div class="clear"></div>
-				<f:facet name="footer">
-					<p:commandButton value="Programar" update="modelPrograma" oncomplete="PF('dlg').show()"
-						rendered="#{ordemServicoBean.ordemSelecionada.status == 'ABERTO'}" />
-					<p:commandButton value="Mudar para Andamento" 
-						rendered="#{ordemServicoBean.ordemSelecionada.status == 'IMPRESSO'}" />
-					<h:commandButton value="Imprimir" action="#{ordemServicoBean.gerarOrdem()}" onclick="this.form.target='_blank'" 
-						rendered="#{ordemServicoBean.ordemSelecionada.status == 'PROGRAMADO'}" />
-					<p:commandButton value="Encerrrar Tecnicamente"
-						rendered="#{ordemServicoBean.ordemSelecionada.status == 'ANDAMENTO'}"
-						style="background-color:red;" />
-				</f:facet>
-				
-				<p:dialog widgetVar="dlg" id="modelPrograma" modal="true" closeOnEscape="true" resizable="false">
-					<p:panelGrid columns="2" id="panelprograma">
-						
-						<p:outputLabel value="Executor(s)"/>
-						<p:selectManyMenu value="#{ordemServicoBean.executores}" filterMatchMode="contains" showCheckbox="true" filter="true" scrollHeight="72" converter="com.locar.pipe.Colab">
-							<f:selectItems value="#{ordemServicoBean.filtroColaborador}" var="colaborador" itemLabel="#{colaborador.nome}" itemValue="#{colaborador}"/>
-						</p:selectManyMenu>
-						
-						<p:outputLabel value="Prazo( em horas )"/>
-						<p:spinner value="#{ordemServicoBean.ordemSelecionada.prazoParaOrdem}" stepFactor="1" min="0" />
-						
-						<f:facet name="footer">
-							<p:commandButton value="Salvar" action="#{ordemServicoBean.programa}" update=":frmOrdemDialog, :frmOrdemTabela" oncomplete="PF('dlg').hide()">
-								
-							</p:commandButton>
-							
-							<p:commandButton value="Imprimir">
-								
-							</p:commandButton>
-							
-							<p:commandButton value="Cancelar" resetValues="true" update="modelPrograma" oncomplete="PF('dlg').hide()">
-								
-							</p:commandButton>
-						</f:facet>
-					</p:panelGrid>
-					
-				</p:dialog>
-			</p:panel>
-		</h:form>
 	</ui:define>
 </ui:composition>

@@ -25,6 +25,10 @@ html, body {
 	margin: 0 auto;
 }
 
+.linkTop{
+	color: yellow;
+}
+
 #topo {
 	height: 50px;
 	background-color:rgb(156,149,134);
@@ -206,6 +210,12 @@ html, body {
 
 }
 
+.txtNumero{
+	font-weight:bolder;
+	color: blue;
+	text-align: center;
+}
+
 .tabelaDeItens {
 	position: absolute;
 	top: 5%;
@@ -251,6 +261,16 @@ html, body {
 
 .ATENDIDO {
 	background-color:teal;
+	color: white;
+}
+
+.ANDAMENTO {
+	background-color:aqua;
+	color: white;
+}
+
+.CONFIRMADO {
+	background-color:silver;
 	color: white;
 }
 

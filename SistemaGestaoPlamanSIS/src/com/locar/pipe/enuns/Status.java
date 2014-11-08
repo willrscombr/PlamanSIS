@@ -4,7 +4,7 @@ public enum Status {
 
 	ABERTO("aberto"), PROGRAMADO("programado"), IMPRESSO("impresso"),ANDAMENTO("andamento"), CANCELADO(
 			"cancelado"), ATRASO("atraso"), ENCERRADO("encerrado"), PENDENTE(
-			"pendente"),ATENDIDO("atendido");
+			"pendente"),ATENDIDO("atendido"), CONFIRMADO("confirmado");
 
 	
 	String status;

@@ -22,6 +22,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.locar.pipe.enuns.ModoCorretivo;
 import com.locar.pipe.enuns.Status;
 import com.locar.pipe.enuns.TipoOrdem;
@@ -58,23 +63,17 @@ public class OrdemServicoCorretiva implements Serializable {
 	private TipoTrabalho tipoTrabalho;
 	@Column(name = "modo_corretivo") @Enumerated(EnumType.STRING)
 	private ModoCorretivo modoCorretivo;
-	@ManyToMany (fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
-	@JoinTable(name="tb_ordem_colaborador", joinColumns = @JoinColumn(name="id_ordem_servico"), inverseJoinColumns = @JoinColumn(name="id_colaborador"))
-	private List<Colaborador> colaboradores = new ArrayList<Colaborador>();
 	private long id_solicitacao;
 	@Column(name="tipo_encerramento")
 	private boolean tipoEncerramento;
-	@Temporal(TemporalType.TIMESTAMP) @Column(name = "data_criacao")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
-	@Temporal(TemporalType.DATE) @Column(name = "data_inicio")
-	private Date dataInicio;
-	@Temporal(TemporalType.TIME) @Column(name = "hora_inicio")
-	private Date horaInicio;
-	@Temporal(TemporalType.DATE) @Column(name = "data_final")
-	private Date dataFinal;
-	@Temporal(TemporalType.TIME) @Column(name = "hora_final")
-	private Date horaFinal;
 	private int prazoParaOrdem;
+	@OneToMany(mappedBy="ordemCorretiva", cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<ConfirmacaoOrdem> confirmacoes;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataHoraEncerramento;
 	
 	//GETTERS AND SETTERS--------------------------
 	public long getId() {
@@ -93,30 +92,6 @@ public class OrdemServicoCorretiva implements Serializable {
 		this.tipoEncerramento = tipoEncerramento;
 	}
 
-	public Date getHoraInicio() {
-		return horaInicio;
-	}
-
-	public void setHoraInicio(Date horaInicio) {
-		this.horaInicio = horaInicio;
-	}
-
-	public Date getDataFinal() {
-		return dataFinal;
-	}
-
-	public void setDataFinal(Date dataFinal) {
-		this.dataFinal = dataFinal;
-	}
-
-	public Date getHoraFinal() {
-		return horaFinal;
-	}
-
-	public void setHoraFinal(Date horaFinal) {
-		this.horaFinal = horaFinal;
-	}
-
 	public ModoCorretivo getModoCorretivo() {
 		return modoCorretivo;
 	}
@@ -131,14 +106,6 @@ public class OrdemServicoCorretiva implements Serializable {
 
 	public void setSetor(Departamento setor) {
 		this.setor = setor;
-	}
-
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
 	}
 
 	public Status getStatus() {
@@ -214,14 +181,6 @@ public class OrdemServicoCorretiva implements Serializable {
 		this.observacao = observacao;
 	}
 	
-	public List<Colaborador> getColaboradores() {
-		return colaboradores;
-	}
-
-	public void setColaboradores(List<Colaborador> colaboradores) {
-		this.colaboradores = colaboradores;
-	}
-
 	public long getId_solicitacao() {
 		return id_solicitacao;
 	}
@@ -236,15 +195,22 @@ public class OrdemServicoCorretiva implements Serializable {
 	public void setEmFuncionamento(boolean emFuncionamento) {
 		this.emFuncionamento = emFuncionamento;
 	}
-
-	public Date getDataInicio() {
-		return dataInicio;
+	
+	public Date getDataCriacao() {
+		return dataCriacao;
 	}
 
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	
+	public List<ConfirmacaoOrdem> getConfirmacoes() {
+		return confirmacoes;
 	}
 
+	public void setConfirmacoes(List<ConfirmacaoOrdem> confirmacoes) {
+		this.confirmacoes = confirmacoes;
+	}
 
 	//------Equals and HashCode---------------
 	@Override
@@ -284,4 +250,13 @@ public class OrdemServicoCorretiva implements Serializable {
 	public void setPrazoParaOrdem(int prazoParaOrdem) {
 		this.prazoParaOrdem = prazoParaOrdem;
 	}
+
+	public Date getDataHoraEncerramento() {
+		return dataHoraEncerramento;
+	}
+
+	public void setDataHoraEncerramento(Date dataHoraEncerramento) {
+		this.dataHoraEncerramento = dataHoraEncerramento;
+	}
+
 }

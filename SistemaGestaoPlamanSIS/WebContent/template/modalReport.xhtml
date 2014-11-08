@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<ui:composition>
+		<h:form id="frmReport">
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false"/>
+			<p:dialog widgetVar="modalReport" id="report" modal="true"
+				draggable="false" resizable="false"
+				header="Reporte bug ou melhoria para o sistema">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Tipo do Report" />
+
+					<p:selectOneMenu value="#{reportBean.report.tipoReport}">
+						<f:selectItems value="#{reportBean.tiposReport()}" var="tipo"
+							itemLabel="#{tipo}" itemValue="#{tipo}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Local da Ocorrência" />
+					<h:panelGroup>
+						<p:inputText placeholder="pagina,popup ou outros" id="local"
+							value="#{reportBean.report.local}" required="true"
+							requiredMessage="Favor informar 
+						o local que necessita de melhoria ou correção" />
+						<p:message for="local"/>
+					</h:panelGroup>
+
+					<p:outputLabel value="Report" />
+					<h:panelGroup>
+						<p:inputTextarea id="reportText" value="#{reportBean.report.descricao}"
+							placeholder="Relate aqui o ocorrido, ou a melhoria que deseja ver no sistema"
+							cols="50" rows="4" required="true" requiredMessage="Favor informe o texto de report"/>
+						<p:message for="reportText"/>
+					</h:panelGroup>
+				</p:panelGrid>
+					<f:facet name="footer">
+						<p:commandButton value="Enviar" action="#{reportBean.enviarReport}" update=":frmReport"/>
+					</f:facet>
+			</p:dialog>
+		</h:form>
+	</ui:composition>
+</body>
+</html>

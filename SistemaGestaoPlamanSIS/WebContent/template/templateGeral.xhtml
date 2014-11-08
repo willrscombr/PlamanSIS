@@ -8,7 +8,9 @@
 <h:head>
 	<title><ui:insert name="title_page"></ui:insert></title>
 	<ui:insert name="conteudoExterno"></ui:insert>
+	<h:outputScript library="js" name="jquery-ui-min.js"/>
 	<h:outputStylesheet library="css" name="estiloGeral.css" />
+	
 </h:head>
 
 <body>
@@ -16,9 +18,16 @@
 		<ui:insert name="topo">
 			<div id="topo">
 				<p:graphicImage value="/images/LogoPlamanSubititle.png" />
+				
+				<div style="float:right; margin-right: 10px; margin-top: 50px; color: yellow;">
+					<h:form id="frmBtnBug">
+					<p:commandLink styleClass="linkTop" id="btnReport" value="Reportar: Erros / Melhorias" onclick="PF('modalReport').show()" />
+					</h:form>
+				</div>
 			</div>
 		</ui:insert>
-
+		<ui:include src="/template/modalReport.xhtml"/>
+		
 		<div id="conteudo">
 			<div id="menu">
 				<ui:insert name="menu">
@@ -53,13 +62,17 @@
 											rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}" />
 										<p:menuitem value="Ordem Corretiva" outcome="/ordem/novaOrdem"/>
 										<p:menuitem value="Listar Ordens" outcome="/ordem/listarordem"/>
+										<p:menuitem value="Encerramentos" outcome="/ordem/relatorios" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}"/>
 									</p:menuButton>
 
 									<p:menuButton value="Material"
-										rendered="#{not facesContext.externalContext.isUserInRole('planejamento')}">
+										rendered="#{facesContext.externalContext.isUserInRole('planejamento') or facesContext.externalContext.isUserInRole('liberado')}">
 										<p:menuitem value="Lista de materiais"
 											outcome="/solicitacaoServico/gerarSolicitacao" />
 										<p:menuitem value="Pendências" />
+									</p:menuButton>
+									<p:menuButton value="Relatorios" rendered="#{not facesContext.externalContext.isUserInRole('supervisao')}">
+											<p:menuitem value="Ver Log" onclick="PF('dlgLog').show()" actionListener="#{modalLogView.gerarLog()}"/>
 									</p:menuButton>
 								</f:facet>
 
@@ -74,20 +87,19 @@
 												value="Logado como, " />
 										</span> <span class="usuarioLogado"> <h:outputLabel
 												value="#{segurancaBean.colaboradorLogado.nome}!"
-												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" />
+												rendered="#{not empty segurancaBean.colaboradorLogado.nome}" /><br/>
 										</span> <span class="txtSetor"> <h:outputLabel value="Setor:" />
 										</span><span class="setorUsuario">#{colaboradorBean.colaboradorLogado.setor.nome}</span>
-
-
 									</div>
 								</f:facet>
 							</p:toolbar>
 						</h:form>
 					</div>
+					<ui:include src="/template/modalLog.xhtml" />
 				</ui:insert>
 			</div>
 			<ui:insert name="conteudo"> ESTA CHAMANDO DO TEMPLATE GERAL</ui:insert>
-
+			
 			<div class="clear"></div>
 		</div>
 

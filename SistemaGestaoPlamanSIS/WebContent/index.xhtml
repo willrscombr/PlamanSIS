@@ -4,182 +4,204 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+	<ui:define name="conteudoExterno">
+	
+	<h:outputScript library="js" name="index.js"/>
+	</ui:define>
+	
 	<f:metadata>
 		<f:viewAction action="#{solicitacaoBean.carregarDados()}" />
+		<f:viewAction action="#{ordemServicoBean.carregarInformacoes()}" />
 	</f:metadata>
 
 
 	<ui:define name="conteudo">
 		<div>
 			<h:form id="form">
-				<p:panel>
-					<center>
-					<div id="info1">
-						<p:panel header="Informações do Setor" style="height:280px">
-							<p:panel style="background-color:#FFFFFF" rendered="#{solicitacaoBean.qntSolicitacaoAberta != 0}">
-								<span class="txtValor">Existem <span
-									style="color: blue; font-weight: bold">#{solicitacaoBean.qntSolicitacaoAberta}</span>
-									Solicitações em aberto
-								</span>
-								<p:link outcome="/solicitacaoServico/solicitacoes.xhtml" value="ver solicitações" style="float:right"/>
-							</p:panel>
-							<!-- APENAS APARECE PARA SUPERVISOR -->
-							<p:panel style="background-color:#FFFFFF"
-								rendered="#{facesContext.externalContext.isUserInRole('supervisao')}">
-								<span class="txtValor"> Existem <span
-									style="color: blue; font-weight: bold">#{solicitacaoBean.qntOrdemoAberta}</span>
-									ordens de serviço aberta para o seu setor
-								</span>
-							</p:panel>
-
-						</p:panel>
-					</div>
-
-					<div id="info2">
-						<p:panel header="Outras Informações" style="height:280px">
-							<p:panel style="background-color:#FFFFFF">
-								<span class="txtValor">Não há informação</span>
-							</p:panel>
-						</p:panel>
-					</div>
-
-					<div id="info3">
-						<p:panel header="Relatorio" style="height:280px">
-							<p:panel style="background-color:#FFFFFF">
-								<span class="txtValor">Verificar informação que será
-									necessario por aqui</span>
-							</p:panel>
-						</p:panel>
-					</div>
-					<div class="clear"></div>
-					</center>
-				</p:panel>
-
-				<div id="tabelaUltimas">
-					<p:panel header="#{facesContext.externalContext.isUserInRole('planejamento')?'Ultimas Ordens Criadas':'Lista de Ordens com Pendencia'}"
-					style="min-height:50px;">
-						<p:dataTable value="#{solicitacaoBean.ultimasOrdens}" var="item"
-							emptyMessage="#{facesContext.externalContext.isUserInRole('planejamento')?'Sem ordens no sistema':'Sem pendencias'}"
-							rowStyleClass="linhatabela">
-							<p:column style="width:200px">
-      							<span>#{item.tipoOrdem == 'CORRETIVA' ? 'OSN' : 'OSP'}#{item.id}</span>
+				<p:accordionPanel>
+					<p:tab title="RELATORIO DE QUANTIDADE POR CT">
+						<p:dataTable value="#{ordemServicoBean.departamentos}"
+							var="centro">
+							<p:columnGroup type="header">
+								<p:row>
+									<p:column rowspan="3">
+										<f:facet name="header">
+											<span>CENTRO DE TRABALHO</span>
+										</f:facet>
+									</p:column>
+									<p:column colspan="4">
+										<f:facet name="header">
+											<span>Total de ordens no Sistema: </span>
+											<span style="color: red; font-size: 18px;">#{ordemServicoBean.totalDeOrdem}</span>
+										</f:facet>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2">
+										<f:facet name="header">
+											<span>Quantidade de Preventivas: </span>
+											<span style="color: red; font-size: 18px;">0</span>
+										</f:facet>
+									</p:column>
+									<p:column colspan="2">
+										<f:facet name="header">
+											<span>Quantidade de Corretivas: </span>
+											<span style="color: red; font-size: 18px;">#{ordemServicoBean.totalDeOrdem}</span>
+										</f:facet>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column headerText="ABERTAS" />
+									<p:column headerText="ANDAMENTO" />
+									<p:column headerText="PENDENTES" />
+									<p:column headerText="ENCERRADAS" />
+								</p:row>
+							</p:columnGroup>
+							<p:column>
+								<h:outputText styleClass="txtLabel" value="#{centro.nome}" />
 							</p:column>
-							<p:column >
-      							Em Funcionamento: <span class="txtValor">#{item.emFuncionamento ? 'SIM' : 'NAO'}</span>
+							<p:column styleClass="txtNumero">
+								#{centro.nome == 'Eletrica' ? ordemServicoBean.dataGridUtil.eletrica.aberta : ''}
+								#{centro.nome == 'Mecanica' ? ordemServicoBean.dataGridUtil.mecanica.aberta : ''}
+								#{centro.nome == 'Manutencao' ? ordemServicoBean.dataGridUtil.manutencao.aberta : ''}
+								#{centro.nome == 'Operacional' ? ordemServicoBean.dataGridUtil.operacional.aberta : ''}
+								#{centro.nome == 'Refrigeracao' ? ordemServicoBean.dataGridUtil.refrigeracao.aberta : ''}
+								#{centro.nome == 'Administracao' ? ordemServicoBean.dataGridUtil.administracao.aberta : ''}
+								#{centro.nome == 'Planejamento' ? ordemServicoBean.dataGridUtil.planejamento.aberta : ''}
 							</p:column>
-							<p:column style="width:300px">
-      							Tipo de trabalho: <span class="txtValor">#{item.tipoTrabalho}</span>
+							<p:column styleClass="txtNumero">
+								#{centro.nome == 'Eletrica' ? ordemServicoBean.dataGridUtil.eletrica.andamento : ''}
+								#{centro.nome == 'Mecanica' ? ordemServicoBean.dataGridUtil.mecanica.andamento : ''}
+								#{centro.nome == 'Manutencao' ? ordemServicoBean.dataGridUtil.manutencao.andamento : ''}
+								#{centro.nome == 'Operacional' ? ordemServicoBean.dataGridUtil.operacional.andamento : ''}
+								#{centro.nome == 'Refrigeracao' ? ordemServicoBean.dataGridUtil.refrigeracao.andamento : ''}
+								#{centro.nome == 'Administracao' ? ordemServicoBean.dataGridUtil.administracao.andamento : ''}
+								#{centro.nome == 'Planejamento' ? ordemServicoBean.dataGridUtil.planejamento.andamento : ''}
 							</p:column>
-						
-							<p:column style="width:250px" rendered="#{facesContext.externalContext.isUserInRole('planejamento')}">
-      							Departamento: <span class="txtValor">#{item.setor.nome}</span>
+							<p:column styleClass="txtNumero">
+								#{centro.nome == 'Eletrica' ? ordemServicoBean.dataGridUtil.eletrica.pendente : ''}
+								#{centro.nome == 'Mecanica' ? ordemServicoBean.dataGridUtil.mecanica.pendente : ''}
+								#{centro.nome == 'Manutencao' ? ordemServicoBean.dataGridUtil.manutencao.pendente : ''}
+								#{centro.nome == 'Operacional' ? ordemServicoBean.dataGridUtil.operacional.pendente : ''}
+								#{centro.nome == 'Refrigeracao' ? ordemServicoBean.dataGridUtil.refrigeracao.pendente : ''}
+								#{centro.nome == 'Administracao' ? ordemServicoBean.dataGridUtil.administracao.pendente : ''}
+								#{centro.nome == 'Planejamento' ? ordemServicoBean.dataGridUtil.planejamento.pendente : ''}
 							</p:column>
-							<p:column style="width:200px">
-      							Status: <span class="#{item.status}">#{item.status}</span>
-							</p:column>
-
-							<p:column style="width:170px">
-      							Criada Em: <h:outputLabel value="#{item.dataCriacao}"
-									styleClass="txtValor">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputLabel>
-							</p:column>
-
-							<p:column style="width:20px">
-								<p:commandLink oncomplete="PF('dlg').show()" update=":form:modalOrdem">
-									<p:graphicImage url="/images/binoculoPreview.png"/>
-									<f:setPropertyActionListener value="#{item}"
-										target="#{solicitacaoBean.ordemSelecionada}" />
-								</p:commandLink>
+							<p:column styleClass="txtNumero">
+								#{centro.nome == 'Eletrica' ? ordemServicoBean.dataGridUtil.eletrica.encerrada : ''}
+								#{centro.nome == 'Mecanica' ? ordemServicoBean.dataGridUtil.mecanica.encerrada : ''}
+								#{centro.nome == 'Manutencao' ? ordemServicoBean.dataGridUtil.manutencao.encerrada : ''}
+								#{centro.nome == 'Operacional' ? ordemServicoBean.dataGridUtil.operacional.encerrada : ''}
+								#{centro.nome == 'Refrigeracao' ? ordemServicoBean.dataGridUtil.refrigeracao.encerrada : ''}
+								#{centro.nome == 'Administracao' ? ordemServicoBean.dataGridUtil.administracao.encerrada : ''}
+								#{centro.nome == 'Planejamento' ? ordemServicoBean.dataGridUtil.planejamento.encerrada : ''}
 							</p:column>
 						</p:dataTable>
+					</p:tab>
+					<p:tab title="RELATORIO DE ORDENS POR PORCENTAGEM">
+						<p:panelGrid>
+							<f:facet name="header">
+								<p:row>
+									<p:column colspan="8">
+										<h:outputText value="TOTAL DE ORDENS NO SISTEMA: " />
+										<span style="color: red; font-size: 18px">#{ordemServicoBean.totalDeOrdem}</span>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2" />
+									<p:column>ABERTAS</p:column>
+									<p:column>ANDAMENTO</p:column>
+									<p:column>CONFIRMADAS</p:column>
+									<p:column>ENCERRADAS</p:column>
+									<p:column>PENDENTES</p:column>
+								</p:row>
+							</f:facet>
+							<p:row>
+								<p:column colspan="2" rowspan="2" styleClass="txtLabel"
+									style="text-align:center">PREVENTIVAS</p:column>
+								<p:column styleClass="txtNumero"></p:column>
+								<p:column styleClass="txtNumero"></p:column>
+								<p:column styleClass="txtNumero"></p:column>
+								<p:column styleClass="txtNumero"></p:column>
+								<p:column styleClass="txtNumero"></p:column>
+							</p:row>
+							<p:row>
+								<p:column style="text-align:center">
+									<p:progressBar value="0" labelTemplate="0 / 0"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar value="0" labelTemplate="0 / 0"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar value="0" labelTemplate="0 / 0"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar value="0" labelTemplate="0 / 0"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar value="0" labelTemplate="0 / 0"
+										displayOnly="true" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="background-color:rgb(156,149,134)" colspan="8" />
+							</p:row>
+							<p:row>
+								<p:column colspan="2" rowspan="2" styleClass="txtLabel"
+									style="text-align:center">CORRETIVAS</p:column>
+								<p:column styleClass="txtNumero">#{ordemServicoBean.ordemAberta*100 / ordemServicoBean.totalDeOrdem }%</p:column>
+								<p:column styleClass="txtNumero">#{ordemServicoBean.ordemAndamento*100 / ordemServicoBean.totalDeOrdem }%</p:column>
+								<p:column styleClass="txtNumero">#{ordemServicoBean.ordemConfirmada*100 / ordemServicoBean.totalDeOrdem }%</p:column>
+								<p:column styleClass="txtNumero">#{ordemServicoBean.ordemEncerrada*100 / ordemServicoBean.totalDeOrdem }%</p:column>
+								<p:column styleClass="txtNumero">#{ordemServicoBean.ordemPendente*100 / ordemServicoBean.totalDeOrdem }%</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="text-align:center">
+									<p:progressBar
+										value="#{ordemServicoBean.ordemAberta*100 / ordemServicoBean.totalDeOrdem }"
+										labelTemplate="#{ordemServicoBean.ordemAberta} / #{ordemServicoBean.totalDeOrdem}"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar
+										value="#{ordemServicoBean.ordemAndamento*100 / ordemServicoBean.totalDeOrdem }"
+										labelTemplate="#{ordemServicoBean.ordemAndamento} / #{ordemServicoBean.totalDeOrdem}"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar
+										value="#{ordemServicoBean.ordemConfirmada*100 / ordemServicoBean.totalDeOrdem }"
+										labelTemplate="#{ordemServicoBean.ordemConfirmada} / #{ordemServicoBean.totalDeOrdem}"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar
+										value="#{ordemServicoBean.ordemEncerrada*100 / ordemServicoBean.totalDeOrdem }"
+										labelTemplate="#{ordemServicoBean.ordemEncerrada} / #{ordemServicoBean.totalDeOrdem}"
+										displayOnly="true" />
+								</p:column>
+								<p:column style="text-align:center">
+									<p:progressBar
+										value="#{ordemServicoBean.ordemPendente*100 / ordemServicoBean.totalDeOrdem }"
+										labelTemplate="#{ordemServicoBean.ordemPendente} / #{ordemServicoBean.totalDeOrdem}"
+										displayOnly="true" />
+								</p:column>
+							</p:row>
 
-						<p:dialog
-							header="Detalhes Ordem"
-							widgetVar="dlg" modal="true" height="550px" width="750px"
-							id="modalOrdem">
-							<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
-								>
-								<p:outputLabel value="Ordem: " />
-								<h:outputText value="Algum Tipo"/>
-
-								<p:outputLabel value="Status: " />
-								<h:outputText value="#{solicitacaoBean.ordemSelecionada.status}" />
-
-								<p:outputLabel value="Data de criação:" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Equipamento: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.equipamento}" />
-
-								<p:outputLabel value="Componente: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.componente}" />
-
-								<p:outputLabel value="Em funcionamento: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.emFuncionamento ? 'SIM' : 'NÃO'}" />
-
-								<p:outputLabel value="Departamento: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.setor.nome}" />
-
-								<p:outputLabel value="Ação:" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.descricaoAcao}" />
-
-							</p:panelGrid>
-
-							<p:panelGrid columns="2" columnClasses="txtLabel, txtValor"
-								rendered="#{solicitacaoBean.ordemSelecionada.status == 'ENCERRADO'}">
-
-								<p:outputLabel value="Solução" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.descricaoSolucao}" />
-
-								<p:outputLabel value="Data de criação:" />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Iniciado em: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataInicio}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Hora: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.horaInicio}">
-									<f:convertDateTime pattern="hh:mm:ss" />
-								</h:outputText>
-
-								<p:outputLabel value="Finalizado em: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.dataFinal}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-
-								<p:outputLabel value="Hora: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.horaFinal}">
-									<f:convertDateTime pattern="hh:mm:ss" />
-								</h:outputText>
-
-								<p:outputLabel value="Observação: " />
-								<h:outputText
-									value="#{solicitacaoBean.ordemSelecionada.observacao}" />
-							</p:panelGrid>
-						</p:dialog>
-					</p:panel>
-				</div>
+						</p:panelGrid>
+					</p:tab>
+					<p:tab title="RELATORIOS GRAFICOS">
+						<p:chart type="bar" model="#{ordemServicoBean.barModel}"
+							style="height:300px" />
+					</p:tab>
+				</p:accordionPanel>
 			</h:form>
 		</div>
 	</ui:define>

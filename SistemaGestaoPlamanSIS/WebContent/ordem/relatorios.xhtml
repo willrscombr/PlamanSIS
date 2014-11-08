@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template/templateGeral.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewAction action="#{ordemServicoBean.carregarOrdens()}" />
+	</f:metadata>
+
+	<ui:define name="title_page">Relatiorios</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="frmFiltrosAvancados" prependId="false">
+			<p:growl autoUpdate="true" showDetail="true" showSummary="false" />
+			<p:accordionPanel activeIndex="" style="margin-top:10px">
+				<p:tab title="Pesquisar Por Filtros">
+					<p:panelGrid columns="4" styleClass="filtrosPesquisa" id="avancada">
+						<p:outputLabel value="Componente" for="filtroComponente" />
+						<p:inputText value="#{ordemServicoBean.filtros.componente}"
+							id="filtroComponente" size="16" />
+
+						<p:outputLabel value="Ciclo Preventivo" for="filtroCiclo" />
+						<p:inputText value="#{ordemServicoBean.filtros.ciclo}"
+							id="filtroCiclo" size="16">
+							<f:convertNumber integerOnly="true" maxIntegerDigits="4" />
+						</p:inputText>
+
+						<p:outputLabel value="Status" for="filtroStatus" />
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.status}"
+							id="filtroStatus" style="width:165px">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{ordemServicoBean.statusOrdem()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Centro de Trabalho" for="filtroSetor" />
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.setor}"
+							id="filtroSetor" style="width:165px;">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{ordemServicoBean.departamentos}"
+								var="item" itemLabel="#{item.nome}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Tipo de Trabalho" for="filtroTipo" />
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.tipoTrabalho}"
+							id="filtroTipo" style="width:165px;">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{ordemServicoBean.tiposTrabalho()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Tipo de Ordem" for="filtroOrdem" />
+						<p:selectOneMenu value="#{ordemServicoBean.filtros.tipoOrdem}"
+							id="filtroOrdem" style="width:165px;">
+							<f:selectItem itemLabel="selecione" noSelectionOption="true" />
+							<f:selectItems value="#{ordemServicoBean.tipoDeOrdem()}"
+								var="item" itemLabel="#{item}" itemValue="#{item}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:panelGrid columns="5" id="gridFiltroDatas">
+						<p:outputLabel value="DE" />
+						<p:inputMask mask="99/99/9999" size="19"
+							value="#{ordemServicoBean.filtros.dataInicio}">
+
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputMask>
+
+						<p:outputLabel value="ATÉ" />
+						<p:inputMask mask="99/99/9999" size="19"
+							value="#{ordemServicoBean.filtros.dataFinal}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputMask>
+
+						<p:commandButton id="btnPesquisa"
+							action="#{ordemServicoBean.pesquisar()}"
+							style="margin-top:5px; float:right" value="pesquisar"
+							update=":frmTabelaRelatorio:relatorioMultiple" />
+					</p:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+
+		<h:form id="frmTabelaRelatorio" prependId="false">
+			<p:dataTable id="relatorioMultiple" var="ordem"
+				value="#{ordemServicoBean.ordensDeServico}"
+				selection="#{ordemServicoBean.ordensCorretivasRelatorio}"
+				rowKey="#{ordem.id}" selectionMode="multiple"
+				style="margin-bottom:0">
+
+				<f:facet name="header">Relatorios de OS Corretivas</f:facet>
+
+
+				<p:column headerText="N°" style="width:80px;text-align:center">
+					<h:outputText value="OSN#{ordem.id}" />
+				</p:column>
+				<p:column headerText="Equipamento">
+					<h:outputText value="#{ordem.equipamento}" />
+				</p:column>
+				<p:column headerText="Componente">
+					<h:outputText value="#{ordem.componente}" />
+				</p:column>
+				<p:column headerText="C.Trabalho">
+					<h:outputText value="#{ordem.setor.nome}" />
+				</p:column>
+				<p:column headerText="Data Criação">
+					<h:outputText value="#{ordem.dataCriacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Status" style="width:150px;text-align:center"
+					styleClass="#{ordem.status}">
+					<h:outputText value="#{ordem.status}" />
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton action="#{ordemServicoBean.gerarRelatorio}"
+						onclick="this.form.target='_blank'" icon="ui-icon-search"
+						value="Imprimir" ajax="false" />
+					<p:commandButton icon="ui-icon-alert" value="Encerrar TEC" actionListener="#{ordemServicoBean.encerrarOrdens}" update=":frmFiltrosAvancados">
+						<p:confirm header="Confirmação" message="Deseja realmente encerrar as ordens selecionadas?" icon="ui-icon-alert" />
+					</p:commandButton>
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+		
+		<h:form id="frmConfirmDialog">
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        	<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        	<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    		</p:confirmDialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
